@@ -57,6 +57,7 @@ export default function BookingPage() {
               title="Request your preferred slot"
               description="Complete the form below if you want to send the appointment request directly from the booking page."
               submitLabel="Send Booking Request"
+              idPrefix="booking-page"
             />
           </div>
         </div>

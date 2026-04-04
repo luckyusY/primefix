@@ -29,13 +29,46 @@ export function BookingProvider({ children }: { children: ReactNode }) {
       }
     };
 
-    const previousOverflow = document.body.style.overflow;
+    const scrollY = window.scrollY;
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousBodyPosition = document.body.style.position;
+    const previousBodyTop = document.body.style.top;
+    const previousBodyLeft = document.body.style.left;
+    const previousBodyRight = document.body.style.right;
+    const previousBodyWidth = document.body.style.width;
+    const previousBodyPaddingRight = document.body.style.paddingRight;
+    const previousBodyTouchAction = document.body.style.touchAction;
+
+    document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+    document.body.style.touchAction = "none";
+
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.style.overflow = previousBodyOverflow;
+      document.body.style.position = previousBodyPosition;
+      document.body.style.top = previousBodyTop;
+      document.body.style.left = previousBodyLeft;
+      document.body.style.right = previousBodyRight;
+      document.body.style.width = previousBodyWidth;
+      document.body.style.paddingRight = previousBodyPaddingRight;
+      document.body.style.touchAction = previousBodyTouchAction;
       window.removeEventListener("keydown", onKeyDown);
+      window.scrollTo(0, scrollY);
     };
   }, [open]);
 
@@ -51,7 +84,12 @@ export function BookingProvider({ children }: { children: ReactNode }) {
     <BookingContext.Provider value={value}>
       {children}
       {open ? (
-        <div className="booking-modal" role="dialog" aria-modal="true">
+        <div
+          className="booking-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="booking-modal-title"
+        >
           <button
             type="button"
             className="booking-modal__backdrop"
@@ -66,23 +104,52 @@ export function BookingProvider({ children }: { children: ReactNode }) {
               aria-label="Close booking popup"
               onClick={() => setOpen(false)}
             >
-              <span aria-hidden="true">&times;</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
             </button>
 
             <div className="booking-modal__copy">
               <span className="label">Book Appointment</span>
-              <h2>Choose the right visit for your home</h2>
+              <h2 id="booking-modal-title">Choose the right visit for your home</h2>
               <p>
-                Use this popup to request a time that suits you. We will review
-                the service details and confirm the appointment as quickly as
-                possible.
+                Tell us what needs attention and pick a time that suits you.
+                PrimeFix London will confirm the visit and keep you updated
+                every step of the way.
               </p>
+
+              <div className="booking-modal__trust">
+                {[
+                  "Fixed-rate pricing — no surprises",
+                  "Fully insured up to £5 million",
+                  "Aftercare support included",
+                  "Gas Safe & TrustMark registered",
+                ].map((item) => (
+                  <div className="booking-modal__trust-item" key={item}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                    {item}
+                  </div>
+                ))}
+              </div>
+
+              <div className="booking-modal__contact">
+                <p>Prefer to speak with us?</p>
+                <a href="tel:+447507113805">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8Z"/></svg>
+                  +44 7507 113805
+                </a>
+                <a href="https://wa.me/447507113805" target="_blank" rel="noopener noreferrer">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.93 11.93 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.17 1.6 5.98L0 24l6.18-1.62A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52ZM12 22c-1.85 0-3.66-.5-5.24-1.44l-.38-.22-3.67.96.98-3.58-.24-.37A9.94 9.94 0 0 1 2 12C2 6.48 6.48 2 12 2c2.67 0 5.18 1.04 7.07 2.93A9.94 9.94 0 0 1 22 12c0 5.52-4.48 10-10 10Zm5.47-7.45c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07a8.16 8.16 0 0 1-2.4-1.48 9.03 9.03 0 0 1-1.66-2.07c-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.2-.24-.57-.49-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z"/></svg>
+                  WhatsApp Us
+                </a>
+              </div>
             </div>
 
-            <BookingForm
-              className="booking-form--modal"
-              onSuccess={() => window.setTimeout(() => setOpen(false), 1200)}
-            />
+            <div className="booking-modal__form-wrap">
+              <BookingForm
+                className="booking-form--modal"
+                idPrefix="booking-modal"
+                onSuccess={() => window.setTimeout(() => setOpen(false), 1400)}
+              />
+            </div>
           </div>
         </div>
       ) : null}

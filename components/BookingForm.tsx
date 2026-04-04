@@ -7,6 +7,7 @@ type BookingFormProps = {
   title?: string;
   description?: string;
   submitLabel?: string;
+  idPrefix?: string;
   onSuccess?: () => void;
 };
 
@@ -25,9 +26,20 @@ export default function BookingForm({
   title = "Book your appointment",
   description = "Share a few details and PrimeFix London will confirm the best appointment slot for your repair or service visit.",
   submitLabel = "Confirm Booking Request",
+  idPrefix = "booking",
   onSuccess,
 }: BookingFormProps) {
   const [success, setSuccess] = useState(false);
+  const fieldIds = {
+    name: `${idPrefix}-name`,
+    email: `${idPrefix}-email`,
+    phone: `${idPrefix}-phone`,
+    service: `${idPrefix}-service`,
+    date: `${idPrefix}-date`,
+    time: `${idPrefix}-time`,
+    address: `${idPrefix}-address`,
+    details: `${idPrefix}-details`,
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -48,23 +60,23 @@ export default function BookingForm({
 
       <div className="booking-form__grid">
         <div className="booking-field">
-          <label htmlFor="booking-name">Full Name</label>
-          <input id="booking-name" type="text" required />
+          <label htmlFor={fieldIds.name}>Full Name</label>
+          <input id={fieldIds.name} type="text" required />
         </div>
 
         <div className="booking-field">
-          <label htmlFor="booking-email">Email</label>
-          <input id="booking-email" type="email" required />
+          <label htmlFor={fieldIds.email}>Email</label>
+          <input id={fieldIds.email} type="email" required />
         </div>
 
         <div className="booking-field">
-          <label htmlFor="booking-phone">Phone Number</label>
-          <input id="booking-phone" type="tel" required />
+          <label htmlFor={fieldIds.phone}>Phone Number</label>
+          <input id={fieldIds.phone} type="tel" required />
         </div>
 
         <div className="booking-field">
-          <label htmlFor="booking-service">Service Needed</label>
-          <select id="booking-service" defaultValue="" required>
+          <label htmlFor={fieldIds.service}>Service Needed</label>
+          <select id={fieldIds.service} defaultValue="" required>
             <option value="" disabled>
               Select a service
             </option>
@@ -77,24 +89,24 @@ export default function BookingForm({
         </div>
 
         <div className="booking-field">
-          <label htmlFor="booking-date">Preferred Date</label>
-          <input id="booking-date" type="date" required />
+          <label htmlFor={fieldIds.date}>Preferred Date</label>
+          <input id={fieldIds.date} type="date" required />
         </div>
 
         <div className="booking-field">
-          <label htmlFor="booking-time">Preferred Time</label>
-          <input id="booking-time" type="time" required />
+          <label htmlFor={fieldIds.time}>Preferred Time</label>
+          <input id={fieldIds.time} type="time" required />
         </div>
 
         <div className="booking-field booking-field--full">
-          <label htmlFor="booking-address">Address / Postcode</label>
-          <input id="booking-address" type="text" required />
+          <label htmlFor={fieldIds.address}>Address / Postcode</label>
+          <input id={fieldIds.address} type="text" required />
         </div>
 
         <div className="booking-field booking-field--full">
-          <label htmlFor="booking-details">Repair Details</label>
+          <label htmlFor={fieldIds.details}>Repair Details</label>
           <textarea
-            id="booking-details"
+            id={fieldIds.details}
             required
             placeholder="Tell us what needs attention and any booking notes we should know before the visit."
           />
@@ -105,7 +117,11 @@ export default function BookingForm({
         {submitLabel}
       </button>
 
-      <div className={`booking-form__success ${success ? "show" : ""}`}>
+      <div
+        className={`booking-form__success ${success ? "show" : ""}`}
+        role="status"
+        aria-live="polite"
+      >
         Thanks, your booking request has been received. PrimeFix London will
         be in touch shortly to confirm the appointment.
       </div>
