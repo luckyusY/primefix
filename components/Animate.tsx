@@ -55,7 +55,7 @@ export default function Animate({
       initial="hidden"
       whileInView="visible"
       viewport={{ once, margin: "-60px" }}
-      transition={{ duration, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration, delay, ease: [0.25, 0.46, 0.45, 0.94] as const }}
       {...rest}
     >
       {children}
@@ -102,7 +102,7 @@ export function StaggerItem({
     <motion.div
       className={className}
       variants={variants[variant]}
-      transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] as const }}
     >
       {children}
     </motion.div>
