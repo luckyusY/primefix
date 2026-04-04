@@ -10,6 +10,7 @@ import About from "@/components/About";
 import CtaBanner from "@/components/CtaBanner";
 import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
+import ContactFloat from "@/components/ContactFloat";
 
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
         <Faq />
       </main>
       <Footer />
+      <ContactFloat />
     </>
   );
 }
