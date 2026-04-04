@@ -1167,18 +1167,26 @@ p{margin:0}
 
 /* Responsive */
 @media (max-width:1100px){
-  .nav-inner{grid-template-columns:auto 1fr auto auto}
+  /* Fix hamburger: switch to flex so logo=left, hamburger=right */
+  .nav-inner{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 20px;
+  }
   .nav-links,.nav-cta,.nav-call{display:none}
   .hamburger{display:flex}
   .reviews-layout,
   .service-band,
-  .steps,
   .contact-lead,
   .serving-block,
   .about-grid,
   .cta-banner__inner{
     grid-template-columns:1fr;
     display:grid;
+  }
+  .steps{
+    grid-template-columns:repeat(2,1fr);
   }
   .cta-banner__inner{align-items:start}
   .service-band.is-reversed .service-band__copy,
@@ -1191,39 +1199,61 @@ p{margin:0}
 @media (max-width:900px){
   .brand-logo--nav .brand-logo__image{width:210px}
   .hero{padding:140px 0 120px}
-  .hero__stats{grid-template-columns:1fr}
-  .accred-row,
-  .review-grid,
-  .projects-grid{
-    grid-template-columns:1fr;
-  }
+  .hero__stats{grid-template-columns:repeat(3,1fr)}
+  .accred-row{grid-template-columns:repeat(3,1fr)}
+  .review-grid{grid-template-columns:repeat(2,1fr)}
+  .projects-grid{grid-template-columns:repeat(2,1fr)}
   .service-band__visual,
   .serving-block__visual{
-    min-height:320px;
+    min-height:300px;
   }
-  .footer-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
 }
 
 @media (max-width:768px){
-  .container{padding:0 18px}
-  .hero__actions{flex-direction:column}
+  .container{padding:0 16px}
+  .hero{padding:120px 0 100px}
+  .hero__actions{flex-direction:column;align-items:stretch}
   .hero__button{width:100%}
   .hero__content::before{inset:-28px 0 -18px}
   .hero__eyebrow{font-size:.72rem}
-  .hero__subcopy{line-height:1.36}
+  .hero__subcopy{font-size:clamp(1.1rem,4.5vw,1.5rem);line-height:1.36}
+  .hero__stats{grid-template-columns:1fr}
+  .hero__pillars{gap:8px}
+  .hero__pillars span{font-size:.82rem;padding:8px 12px}
+  .accred-row{grid-template-columns:repeat(2,1fr);gap:12px}
+  .review-grid,.projects-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
   .review-score,
   .review-card,
   .project-card__body,
   .contact-form,
   .about-quote{
-    padding-left:22px;
-    padding-right:22px;
+    padding-left:20px;
+    padding-right:20px;
   }
-  .contact-lead{padding:34px 22px}
+  .contact-lead{padding:28px 18px;gap:28px}
   .service-band__photo{width:82%;border-width:8px}
   .scaffold-illustration{width:96%}
-  .brand-logo--nav .brand-logo__image{width:184px}
-  .brand-logo--footer .brand-logo__image{width:280px}
+  .brand-logo--nav .brand-logo__image{width:160px}
+  .brand-logo--footer .brand-logo__image{width:240px}
+  .footer-grid{grid-template-columns:1fr}
+  .cta-banner{padding:64px 0}
+  .faq-q{padding:18px 20px;font-size:.96rem}
+  .faq-a{padding:0 20px}
+  .section-head{margin-bottom:36px}
+  h2{font-size:clamp(1.9rem,6vw,3rem)}
+}
+
+@media (max-width:480px){
+  .accred-row{grid-template-columns:repeat(2,1fr);gap:10px}
+  .accred-box{padding:16px 10px}
+  .accred-square{width:56px;height:56px;font-size:.88rem}
+  .hero__stats{grid-template-columns:1fr}
+  .review-score__value{font-size:3.2rem}
+  .brand-logo--nav .brand-logo__image{width:140px}
+  .projects-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
 }
 
 @media (min-width:901px){
