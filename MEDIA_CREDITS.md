@@ -7,10 +7,10 @@ The homepage redesign uses open-license media saved in `public/media/`.
   Title: Tower Bridge, London
   Discovery: Openverse search filtered to CC0/public-domain results
 
-- `hero-london.mp4`
-  Source: https://coverr.co/videos/the-streets-of-london-8Fo5dOKB1R
-  Title: The Streets of London
-  Discovery: Coverr free commercial rights video library
+- `hero-london-night.mp4`
+  Source: https://www.pexels.com/video/high-angle-video-of-london-city-buildings-on-thames-riverbanks-3568724/
+  Title: High-angle video of London city buildings on Thames riverbanks
+  Discovery: Pexels free stock video library
 
 - `home-exterior.jpg`
   Source: https://www.rawpixel.com/image/5912682/image-public-domain-house-home

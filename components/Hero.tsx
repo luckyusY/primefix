@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef } from "react";
 
 const PILLARS = [
@@ -20,8 +19,6 @@ const STATS = [
 
 export default function Hero() {
   const mediaRef = useRef<HTMLDivElement>(null);
-  const serviceCardRef = useRef<HTMLDivElement>(null);
-  const processCardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -36,14 +33,6 @@ export default function Hero() {
 
       if (mediaRef.current) {
         mediaRef.current.style.transform = `translate3d(0, ${scrollY * 0.18}px, 0) scale(1.08)`;
-      }
-
-      if (serviceCardRef.current) {
-        serviceCardRef.current.style.transform = `translate3d(0, ${-18 + scrollY * 0.08}px, 0)`;
-      }
-
-      if (processCardRef.current) {
-        processCardRef.current.style.transform = `translate3d(0, ${18 - scrollY * 0.06}px, 0)`;
       }
     };
 
@@ -66,14 +55,6 @@ export default function Hero() {
   return (
     <section className="hero">
       <div className="hero__media" ref={mediaRef} aria-hidden="true">
-        <Image
-          src="/media/hero-london.jpg"
-          alt="Open-license view of Tower Bridge in London at sunset"
-          fill
-          priority
-          sizes="100vw"
-          className="hero__image"
-        />
         <video
           className="hero__video"
           autoPlay
@@ -81,20 +62,20 @@ export default function Hero() {
           loop
           playsInline
           preload="metadata"
-          poster="/media/hero-london.jpg"
         >
-          <source src="/media/hero-london.mp4" type="video/mp4" />
+          <source src="/media/hero-london-night.mp4" type="video/mp4" />
         </video>
       </div>
       <div className="hero__overlay"></div>
 
       <div className="container hero__content">
-        <p className="hero__eyebrow">Domestic Appliance Guard</p>
-        <h1>Home Repairs, Appliance Support &amp; Fast Property Maintenance In London</h1>
+        <p className="hero__eyebrow">PrimeFix London</p>
+        <h1>Domestic Appliance Guard &amp; Home Repairs</h1>
         <p className="hero__subcopy">
-          PrimeFix London supports households with plumbing, electrical and
-          heating faults, appliance repairs for fridges, ovens and dishwashers,
-          plus drainage, locksmith, window and pest control services.
+          From plumbing, electrical and heating faults to fridges, ovens,
+          dishwashers, drainage, locksmith, window repairs and pest control,
+          PrimeFix London gives London households one clear route from quote to
+          after-service support.
         </p>
 
         <div className="hero__actions">
@@ -122,26 +103,6 @@ export default function Hero() {
               <span>{stat.label}</span>
             </div>
           ))}
-        </div>
-
-        <div className="hero__cards" aria-hidden="true">
-          <div className="hero__card hero__card--service" ref={serviceCardRef}>
-            <span>Covered Services</span>
-            <strong>Repairs in one place</strong>
-            <p>
-              Home maintenance, appliance faults, drainage, windows,
-              locksmiths and more through one trusted team.
-            </p>
-          </div>
-
-          <div className="hero__card hero__card--process" ref={processCardRef}>
-            <span>Simple Process</span>
-            <strong>Quote to aftercare</strong>
-            <p>
-              Request quote, book the visit, get the repair completed, then
-              stay supported after the service.
-            </p>
-          </div>
         </div>
       </div>
 
