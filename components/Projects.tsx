@@ -33,7 +33,7 @@ export default function Projects() {
       <div className="container">
         <div className="section-head section-head--left">
           <span className="label">Featured Work</span>
-          <h2>UpKeep UK Projects</h2>
+          <h2>PrimeFix London Projects</h2>
           <div className="divider"></div>
           <p>
             Recent examples of refurbishment, fit-out, and maintenance work

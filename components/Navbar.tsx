@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import BrandMark from "@/components/BrandMark";
+import BrandLogo from "@/components/BrandLogo";
 
 const NAV_ITEMS = [
   { label: "Property Maintenance", href: "#services" },
@@ -27,7 +27,7 @@ export default function Navbar() {
   return (
     <header className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="nav-inner">
-        <BrandMark className="brand-mark--nav" />
+        <BrandLogo className="brand-logo--nav" priority />
 
         <nav className="nav-links" aria-label="Primary">
           {NAV_ITEMS.map((item) => (

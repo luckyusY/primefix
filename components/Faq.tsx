@@ -5,11 +5,11 @@ import { useState } from "react";
 const QUESTIONS = [
   {
     q: "What property maintenance services do you provide?",
-    a: "We handle reactive repairs, plumbing, electrical fault finding, roof works, heating issues, general maintenance, and planned upkeep for residential and commercial properties.",
+    a: "We handle reactive repairs, plumbing, electrical fault finding, roof works, heating issues, general maintenance, and planned maintenance for residential and commercial properties.",
   },
   {
     q: "Do you also take on full refurbishments and fit-outs?",
-    a: "Yes. UpKeep UK supports loft conversions, extensions, kitchen and bathroom renovations, interior fit-outs, and broader design-and-build projects.",
+    a: "Yes. PrimeFix London supports loft conversions, extensions, kitchen and bathroom renovations, interior fit-outs, decorating, and broader design-and-build projects.",
   },
   {
     q: "How quickly can you respond to urgent call-outs?",

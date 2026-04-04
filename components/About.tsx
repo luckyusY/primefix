@@ -12,13 +12,13 @@ export default function About() {
     <section className="about" id="about">
       <div className="container about-grid">
         <div className="about-content">
-          <span className="label">Who Are UpKeep UK?</span>
+          <span className="label">Who Is PrimeFix London?</span>
           <h2>Property care without the stress.</h2>
           <div className="divider"></div>
           <p>
-            UpKeep UK is a London-based property maintenance and construction
-            company built around dependable response times, professional
-            workmanship, and practical project management.
+            PrimeFix London is a property maintenance and repair company built
+            around dependable response times, professional workmanship, and
+            practical project coordination.
           </p>
           <p>
             We support estate agents, homeowners, landlords, and commercial
@@ -54,7 +54,7 @@ export default function About() {
               &quot;Our goal is simple: help clients move faster, feel informed,
               and trust the finish every time.&quot;
             </p>
-            <footer>D. M. Hasula, Founder &amp; CEO</footer>
+            <footer>PrimeFix London Team</footer>
           </blockquote>
         </aside>
       </div>

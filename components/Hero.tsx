@@ -30,19 +30,19 @@ export default function Hero() {
 
       <div className="container hero__content">
         <p className="hero__eyebrow">London&apos;s trusted maintenance team</p>
-        <h1>UpKeep Property Maintenance &amp; Construction</h1>
+        <h1>PrimeFix London Property Maintenance &amp; Repairs</h1>
         <p className="hero__subcopy">
-          From emergency repairs to full refurbishments, UpKeep UK is trusted
-          by estate agents, landlords, restaurants, retail premises, hotels,
-          and local councils across London.
+          From emergency repairs to planned refurbishments, PrimeFix London
+          supports estate agents, landlords, restaurants, retail premises,
+          hotels, and local businesses across the capital.
         </p>
 
         <div className="hero__actions">
           <a href="#contact" className="btn btn-teal hero__button">
-            Request Your Quote
+            Request A Quote
           </a>
-          <a href="tel:02031488884" className="btn hero__button hero__button--phone">
-            020 3148 8884
+          <a href="tel:02012345678" className="btn hero__button hero__button--phone">
+            020 1234 5678
           </a>
         </div>
 

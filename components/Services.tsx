@@ -6,7 +6,7 @@ const SERVICE_BANDS = [
     id: "services",
     title: "Property Maintenance",
     body:
-      "Keep your property safe, functional, and stress-free with our trusted multi-trade team. UpKeep UK responds quickly to urgent issues and delivers precision workmanship for ongoing maintenance.",
+      "Keep your property safe, functional, and stress-free with our trusted multi-trade team. PrimeFix London responds quickly to urgent issues and delivers precise workmanship for ongoing maintenance and repair needs.",
     bullets: [
       "Plumbing, drainage, and leak repairs",
       "Heating and boiler diagnostics",
@@ -14,7 +14,7 @@ const SERVICE_BANDS = [
       "Roof repairs and full replacements",
       "Emergency call-outs with 1-3 hour response",
     ],
-    cta: "Discover UpKeep Maintenance",
+    cta: "Discover PrimeFix Maintenance",
     image: "/media/builder.jpg",
     alt: "Open-license image of a surveyor reviewing plans outside a residential property",
   },
@@ -22,7 +22,7 @@ const SERVICE_BANDS = [
     id: "how",
     title: "Design And Build",
     body:
-      "UpKeep offers comprehensive project management, innovative design support, and efficient construction delivery to bring bold ideas into reality.",
+      "PrimeFix London offers practical project management, trusted trade coordination, and efficient construction delivery to turn improvement plans into finished spaces.",
     bullets: [
       "Loft conversions and home extensions",
       "Kitchen and bathroom renovations",
@@ -30,7 +30,7 @@ const SERVICE_BANDS = [
       "Strip-outs, fit-outs, and finishing packages",
       "Procurement, coordination, and quality control",
     ],
-    cta: "Explore UpKeep Construction",
+    cta: "Explore PrimeFix Construction",
     image: "/media/modern-home.jpg",
     alt: "Open-license image of an in-progress interior renovation",
     reversed: true,
@@ -43,7 +43,7 @@ export default function Services() {
       <div className="container">
         <div className="section-head section-head--left">
           <span className="label">What We Do</span>
-          <h2>UpKeep UK Services</h2>
+          <h2>PrimeFix London Services</h2>
           <div className="divider"></div>
           <p>
             Two specialist service lines, one dependable team. We cover both

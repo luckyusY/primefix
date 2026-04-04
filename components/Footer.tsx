@@ -1,4 +1,4 @@
-import BrandMark from "@/components/BrandMark";
+import BrandLogo from "@/components/BrandLogo";
 
 const SERVICES = [
   { label: "Construction", href: "#how" },
@@ -9,20 +9,20 @@ const QUICK_LINKS = [
   { label: "Careers", href: "#" },
   { label: "About Us", href: "#about" },
   { label: "Projects", href: "#projects", highlighted: true },
-  { label: "Keep Up Blog", href: "#" },
+  { label: "PrimeFix Blog", href: "#" },
   { label: "Privacy Policy", href: "#" },
   { label: "Sitemap", href: "#" },
 ];
 
 const CONTACT_ITEMS = [
-  { label: "admin@upkeep.co.uk", href: "mailto:admin@upkeep.co.uk" },
-  { label: "projects@fmsupkeep.com", href: "mailto:projects@fmsupkeep.com" },
-  { label: "marketing@fmsupkeep.com", href: "mailto:marketing@fmsupkeep.com" },
-  { label: "admin@fmsupkeep.com", href: "mailto:admin@fmsupkeep.com" },
-  { label: "+44 20314 88884", href: "tel:+442031488884" },
+  { label: "hello@primefixlondon.co.uk", href: "mailto:hello@primefixlondon.co.uk" },
+  { label: "quotes@primefixlondon.co.uk", href: "mailto:quotes@primefixlondon.co.uk" },
+  { label: "projects@primefixlondon.co.uk", href: "mailto:projects@primefixlondon.co.uk" },
+  { label: "support@primefixlondon.co.uk", href: "mailto:support@primefixlondon.co.uk" },
+  { label: "020 1234 5678", href: "tel:02012345678" },
   {
-    label: "8 Raven Rd, E18 1HB, London",
-    href: "https://maps.google.com/?q=8+Raven+Rd,+E18+1HB,+London",
+    label: "London & Greater London coverage",
+    href: "#contact",
   },
 ];
 
@@ -77,16 +77,16 @@ export default function Footer() {
       <div className="container footer-main">
         <div className="footer-grid">
           <div className="footer-brand">
-            <BrandMark className="brand-mark--footer" />
-            <p>UpKeep UK - Property Maintenance &amp; Construction (FMS UpKeep)</p>
+            <BrandLogo className="brand-logo--footer" />
+            <p>PrimeFix London - Property Maintenance and Repairs</p>
             <p>
-              UpKeep is a London-based property maintenance company,
-              specialising in repairs, refurbishments, and 24/7 emergency
-              call-outs.
+              PrimeFix London is a London-based property maintenance company,
+              specialising in repairs, refurbishments, decorating, and fast
+              reactive call-outs for homes and businesses.
             </p>
             <p>
-              Trusted by homes and businesses across the city for reliable,
-              insured, and guaranteed workmanship.
+              We focus on reliable response times, tidy workmanship, clear
+              communication, and practical repair solutions clients can trust.
             </p>
             <p className="footer-note">
               Powered by 100% renewable energy and protected by reCAPTCHA.

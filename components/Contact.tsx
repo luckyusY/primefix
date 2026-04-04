@@ -35,8 +35,8 @@ export default function Contact() {
             <p className="contact-lead__urgent">
               If you&apos;re facing urgent issues, call us right now.
             </p>
-            <a href="tel:02031488884" className="btn btn-white">
-              Call 020 3148 8884
+            <a href="tel:02012345678" className="btn btn-white">
+              Call 020 1234 5678
             </a>
           </div>
 
@@ -80,10 +80,10 @@ export default function Contact() {
             <span className="label">Why Clients Choose Us</span>
             <h2>Proudly Serving London&apos;s Homes And Businesses</h2>
             <p>
-              With over 25 years of combined experience, UpKeep UK provides
-              trusted property maintenance, construction, and refurbishment
-              services for homeowners, landlords, estate agents, and commercial
-              clients across the capital.
+              With over 25 years of combined experience, PrimeFix London
+              provides trusted property maintenance, repairs, refurbishment
+              support, and multi-trade coordination for homeowners, landlords,
+              estate agents, and commercial clients across the capital.
             </p>
             <ul>
               {SERVING_POINTS.map((point) => (
@@ -91,7 +91,7 @@ export default function Contact() {
               ))}
             </ul>
             <a href="#contact" className="btn btn-teal">
-              Request Your Custom Quote
+              Request Your Quote
             </a>
           </div>
         </div>
