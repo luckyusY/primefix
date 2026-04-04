@@ -4,24 +4,24 @@ import { useState } from "react";
 
 const QUESTIONS = [
   {
-    q: "What property maintenance services do you provide?",
-    a: "We handle reactive repairs, plumbing, electrical fault finding, roof works, heating issues, general maintenance, and planned maintenance for residential and commercial properties.",
+    q: "What does Domestic Appliance Guard cover?",
+    a: "It covers home repair and maintenance services, plumbing, electrical and heating repairs, appliance repairs for fridges, ovens and dishwashers, drainage, locksmith and window repairs, plus pest control support.",
   },
   {
-    q: "Do you also take on full refurbishments and fit-outs?",
-    a: "Yes. PrimeFix London supports loft conversions, extensions, kitchen and bathroom renovations, interior fit-outs, decorating, and broader design-and-build projects.",
+    q: "Can I book support for appliance faults as well as general repairs?",
+    a: "Yes. PrimeFix London can help arrange support for both household repair issues and appliance faults so clients do not need to manage separate service journeys.",
   },
   {
-    q: "How quickly can you respond to urgent call-outs?",
-    a: "For urgent issues across London, our team aims to respond within 1 to 3 hours depending on location, access, and the nature of the issue.",
+    q: "What happens after I request a quote?",
+    a: "The process is straightforward: request a quote, book the visit, have a technician complete the repair, then receive support after the service if anything else is needed.",
   },
   {
-    q: "Who do you work with?",
-    a: "We work with homeowners, landlords, estate agents, restaurants, retail operators, hotels, and local commercial clients who need reliable maintenance or refurbishment support.",
+    q: "Do you cover drainage, locksmith, window repair and pest control?",
+    a: "Yes. These services sit alongside core repair and appliance support so households can access specialist help through the same PrimeFix London contact point.",
   },
   {
-    q: "Are your works insured and guaranteed?",
-    a: "Yes. Our work is fully insured, professionally managed, and completed with quality control and clear communication throughout.",
+    q: "Is after-service support available?",
+    a: "Yes. PrimeFix London keeps support available after the technician visit so clients have a clear route for follow-up questions or next steps.",
   },
   {
     q: "How do I request a quote?",
@@ -33,7 +33,7 @@ export default function Faq() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="faq">
+    <section className="faq" id="faq">
       <div className="container">
         <div className="section-head">
           <span className="label">FAQ</span>

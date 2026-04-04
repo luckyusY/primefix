@@ -1,47 +1,46 @@
 const STEPS = [
   {
     n: "01",
-    title: "Request Raised",
-    desc: "You or your tenant submits a request by phone, email or our online form. We log every detail and confirm receipt.",
+    title: "Request Quote",
+    desc: "Tell us what needs attention, whether it is a home repair, appliance fault, drainage problem or another domestic issue.",
   },
   {
     n: "02",
-    title: "Engineer Assigned",
-    desc: "The right tradesperson is dispatched and we confirm attendance directly with the site contact or tenant.",
+    title: "Book Visit",
+    desc: "We confirm the right service, arrange a visit time, and keep communication simple so you know exactly what happens next.",
   },
   {
     n: "03",
-    title: "Work Completed",
-    desc: "Our engineers carry out the job safely with quality checks, before-and-after photos and tenant sign-off.",
+    title: "Technician Repairs",
+    desc: "A technician carries out the repair, diagnoses the fault properly, and works toward a fast, practical fix on site.",
   },
   {
     n: "04",
-    title: "Report & Invoice",
-    desc: "You receive a full report with photos, notes and transparent itemised invoicing — no surprises, ever.",
+    title: "Support After Service",
+    desc: "We stay available after the visit so clients have a clear point of contact if anything needs follow-up or further guidance.",
   },
 ];
 
 export default function HowItWorks() {
   return (
-    <section className="how" id="how">
+    <section className="how" id="process">
       <div className="container">
         <div className="section-head">
-          <span className="label" style={{ color: "var(--teal-light)" }}>
-            How It Works
-          </span>
-          <h2>Simple, Transparent Process</h2>
+          <span className="label">How It Works</span>
+          <h2>Simple Support From First Request To Aftercare</h2>
           <div className="divider"></div>
           <p>
-            Four steps from request to resolution — clear communication and
-            accountability at every stage.
+            A four-step process that keeps repairs clear, organised and easy to
+            follow from quote through to post-service support.
           </p>
         </div>
+
         <div className="steps">
-          {STEPS.map((s) => (
-            <div className="step" key={s.n}>
-              <div className="step-num">{s.n}</div>
-              <h3>{s.title}</h3>
-              <p>{s.desc}</p>
+          {STEPS.map((step) => (
+            <div className="step" key={step.n}>
+              <div className="step-num">{step.n}</div>
+              <h3>{step.title}</h3>
+              <p>{step.desc}</p>
             </div>
           ))}
         </div>

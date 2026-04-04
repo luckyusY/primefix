@@ -1,14 +1,14 @@
 import BrandLogo from "@/components/BrandLogo";
 
 const SERVICES = [
-  { label: "Construction", href: "#how" },
-  { label: "Property Maintenance", href: "#services" },
+  { label: "Home Repairs", href: "#services" },
+  { label: "Appliance Support", href: "#appliance-support" },
 ];
 
 const QUICK_LINKS = [
-  { label: "Careers", href: "#" },
+  { label: "Process", href: "#process" },
   { label: "About Us", href: "#about" },
-  { label: "Projects", href: "#projects", highlighted: true },
+  { label: "FAQ", href: "#faq", highlighted: true },
   { label: "PrimeFix Blog", href: "#" },
   { label: "Privacy Policy", href: "#" },
   { label: "Sitemap", href: "#" },
@@ -78,15 +78,16 @@ export default function Footer() {
         <div className="footer-grid">
           <div className="footer-brand">
             <BrandLogo className="brand-logo--footer" />
-            <p>PrimeFix London - Property Maintenance and Repairs</p>
+            <p>PrimeFix London - Domestic Appliance Guard &amp; Home Repairs</p>
             <p>
-              PrimeFix London is a London-based property maintenance company,
-              specialising in repairs, refurbishments, decorating, and fast
-              reactive call-outs for homes and businesses.
+              PrimeFix London helps households with home repair and maintenance,
+              appliance support, and specialist domestic call-outs across
+              London.
             </p>
             <p>
-              We focus on reliable response times, tidy workmanship, clear
-              communication, and practical repair solutions clients can trust.
+              The focus is on clear communication, reliable technician visits,
+              practical repairs, and support that continues after the service
+              has been completed.
             </p>
             <p className="footer-note">
               Powered by 100% renewable energy and protected by reCAPTCHA.

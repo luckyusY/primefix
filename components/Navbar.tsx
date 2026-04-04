@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import BrandLogo from "@/components/BrandLogo";
 
 const NAV_ITEMS = [
-  { label: "Property Maintenance", href: "#services" },
-  { label: "Construction", href: "#how" },
-  { label: "Projects", href: "#projects" },
-  { label: "Blog", href: "#" },
-  { label: "Careers", href: "#" },
+  { label: "Home Repairs", href: "#services" },
+  { label: "Appliance Repairs", href: "#appliance-support" },
+  { label: "Process", href: "#process" },
+  { label: "Coverage", href: "#contact" },
+  { label: "FAQ", href: "#faq" },
   { label: "About", href: "#about" },
 ];
 

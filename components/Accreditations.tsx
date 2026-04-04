@@ -12,8 +12,8 @@ export default function Accreditations() {
     <section className="accred">
       <div className="container">
         <p className="accred__intro">
-          Trusted, insured, and compliant for residential, commercial, and
-          reactive works across London.
+          Trusted support for domestic maintenance, appliance repairs and
+          specialist home services across London.
         </p>
 
         <div className="accred-row">

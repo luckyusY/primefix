@@ -1,47 +1,110 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 
 const PILLARS = [
-  "Estate Agents",
-  "Landlords",
-  "Restaurants",
-  "Retail Premises",
-  "Hotels",
-  "Local Councils",
+  "Home Repair & Maintenance",
+  "Plumbing",
+  "Electrical",
+  "Heating",
+  "Appliance Repairs",
+  "Pest Control",
 ];
 
 const STATS = [
-  { value: "5.0", label: "Google Rating" },
-  { value: "25+", label: "Years Combined Experience" },
-  { value: "1-3hr", label: "Emergency Response" },
+  { value: "4-step", label: "Request to support journey" },
+  { value: "Multi-trade", label: "Home and appliance cover" },
+  { value: "Aftercare", label: "Support after service" },
 ];
 
 export default function Hero() {
+  const mediaRef = useRef<HTMLDivElement>(null);
+  const serviceCardRef = useRef<HTMLDivElement>(null);
+  const processCardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const scrollY = window.scrollY;
+
+      if (mediaRef.current) {
+        mediaRef.current.style.transform = `translate3d(0, ${scrollY * 0.18}px, 0) scale(1.08)`;
+      }
+
+      if (serviceCardRef.current) {
+        serviceCardRef.current.style.transform = `translate3d(0, ${-18 + scrollY * 0.08}px, 0)`;
+      }
+
+      if (processCardRef.current) {
+        processCardRef.current.style.transform = `translate3d(0, ${18 - scrollY * 0.06}px, 0)`;
+      }
+    };
+
+    const onScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+      }
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
   return (
     <section className="hero">
-      <Image
-        src="/media/hero-london.jpg"
-        alt="Open-license view of Tower Bridge in London at sunset"
-        fill
-        priority
-        sizes="100vw"
-        className="hero__image"
-      />
+      <div className="hero__media" ref={mediaRef} aria-hidden="true">
+        <Image
+          src="/media/hero-london.jpg"
+          alt="Open-license view of Tower Bridge in London at sunset"
+          fill
+          priority
+          sizes="100vw"
+          className="hero__image"
+        />
+        <video
+          className="hero__video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/media/hero-london.jpg"
+        >
+          <source src="/media/hero-london.mp4" type="video/mp4" />
+        </video>
+      </div>
       <div className="hero__overlay"></div>
 
       <div className="container hero__content">
-        <p className="hero__eyebrow">London&apos;s trusted maintenance team</p>
-        <h1>PrimeFix London Property Maintenance &amp; Repairs</h1>
+        <p className="hero__eyebrow">Domestic Appliance Guard</p>
+        <h1>Home Repairs, Appliance Support &amp; Fast Property Maintenance In London</h1>
         <p className="hero__subcopy">
-          From emergency repairs to planned refurbishments, PrimeFix London
-          supports estate agents, landlords, restaurants, retail premises,
-          hotels, and local businesses across the capital.
+          PrimeFix London supports households with plumbing, electrical and
+          heating faults, appliance repairs for fridges, ovens and dishwashers,
+          plus drainage, locksmith, window and pest control services.
         </p>
 
         <div className="hero__actions">
           <a href="#contact" className="btn btn-teal hero__button">
             Request A Quote
           </a>
-          <a href="tel:02012345678" className="btn hero__button hero__button--phone">
+          <a
+            href="tel:02012345678"
+            className="btn hero__button hero__button--phone"
+          >
             020 1234 5678
           </a>
         </div>
@@ -59,6 +122,26 @@ export default function Hero() {
               <span>{stat.label}</span>
             </div>
           ))}
+        </div>
+
+        <div className="hero__cards" aria-hidden="true">
+          <div className="hero__card hero__card--service" ref={serviceCardRef}>
+            <span>Covered Services</span>
+            <strong>Repairs in one place</strong>
+            <p>
+              Home maintenance, appliance faults, drainage, windows,
+              locksmiths and more through one trusted team.
+            </p>
+          </div>
+
+          <div className="hero__card hero__card--process" ref={processCardRef}>
+            <span>Simple Process</span>
+            <strong>Quote to aftercare</strong>
+            <p>
+              Request quote, book the visit, get the repair completed, then
+              stay supported after the service.
+            </p>
+          </div>
         </div>
       </div>
 

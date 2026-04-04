@@ -1,10 +1,10 @@
 import Image from "next/image";
 
 const PRINCIPLES = [
-  "Single point of contact for every stage of work",
-  "Clear communication from quote to completion",
-  "Reliable multi-trade teams for reactive and planned jobs",
-  "Professional standards for both homes and businesses",
+  "Single contact point for home repairs and appliance issues",
+  "Clear communication from quote to visit and aftercare",
+  "Practical support for plumbing, electrical, heating and appliance faults",
+  "Reliable service for homeowners, landlords and busy households",
 ];
 
 export default function About() {
@@ -13,17 +13,17 @@ export default function About() {
       <div className="container about-grid">
         <div className="about-content">
           <span className="label">Who Is PrimeFix London?</span>
-          <h2>Property care without the stress.</h2>
+          <h2>Domestic support without the runaround.</h2>
           <div className="divider"></div>
           <p>
-            PrimeFix London is a property maintenance and repair company built
-            around dependable response times, professional workmanship, and
-            practical project coordination.
+            PrimeFix London is built around fast domestic support, dependable
+            workmanship, and a simpler service experience for households that
+            need issues resolved without chasing different trades.
           </p>
           <p>
-            We support estate agents, homeowners, landlords, and commercial
-            clients who need a team that can handle both urgent reactive work
-            and larger refurbishment programmes.
+            We help with everyday maintenance, urgent faults, appliance
+            breakdowns, and specialist services so clients can move from first
+            request to repair and follow-up with less friction.
           </p>
           <ul className="about-list">
             {PRINCIPLES.map((principle) => (
@@ -44,15 +44,15 @@ export default function About() {
               sizes="(max-width: 900px) 100vw, 40vw"
             />
             <div className="about-aside__badge">
-              <strong>25+</strong>
-              <span>years combined experience</span>
+              <strong>4 Steps</strong>
+              <span>quote, visit, repair, after-service support</span>
             </div>
           </div>
 
           <blockquote className="about-quote">
             <p>
-              &quot;Our goal is simple: help clients move faster, feel informed,
-              and trust the finish every time.&quot;
+              &quot;The goal is simple: make it easy to get the right technician,
+              get the fault fixed, and keep support available afterwards.&quot;
             </p>
             <footer>PrimeFix London Team</footer>
           </blockquote>

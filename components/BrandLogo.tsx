@@ -15,15 +15,15 @@ export default function BrandLogo({
 
   return (
     <a href={href} className={classes} aria-label="PrimeFix London home">
-      <span className="brand-logo__frame">
-        <Image
-          src="/media/primefix-london-logo.jpeg"
-          alt="PrimeFix London logo"
-          fill
-          priority={priority}
-          sizes="(max-width: 768px) 180px, 320px"
-        />
-      </span>
+      <Image
+        src="/media/primefix-london-logo.png"
+        alt="PrimeFix London logo"
+        width={924}
+        height={316}
+        priority={priority}
+        sizes="(max-width: 768px) 180px, 320px"
+        className="brand-logo__image"
+      />
     </a>
   );
 }

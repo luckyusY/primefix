@@ -2,28 +2,28 @@ import Image from "next/image";
 
 const PROJECTS = [
   {
-    title: "Richmond Refurbishment",
-    date: "October 2025",
+    title: "Emergency Kitchen Repair Visit",
+    date: "Typical Call-Out",
     description:
-      "A full property refresh focused on curb appeal, brighter circulation, and a cleaner handover for long-term value.",
+      "Support for leaks, faulty electrics, heating issues and everyday kitchen faults handled through one clear maintenance visit.",
     image: "/media/home-exterior.jpg",
-    alt: "Open-license exterior image representing a residential refurbishment project",
+    alt: "Open-license exterior image representing a domestic repair call-out",
   },
   {
-    title: "Primrose Hill Interior Refresh",
-    date: "October 2025",
+    title: "Appliance Fault Support",
+    date: "Domestic Appliance Guard",
     description:
-      "A minimalist living space reworked with calmer finishes, better light, and practical detailing for everyday use.",
+      "Fridge, oven and dishwasher issues triaged quickly so households can get back to normal with less disruption.",
     image: "/media/minimal-living.jpg",
-    alt: "Open-license living room image representing an interior refurbishment project",
+    alt: "Open-license living room image representing appliance support for a household",
   },
   {
-    title: "Flexible Home Office Build",
-    date: "September 2025",
+    title: "Specialist Home Services",
+    date: "Rapid Response",
     description:
-      "A new multi-purpose workspace delivered from strip-out through final fit-out, ready for modern hybrid working.",
+      "Drainage, locksmith, window repair and pest control support coordinated through the same trusted service journey.",
     image: "/media/modern-home.jpg",
-    alt: "Open-license renovation image representing an in-progress fit-out project",
+    alt: "Open-license interior image representing specialist domestic support",
   },
 ];
 
@@ -32,12 +32,12 @@ export default function Projects() {
     <section className="projects" id="projects">
       <div className="container">
         <div className="section-head section-head--left">
-          <span className="label">Featured Work</span>
-          <h2>PrimeFix London Projects</h2>
+          <span className="label">Popular Support Types</span>
+          <h2>Where Domestic Appliance Guard Helps Most</h2>
           <div className="divider"></div>
           <p>
-            Recent examples of refurbishment, fit-out, and maintenance work
-            delivered for homes and businesses across London.
+            A snapshot of the kinds of household issues PrimeFix London helps
+            resolve every day across the capital.
           </p>
         </div>
 
@@ -57,7 +57,7 @@ export default function Projects() {
                 <h3>{project.title}</h3>
                 <p>{project.description}</p>
                 <a href="#contact" className="project-card__link">
-                  Request a similar quote
+                  Request support like this
                 </a>
               </div>
             </article>

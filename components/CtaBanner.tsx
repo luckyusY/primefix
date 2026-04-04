@@ -4,10 +4,10 @@ export default function CtaBanner() {
       <div className="container cta-banner__inner">
         <div>
           <span className="label label--light">Ready To Start?</span>
-          <h2>Request Your Free Custom Quote</h2>
+          <h2>Book Domestic Repair Support With Confidence</h2>
           <p>
-            Whether you need rapid reactive maintenance or a larger design and
-            build project, PrimeFix London is ready to help.
+            From home maintenance and appliance repairs to drainage, locksmith,
+            window and pest control support, PrimeFix London is ready to help.
           </p>
         </div>
 

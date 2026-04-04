@@ -4,35 +4,35 @@ import ScaffoldIllustration from "@/components/ScaffoldIllustration";
 const SERVICE_BANDS = [
   {
     id: "services",
-    title: "Property Maintenance",
+    title: "Home Repair & Maintenance",
     body:
-      "Keep your property safe, functional, and stress-free with our trusted multi-trade team. PrimeFix London responds quickly to urgent issues and delivers precise workmanship for ongoing maintenance and repair needs.",
+      "Domestic Appliance Guard gives households one dependable place to handle ongoing home maintenance and urgent repair issues without juggling multiple suppliers.",
     bullets: [
-      "Plumbing, drainage, and leak repairs",
-      "Heating and boiler diagnostics",
-      "Electrical fault detection",
-      "Roof repairs and full replacements",
-      "Emergency call-outs with 1-3 hour response",
+      "Home repair and maintenance services",
+      "Plumbing, electrical and heating repairs",
+      "Drainage, locksmith and window repairs",
+      "Fault diagnosis and practical fixes",
+      "Flexible booking for planned or urgent jobs",
     ],
-    cta: "Discover PrimeFix Maintenance",
+    cta: "Book Home Repair Support",
     image: "/media/builder.jpg",
     alt: "Open-license image of a surveyor reviewing plans outside a residential property",
   },
   {
-    id: "how",
-    title: "Design And Build",
+    id: "appliance-support",
+    title: "Appliance & Specialist Support",
     body:
-      "PrimeFix London offers practical project management, trusted trade coordination, and efficient construction delivery to turn improvement plans into finished spaces.",
+      "PrimeFix London also supports appliance and specialist call-outs so clients can move from first fault to finished repair with one clear service journey.",
     bullets: [
-      "Loft conversions and home extensions",
-      "Kitchen and bathroom renovations",
-      "Commercial refurbishments and upgrades",
-      "Strip-outs, fit-outs, and finishing packages",
-      "Procurement, coordination, and quality control",
+      "Fridge, oven and dishwasher repairs",
+      "Pest control services",
+      "Reliable technician visits and updates",
+      "Support for homeowners, landlords and tenants",
+      "After-service guidance once the repair is complete",
     ],
-    cta: "Explore PrimeFix Construction",
+    cta: "Request Appliance Support",
     image: "/media/modern-home.jpg",
-    alt: "Open-license image of an in-progress interior renovation",
+    alt: "Open-license image of a modern kitchen representing appliance and specialist support",
     reversed: true,
   },
 ];
@@ -43,11 +43,11 @@ export default function Services() {
       <div className="container">
         <div className="section-head section-head--left">
           <span className="label">What We Do</span>
-          <h2>PrimeFix London Services</h2>
+          <h2>Domestic Appliance Guard Overview</h2>
           <div className="divider"></div>
           <p>
-            Two specialist service lines, one dependable team. We cover both
-            rapid-response maintenance and larger design-and-build projects.
+            PrimeFix London combines day-to-day home repair, appliance support,
+            and specialist call-outs into a single clear service offer.
           </p>
         </div>
 
@@ -67,7 +67,8 @@ export default function Services() {
                   ))}
                 </ul>
                 <p className="service-band__note">
-                  All work guaranteed. Fixed rates. Fast, reliable service.
+                  Clear updates, professional workmanship, and dependable
+                  after-service support.
                 </p>
                 <a href="#contact" className="service-band__cta">
                   {service.cta}

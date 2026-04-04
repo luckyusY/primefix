@@ -7,6 +7,11 @@ The homepage redesign uses open-license media saved in `public/media/`.
   Title: Tower Bridge, London
   Discovery: Openverse search filtered to CC0/public-domain results
 
+- `hero-london.mp4`
+  Source: https://coverr.co/videos/the-streets-of-london-8Fo5dOKB1R
+  Title: The Streets of London
+  Discovery: Coverr free commercial rights video library
+
 - `home-exterior.jpg`
   Source: https://www.rawpixel.com/image/5912682/image-public-domain-house-home
   Title: Simple home exterior design photo
@@ -41,3 +46,8 @@ The homepage redesign uses open-license media saved in `public/media/`.
   Source: https://commons.wikimedia.org/w/index.php?curid=32731562
   Title: Kitchen renovation project cabinets finished microwave installed new floor painted walls and ceiling
   Discovery: Openverse search filtered to CC0/public-domain results
+
+- `primefix-london-logo.png`
+  Source: User-provided logo derived from `asset/PrimeFix London.jpeg`
+  Title: PrimeFix London transparent logo export
+  Discovery: Local asset prepared for web use

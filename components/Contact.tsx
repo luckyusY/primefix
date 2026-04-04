@@ -4,11 +4,11 @@ import { FormEvent, useState } from "react";
 import ScaffoldIllustration from "@/components/ScaffoldIllustration";
 
 const SERVING_POINTS = [
-  "Transparent, fixed pricing",
-  "Fully insured and guaranteed work",
-  "Free, no-obligation quotations",
-  "Fast 1-3 hour response times",
-  "Friendly, experienced engineers and tradesmen",
+  "Home repair and maintenance support",
+  "Plumbing, electrical and heating repairs",
+  "Appliance repairs for fridges, ovens and dishwashers",
+  "Drainage, locksmith and window repair services",
+  "Pest control and after-service support",
 ];
 
 export default function Contact() {
@@ -27,10 +27,10 @@ export default function Contact() {
         <div className="contact-lead">
           <div className="contact-lead__copy">
             <span className="label label--light">Contact Our Expert Team</span>
-            <h2>Need help with urgent issues or a full refurbishment?</h2>
+            <h2>Need help with a home repair, appliance fault or urgent visit?</h2>
             <p>
-              Tell us what you need and our team will arrange your consultation
-              and custom project quote.
+              Tell us what needs fixing and we will help you move from quote to
+              booked visit as quickly and clearly as possible.
             </p>
             <p className="contact-lead__urgent">
               If you&apos;re facing urgent issues, call us right now.
@@ -58,7 +58,7 @@ export default function Contact() {
               <label>Message</label>
               <textarea
                 required
-                placeholder="Tell us about the repair, maintenance issue, or project you need help with."
+                placeholder="Tell us about the repair, appliance issue, or service visit you need help with."
               />
             </div>
             <button type="submit" className="form-submit">
@@ -78,12 +78,11 @@ export default function Contact() {
 
           <div className="serving-block__content">
             <span className="label">Why Clients Choose Us</span>
-            <h2>Proudly Serving London&apos;s Homes And Businesses</h2>
+            <h2>Domestic Appliance Guard For London Homes</h2>
             <p>
-              With over 25 years of combined experience, PrimeFix London
-              provides trusted property maintenance, repairs, refurbishment
-              support, and multi-trade coordination for homeowners, landlords,
-              estate agents, and commercial clients across the capital.
+              PrimeFix London provides a clearer route for households that need
+              reliable home repairs, appliance support, and specialist domestic
+              services without the stress of coordinating multiple providers.
             </p>
             <ul>
               {SERVING_POINTS.map((point) => (

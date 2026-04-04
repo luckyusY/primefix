@@ -1,21 +1,21 @@
 const REVIEWS = [
   {
     name: "Maria D.",
-    type: "Block Management",
+    type: "Homeowner",
     text:
-      "Responsive, organised, and easy to work with. PrimeFix London handled reactive issues quickly and kept everyone updated throughout.",
+      "Responsive, organised, and easy to work with. PrimeFix London kept the visit clear from the first quote and handled the repair without fuss.",
   },
   {
     name: "James P.",
-    type: "Hospitality Client",
+    type: "Landlord",
     text:
-      "We needed fast repair work without disruption to service. The team delivered exactly that and the finish was excellent.",
+      "We needed quick support for a fault at short notice. The technician arrived prepared, explained the issue well, and got everything moving again.",
   },
   {
     name: "Rina K.",
     type: "Homeowner",
     text:
-      "From the quote to completion, everything felt clear and professional. We would happily use PrimeFix London again.",
+      "From the quote to the after-service follow-up, everything felt clear and professional. We would happily use PrimeFix London again.",
   },
 ];
 
@@ -25,12 +25,15 @@ export default function Reviews() {
       <div className="container">
         <div className="reviews-layout">
           <div className="review-score">
-            <span className="label">Google Reviews</span>
-            <h2>Rated 5 Stars By London Clients</h2>
+            <span className="label">Client Feedback</span>
+            <h2>Trusted By London Households</h2>
             <div className="divider"></div>
-            <div className="review-score__value">5.0</div>
+            <div className="review-score__value">Repair</div>
             <p className="review-score__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
-            <p>Based on 100+ recent client reviews and repeat referrals.</p>
+            <p>
+              Clear communication, reliable visits, and support that continues
+              after the work is done.
+            </p>
             <a href="#contact" className="btn btn-teal">
               Request Your Quote
             </a>
