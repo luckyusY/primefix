@@ -1,3 +1,5 @@
+import Animate, { StaggerContainer, StaggerItem } from "@/components/Animate";
+
 const STEPS = [
   {
     n: "01",
@@ -25,25 +27,29 @@ export default function HowItWorks() {
   return (
     <section className="how" id="process">
       <div className="container">
-        <div className="section-head">
-          <span className="label">How It Works</span>
-          <h2>Simple Support From First Request To Aftercare</h2>
-          <div className="divider"></div>
-          <p>
-            A four-step process that keeps repairs clear, organised and easy to
-            follow from quote through to post-service support.
-          </p>
-        </div>
+        <Animate variant="fadeUp">
+          <div className="section-head">
+            <span className="label">How It Works</span>
+            <h2>Simple Support From First Request To Aftercare</h2>
+            <div className="divider"></div>
+            <p>
+              A four-step process that keeps repairs clear, organised and easy to
+              follow from quote through to post-service support.
+            </p>
+          </div>
+        </Animate>
 
-        <div className="steps">
+        <StaggerContainer className="steps" stagger={0.1} delay={0.1}>
           {STEPS.map((step) => (
-            <div className="step" key={step.n}>
-              <div className="step-num">{step.n}</div>
-              <h3>{step.title}</h3>
-              <p>{step.desc}</p>
-            </div>
+            <StaggerItem key={step.n} variant="fadeUp">
+              <div className="step">
+                <div className="step-num">{step.n}</div>
+                <h3>{step.title}</h3>
+                <p>{step.desc}</p>
+              </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

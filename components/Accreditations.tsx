@@ -1,3 +1,5 @@
+import Animate, { StaggerContainer, StaggerItem } from "@/components/Animate";
+
 const BADGES = [
   { code: "SC", name: "SafeContractor" },
   { code: "FMB", name: "Master Builders" },
@@ -11,19 +13,23 @@ export default function Accreditations() {
   return (
     <section className="accred">
       <div className="container">
-        <p className="accred__intro">
-          Trusted support for domestic maintenance, appliance repairs and
-          specialist home services across London.
-        </p>
+        <Animate variant="fadeUp">
+          <p className="accred__intro">
+            Trusted support for domestic maintenance, appliance repairs and
+            specialist home services across London.
+          </p>
+        </Animate>
 
-        <div className="accred-row">
+        <StaggerContainer className="accred-row" stagger={0.08}>
           {BADGES.map((badge) => (
-            <div className="accred-box" key={badge.code}>
-              <div className="accred-square">{badge.code}</div>
-              <p>{badge.name}</p>
-            </div>
+            <StaggerItem key={badge.code} variant="scaleUp">
+              <div className="accred-box">
+                <div className="accred-square">{badge.code}</div>
+                <p>{badge.name}</p>
+              </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );
