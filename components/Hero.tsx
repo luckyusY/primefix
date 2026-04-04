@@ -61,7 +61,8 @@ export default function Hero() {
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
+          poster="/media/hero-london.jpg"
         >
           <source src="/media/hero-london-night.mp4" type="video/mp4" />
         </video>
@@ -83,10 +84,13 @@ export default function Hero() {
             Request A Quote
           </a>
           <a
-            href="tel:02012345678"
+            href="tel:+447507113805"
             className="btn hero__button hero__button--phone"
           >
-            020 1234 5678
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8Z"/>
+            </svg>
+            +44 7507 113805
           </a>
         </div>
 
