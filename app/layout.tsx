@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ContactFloat from "@/components/ContactFloat";
-import CookieConsent from "@/components/CookieConsent";
+import { CookieConsentProvider } from "@/components/CookieConsent";
 import { BookingProvider } from "@/components/BookingProvider";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
@@ -34,13 +34,14 @@ export default function RootLayout({
       </head>
       <body>
         <SmoothScroll />
-        <BookingProvider>
-          <Navbar />
-          {children}
-          <Footer />
-          <ContactFloat />
-          <CookieConsent />
-        </BookingProvider>
+        <CookieConsentProvider>
+          <BookingProvider>
+            <Navbar />
+            {children}
+            <Footer />
+            <ContactFloat />
+          </BookingProvider>
+        </CookieConsentProvider>
       </body>
     </html>
   );

@@ -1497,7 +1497,7 @@ p{margin:0}
 .cookie-banner__btn--ghost{
   border-color:rgba(255,255,255,.28);
 }
-.cookie-manage{
+.cookie-manage--REMOVED{
   position:fixed;
   right:24px;
   bottom:96px;
@@ -1626,15 +1626,35 @@ p{margin:0}
 }
 .socials svg{width:20px;height:20px;fill:currentColor}
 .footer-bar{
-  padding:18px 24px;
-  text-align:center;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+  padding:16px 24px;
   background:var(--teal);
 }
 .footer-bar p{
   margin:0;
   color:#fff;
-  font-size:16px;
+  font-size:15px;
   font-weight:600;
+}
+.footer-bar__cookie{
+  background:none;
+  border:1px solid rgba(255,255,255,.4);
+  border-radius:999px;
+  color:#fff;
+  font:inherit;
+  font-size:.82rem;
+  font-weight:600;
+  padding:6px 16px;
+  cursor:pointer;
+  transition:background .18s ease,border-color .18s ease;
+}
+.footer-bar__cookie:hover{
+  background:rgba(255,255,255,.14);
+  border-color:rgba(255,255,255,.7);
 }
 
 /* Contact float widget */

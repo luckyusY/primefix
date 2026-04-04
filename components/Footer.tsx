@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import BookingButton from "@/components/BookingButton";
+import { useCookieConsent } from "@/components/CookieConsent";
 
 const PAGE_LINKS = [
   { label: "Home", href: "/" },
@@ -64,6 +67,8 @@ function SocialIcon({ icon }: { icon: (typeof SOCIALS)[number]["icon"] }) {
 }
 
 export default function Footer() {
+  const { openSettings } = useCookieConsent();
+
   return (
     <footer className="footer" id="footer">
       <div className="container footer-main">
@@ -145,6 +150,13 @@ export default function Footer() {
 
       <div className="footer-bar">
         <p>&copy; 2026 All Rights Reserved.</p>
+        <button
+          type="button"
+          className="footer-bar__cookie"
+          onClick={openSettings}
+        >
+          Cookie Settings
+        </button>
       </div>
     </footer>
   );
