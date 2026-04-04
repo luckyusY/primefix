@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FixRight UK — Property Maintenance & Construction in London</title>
+<meta name="description" content="London's trusted property maintenance and construction team. Gas Safe registered, fully insured, 24/7 emergency response.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* =====================================================
+   CSS VARIABLES & RESET
+   ===================================================== */
+:root{
+  --teal:#21B6A8;
+  --teal-light:#44CFC2;
+  --navy:#151F40;
+  --navy-deep:#0e133a;
+  --white:#ffffff;
+  --off-white:#f8f8f8;
+  --text:#131313;
+  --muted:#555555;
+  --border:#e6e6e6;
+  --shadow-sm:0 2px 8px rgba(21,31,64,.06);
+  --shadow-md:0 12px 32px rgba(21,31,64,.10);
+  --shadow-lg:0 24px 60px rgba(21,31,64,.18);
+  --radius:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Poppins',-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:16px;
+  font-weight:400;
+  line-height:1.7;
+  color:var(--text);
+  background:var(--white);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+.container{max-width:1240px;margin:0 auto;padding:0 24px}
+.label{
+  display:inline-block;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  color:var(--teal);
+  margin-bottom:16px;
+}
+h1,h2,h3,h4{font-weight:700;line-height:1.2;color:var(--navy)}
+h2{font-size:44px;font-weight:700;margin-bottom:18px}
+h3{font-size:22px;margin-bottom:10px}
+.divider{
+  width:68px;height:4px;background:var(--teal);
+  border-radius:2px;margin:0 0 26px;
+}
+
+/* =====================================================
+   NAVIGATION
+   ===================================================== */
+.navbar{
+  position:fixed;top:0;left:0;right:0;
+  height:72px;background:rgba(255,255,255,.96);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  z-index:999;
+  transition:box-shadow .3s ease;
+  border-bottom:1px solid rgba(0,0,0,.04);
+}
+.navbar.scrolled{box-shadow:0 6px 24px rgba(21,31,64,.08)}
+.nav-inner{
+  max-width:1240px;margin:0 auto;padding:0 24px;
+  height:100%;display:flex;align-items:center;justify-content:space-between;
+}
+.logo{font-size:24px;font-weight:800;color:var(--navy);letter-spacing:-.5px}
+.logo span{color:var(--teal)}
+.nav-links{display:flex;gap:36px;align-items:center}
+.nav-links a{
+  font-size:15px;font-weight:500;color:var(--navy);
+  transition:color .2s;position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:-6px;
+  width:0;height:2px;background:var(--teal);
+  transition:width .3s;
+}
+.nav-links a:hover{color:var(--teal)}
+.nav-links a:hover::after{width:100%}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 26px;border-radius:40px;
+  font-size:14px;font-weight:600;
+  transition:all .25s ease;
+  cursor:pointer;white-space:nowrap;
+}
+.btn-teal{background:var(--teal);color:#fff}
+.btn-teal:hover{background:var(--teal-light);transform:translateY(-2px);box-shadow:0 10px 24px rgba(33,182,168,.35)}
+.btn-ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.4)}
+.btn-ghost:hover{background:rgba(255,255,255,.1);border-color:#fff;transform:translateY(-2px)}
+.btn-white{background:#fff;color:var(--navy)}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.2)}
+.btn-outline{background:transparent;color:#fff;border:2px solid #fff}
+.btn-outline:hover{background:#fff;color:var(--navy);transform:translateY(-2px)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--navy);transition:.3s}
+
+/* =====================================================
+   HERO
+   ===================================================== */
+.hero{
+  position:relative;min-height:100vh;
+  padding:140px 0 120px;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);
+  color:#fff;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 60px),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0 1px,transparent 1px 60px);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(600px circle at 85% 15%,rgba(33,182,168,.18),transparent 60%),
+    radial-gradient(500px circle at 15% 85%,rgba(68,207,194,.14),transparent 60%);
+}
+.hero-grid{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 18px;border-radius:40px;
+  border:1.5px solid var(--teal);color:var(--teal);
+  font-size:12px;font-weight:600;letter-spacing:1px;
+  text-transform:uppercase;margin-bottom:26px;
+  background:rgba(33,182,168,.08);
+  animation:fadeInUp .8s ease .1s backwards;
+}
+.hero h1{
+  font-size:62px;font-weight:800;color:#fff;
+  line-height:1.05;text-transform:uppercase;letter-spacing:-1.5px;
+  margin-bottom:24px;
+  animation:fadeInUp .8s ease .2s backwards;
+}
+.hero h1 .accent{color:var(--teal);display:block}
+.hero-sub{
+  font-size:18px;color:rgba(255,255,255,.75);
+  max-width:520px;margin-bottom:36px;line-height:1.7;
+  animation:fadeInUp .8s ease .3s backwards;
+}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:50px;animation:fadeInUp .8s ease .4s backwards}
+.hero-stats{
+  display:flex;gap:40px;padding-top:32px;
+  border-top:1px solid rgba(255,255,255,.14);
+  animation:fadeInUp .8s ease .5s backwards;
+}
+.stat .num{font-size:30px;font-weight:800;color:#fff;display:block;line-height:1}
+.stat .lbl{font-size:12px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px;margin-top:6px;display:block}
+
+/* Hero services card */
+.hero-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;padding:36px;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  animation:fadeInUp .8s ease .5s backwards;
+}
+.hero-card h4{color:#fff;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:2px;margin-bottom:22px}
+.hero-card h4::after{content:'';display:block;width:30px;height:2px;background:var(--teal);margin-top:10px}
+.svc-tile{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 18px;border-radius:12px;
+  border:1px solid rgba(255,255,255,.08);
+  margin-bottom:10px;
+  transition:all .3s ease;cursor:pointer;
+}
+.svc-tile:hover{
+  background:rgba(33,182,168,.12);
+  border-color:rgba(33,182,168,.4);
+  transform:translateX(6px);
+}
+.svc-tile .icon{font-size:24px;width:42px;text-align:center}
+.svc-tile .txt{flex:1;color:#fff;font-weight:500;font-size:15px}
+.svc-tile .arrow{color:var(--teal);font-size:18px;transition:transform .2s}
+.svc-tile:hover .arrow{transform:translateX(4px)}
+.cert-row{
+  display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:22px;padding-top:22px;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+.cert-row span{font-size:12px;color:rgba(255,255,255,.75);font-weight:500}
+.wave{position:absolute;bottom:-1px;left:0;right:0;z-index:1;line-height:0}
+.wave svg{width:100%;height:80px;display:block}
+
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* =====================================================
+   TRUST BAR
+   ===================================================== */
+.trust-bar{background:var(--off-white);padding:28px 0;border-bottom:1px solid var(--border)}
+.trust-row{
+  display:flex;flex-wrap:wrap;justify-content:space-around;
+  align-items:center;gap:18px 30px;
+}
+.trust-item{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--navy)}
+.trust-item .check{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:13px;font-weight:700;
+}
+
+/* =====================================================
+   ACCREDITATION LOGOS
+   ===================================================== */
+.accred{background:#fff;padding:56px 0}
+.accred-row{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  gap:24px;align-items:center;
+}
+.accred-box{
+  text-align:center;opacity:.7;transition:opacity .3s ease,transform .3s;
+  padding:14px;
+}
+.accred-box:hover{opacity:1;transform:translateY(-3px)}
+.accred-square{
+  width:84px;height:84px;margin:0 auto 10px;
+  border:2px solid var(--navy);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:800;color:var(--navy);
+  background:linear-gradient(135deg,#fff,#f2f2f2);
+}
+.accred-box p{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+
+/* =====================================================
+   SERVICES SECTION
+   ===================================================== */
+.services{padding:96px 0;background:#fff}
+.section-head{text-align:center;margin-bottom:56px}
+.section-head .divider{margin:0 auto 26px}
+.section-head p{max-width:640px;margin:0 auto;color:var(--muted);font-size:17px}
+.svc-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:28px;
+}
+.svc-card{
+  position:relative;background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:40px 32px;overflow:hidden;
+  transition:all .35s ease;cursor:pointer;
+}
+.svc-card::after{
+  content:'';position:absolute;bottom:0;left:-100%;
+  width:100%;height:4px;
+  background:linear-gradient(90deg,var(--teal),var(--teal-light));
+  transition:left .4s ease;
+}
+.svc-card:hover{
+  background:var(--navy);
+  border-color:var(--navy);
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-lg);
+}
+.svc-card:hover::after{left:0}
+.svc-card:hover h3,.svc-card:hover p{color:#fff}
+.svc-card:hover .svc-icon{background:rgba(33,182,168,.18);color:var(--teal-light)}
+.svc-icon{
+  width:64px;height:64px;border-radius:14px;
+  background:rgba(33,182,168,.12);color:var(--teal);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;margin-bottom:22px;transition:all .35s ease;
+}
+.svc-card h3{font-size:21px;margin-bottom:12px;transition:color .3s}
+.svc-card p{color:var(--muted);font-size:15px;line-height:1.7;transition:color .3s}
+
+/* =====================================================
+   HOW IT WORKS
+   ===================================================== */
+.how{
+  padding:96px 0;color:#fff;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,var(--navy),var(--navy-deep));
+}
+.how::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(700px circle at 80% 20%,rgba(33,182,168,.18),transparent 60%);
+  pointer-events:none;
+}
+.how .section-head h2{color:#fff}
+.how .section-head p{color:rgba(255,255,255,.7)}
+.steps{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  position:relative;z-index:2;
+}
+.step{
+  padding:36px 28px;
+  border-left:1px solid rgba(255,255,255,.12);
+  position:relative;
+}
+.step:first-child{border-left:none}
+.step-num{
+  font-size:72px;font-weight:800;color:var(--teal);
+  opacity:.2;line-height:1;margin-bottom:10px;
+}
+.step h3{color:#fff;font-size:20px;margin-bottom:10px}
+.step p{color:rgba(255,255,255,.7);font-size:14px;line-height:1.7}
+
+/* =====================================================
+   REVIEWS
+   ===================================================== */
+.reviews{padding:96px 0;background:var(--off-white)}
+.review-banner{
+  background:var(--navy);color:#fff;
+  border-radius:20px;padding:42px 48px;margin-bottom:50px;
+  display:grid;grid-template-columns:auto 1fr auto;
+  gap:40px;align-items:center;position:relative;overflow:hidden;
+}
+.review-banner::before{
+  content:'';position:absolute;right:-60px;top:-60px;
+  width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(33,182,168,.25),transparent 70%);
+}
+.score-box{text-align:center;position:relative;z-index:2}
+.score-num{font-size:64px;font-weight:800;line-height:1;color:var(--teal-light)}
+.stars{color:#ffa41c;font-size:20px;margin:6px 0}
+.score-box p{font-size:12px;color:rgba(255,255,255,.7);margin:2px 0}
+.score-box .powered{font-size:11px;font-weight:600;opacity:.6;margin-top:4px}
+.banner-divider{width:1px;height:80px;background:rgba(255,255,255,.15)}
+.banner-stats{display:flex;gap:40px;position:relative;z-index:2}
+.banner-stats .s{text-align:center}
+.banner-stats .s strong{display:block;font-size:26px;font-weight:800;color:var(--teal-light);line-height:1}
+.banner-stats .s span{font-size:12px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1px;margin-top:6px;display:block}
+.review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.review-card{
+  background:#fff;border-radius:var(--radius);
+  padding:32px;box-shadow:var(--shadow-sm);
+  transition:transform .3s;
+  border:1px solid #f0f0f0;
+}
+.review-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.review-stars{color:#ffa41c;font-size:17px;margin-bottom:14px}
+.review-text{font-style:italic;color:var(--text);line-height:1.7;margin-bottom:22px;font-size:15px}
+.reviewer{display:flex;align-items:center;gap:14px}
+.avatar{
+  width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),var(--navy));
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:700;font-size:16px;
+}
+.reviewer-info strong{display:block;color:var(--navy);font-weight:600}
+.reviewer-info span{font-size:13px;color:var(--muted)}
+
+/* =====================================================
+   ABOUT
+   ===================================================== */
+.about{padding:96px 0;background:#fff}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.about-visual{
+  position:relative;border-radius:20px;
+  aspect-ratio:4/5;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--teal) 100%);
+  overflow:hidden;box-shadow:var(--shadow-lg);
+}
+.about-visual::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,rgba(255,255,255,.04) 0 2px,transparent 2px 22px),
+    repeating-linear-gradient(-45deg,rgba(255,255,255,.04) 0 2px,transparent 2px 22px);
+}
+.about-visual::after{
+  content:'25+';
+  position:absolute;top:40px;right:40px;
+  font-size:120px;font-weight:800;color:rgba(255,255,255,.15);
+  line-height:1;
+}
+.founder-card{
+  position:absolute;bottom:30px;left:30px;right:30px;
+  background:#fff;border-radius:14px;padding:20px;
+  display:flex;align-items:center;gap:16px;
+  box-shadow:var(--shadow-md);
+}
+.founder-card .avatar{width:56px;height:56px;font-size:18px}
+.founder-card strong{display:block;color:var(--navy);font-size:17px}
+.founder-card span{font-size:13px;color:var(--muted)}
+.about-content h2{font-size:42px}
+.about-content p{color:var(--muted);font-size:16px;line-height:1.8;margin-bottom:24px}
+.about-list{display:flex;flex-direction:column;gap:14px;margin-top:28px}
+.about-list li{display:flex;align-items:center;gap:14px;font-weight:500;color:var(--navy)}
+.about-list .check{
+  width:26px;height:26px;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:13px;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+
+/* =====================================================
+   CTA BANNER
+   ===================================================== */
+.cta-banner{
+  padding:80px 0;text-align:center;color:#fff;position:relative;overflow:hidden;
+  background:linear-gradient(90deg,var(--teal),var(--navy));
+}
+.cta-banner::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.1) 1px,transparent 1px);
+  background-size:22px 22px;opacity:.4;
+}
+.cta-banner .container{position:relative;z-index:2}
+.cta-banner h2{color:#fff;font-size:48px;text-transform:uppercase;letter-spacing:-1px;margin-bottom:18px}
+.cta-banner p{color:rgba(255,255,255,.88);font-size:18px;margin-bottom:32px;max-width:620px;margin-left:auto;margin-right:auto}
+.cta-banner .btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+/* =====================================================
+   CONTACT
+   ===================================================== */
+.contact{padding:96px 0;background:#fff}
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:40px}
+.contact-info{
+  background:var(--navy);color:#fff;
+  border-radius:20px;padding:48px;position:relative;overflow:hidden;
+}
+.contact-info::before{
+  content:'';position:absolute;right:-80px;bottom:-80px;
+  width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(33,182,168,.25),transparent 70%);
+}
+.contact-info h3{color:#fff;font-size:26px;margin-bottom:10px;position:relative}
+.contact-info .sub{color:rgba(255,255,255,.72);margin-bottom:36px;position:relative}
+.contact-row{display:flex;gap:16px;align-items:flex-start;margin-bottom:24px;position:relative;z-index:2}
+.contact-icon{
+  width:46px;height:46px;border-radius:12px;
+  background:rgba(33,182,168,.18);color:var(--teal-light);
+  display:flex;align-items:center;justify-content:center;
+  font-size:19px;flex-shrink:0;
+}
+.contact-row .label-sm{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.6);margin-bottom:4px;font-weight:600}
+.contact-row strong{display:block;font-size:16px;color:#fff;font-weight:500}
+.contact-form{
+  background:var(--off-white);border-radius:20px;padding:48px;
+  border:1px solid var(--border);
+}
+.contact-form h3{font-size:26px;margin-bottom:6px}
+.contact-form .sub{color:var(--muted);margin-bottom:28px;font-size:15px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-field{margin-bottom:18px}
+.form-field label{
+  display:block;font-size:12px;font-weight:600;
+  color:var(--navy);text-transform:uppercase;
+  letter-spacing:1px;margin-bottom:8px;
+}
+.form-field input,.form-field select,.form-field textarea{
+  width:100%;padding:14px 16px;
+  border:1.5px solid var(--border);
+  border-radius:10px;background:#fff;
+  font-family:inherit;font-size:15px;color:var(--text);
+  transition:border-color .2s;
+}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{
+  outline:none;border-color:var(--teal);
+}
+.form-field textarea{resize:vertical;min-height:120px}
+.form-submit{
+  width:100%;padding:16px;background:var(--teal);color:#fff;
+  border-radius:10px;font-size:15px;font-weight:600;
+  letter-spacing:.5px;text-transform:uppercase;
+  transition:all .25s;
+}
+.form-submit:hover{background:var(--teal-light);transform:translateY(-2px);box-shadow:0 10px 22px rgba(33,182,168,.35)}
+.form-success{
+  display:none;padding:16px;background:rgba(33,182,168,.12);
+  border:1.5px solid var(--teal);border-radius:10px;
+  color:var(--navy);font-weight:500;margin-top:18px;
+}
+.form-success.show{display:block;animation:fadeInUp .5s ease}
+
+/* =====================================================
+   FAQ
+   ===================================================== */
+.faq{padding:96px 0;background:var(--off-white)}
+.faq-list{max-width:860px;margin:0 auto}
+.faq-item{
+  background:#fff;border:1px solid var(--border);
+  border-radius:12px;margin-bottom:14px;
+  overflow:hidden;transition:all .3s;
+}
+.faq-item.open{border-color:var(--teal);box-shadow:var(--shadow-sm)}
+.faq-q{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 26px;cursor:pointer;
+  font-weight:600;color:var(--navy);font-size:16px;
+  width:100%;text-align:left;
+}
+.faq-icon{
+  width:30px;height:30px;border-radius:50%;
+  background:var(--teal);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:400;flex-shrink:0;
+  transition:transform .3s;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s ease;
+  padding:0 26px;
+}
+.faq-item.open .faq-a{max-height:300px;padding:0 26px 22px}
+.faq-a p{color:var(--muted);line-height:1.75;font-size:15px}
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+.footer{background:var(--navy);color:#fff;padding:80px 0 0}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px;margin-bottom:56px}
+.footer-brand .logo{color:#fff;font-size:28px;margin-bottom:16px}
+.footer-brand p{color:rgba(255,255,255,.65);font-size:14px;line-height:1.75;margin-bottom:22px}
+.footer-badges{display:flex;gap:8px;flex-wrap:wrap}
+.footer-badges span{
+  font-size:10px;padding:6px 10px;border-radius:6px;
+  background:rgba(33,182,168,.14);color:var(--teal-light);
+  font-weight:600;text-transform:uppercase;letter-spacing:.5px;
+}
+.footer h4{color:#fff;font-size:15px;font-weight:600;margin-bottom:22px;text-transform:uppercase;letter-spacing:1px}
+.footer ul li{margin-bottom:12px}
+.footer ul a{color:rgba(255,255,255,.65);font-size:14px;transition:color .2s}
+.footer ul a:hover{color:var(--teal)}
+.footer-contact li{color:rgba(255,255,255,.65);font-size:14px;margin-bottom:14px;display:flex;gap:10px;align-items:flex-start}
+.footer-contact li .icon{color:var(--teal);width:18px;flex-shrink:0}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.1);
+  padding:26px 0;display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:16px;
+}
+.footer-bottom p{color:rgba(255,255,255,.5);font-size:13px}
+.socials{display:flex;gap:10px}
+.socials a{
+  width:38px;height:38px;border-radius:8px;
+  background:rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:15px;transition:all .25s;
+}
+.socials a:hover{background:var(--teal);transform:translateY(-2px)}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+@media (max-width:980px){
+  .hero h1{font-size:48px}
+  h2{font-size:34px}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .step{border-left:none;border-top:1px solid rgba(255,255,255,.12);padding:28px 20px}
+  .step:first-child,.step:nth-child(2){border-top:none}
+  .review-grid{grid-template-columns:1fr}
+  .accred-row{grid-template-columns:repeat(3,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+  .review-banner{grid-template-columns:1fr;text-align:center;gap:24px;padding:32px 24px}
+  .banner-divider{display:none}
+  .banner-stats{justify-content:center}
+}
+@media (max-width:768px){
+  .nav-links{
+    display:none;position:absolute;top:72px;left:0;right:0;
+    background:#fff;flex-direction:column;gap:0;
+    padding:16px 24px;box-shadow:var(--shadow-md);
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{padding:14px 0;border-bottom:1px solid var(--border);width:100%}
+  .nav-links .btn{margin-top:10px}
+  .hamburger{display:flex}
+  .hero{padding:120px 0 80px;min-height:auto}
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .hero-card{display:none}
+  .hero h1{font-size:38px}
+  .hero-stats{flex-wrap:wrap;gap:24px}
+  .stat .num{font-size:24px}
+  h2{font-size:28px}
+  .svc-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .step{border-top:1px solid rgba(255,255,255,.12)!important}
+  .step:first-child{border-top:none!important}
+  .about-grid{grid-template-columns:1fr;gap:40px}
+  .contact-grid{grid-template-columns:1fr}
+  .contact-info,.contact-form{padding:32px 24px}
+  .form-row{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .accred-row{grid-template-columns:repeat(2,1fr)}
+  .cta-banner h2{font-size:30px}
+  .trust-row{gap:14px;justify-content:flex-start}
+  .trust-item{font-size:13px;flex-basis:calc(50% - 10px)}
+}
+</style>
+</head>
+<body>
+
+<!-- ============== NAVIGATION ============== -->
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo">Fix<span>Right</span> UK</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#services">Services</a>
+      <a href="#how">Construction</a>
+      <a href="#reviews">Projects</a>
+      <a href="#about">Blog</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="btn btn-teal">Get Quote →</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-content">
+      <span class="hero-badge">● London's Trusted Maintenance Team</span>
+      <h1>
+        Property<br>
+        Maintenance<br>
+        <span class="accent">Done Right.</span>
+      </h1>
+      <p class="hero-sub">
+        From quick repairs to full refurbishments — FixRight delivers reliable, fully-insured property maintenance and construction across London. Gas Safe registered, fixed-rate pricing, no surprises.
+      </p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn btn-teal">Book Custom Quote →</a>
+        <a href="tel:02012345678" class="btn btn-ghost">📞 020 1234 5678</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="num" data-count="25">25+</span>
+          <span class="lbl">Years Experience</span>
+        </div>
+        <div class="stat">
+          <span class="num">4.9★</span>
+          <span class="lbl">Google Rating</span>
+        </div>
+        <div class="stat">
+          <span class="num" data-count="2400">2400+</span>
+          <span class="lbl">Jobs Completed</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <h4>Our Services</h4>
+      <div class="svc-tile"><div class="icon">🔧</div><div class="txt">Reactive Repairs</div><div class="arrow">→</div></div>
+      <div class="svc-tile"><div class="icon">🏗️</div><div class="txt">Refurbishment</div><div class="arrow">→</div></div>
+      <div class="svc-tile"><div class="icon">⚡</div><div class="txt">Electrical & Gas</div><div class="arrow">→</div></div>
+      <div class="svc-tile"><div class="icon">🔥</div><div class="txt">Plumbing & Heating</div><div class="arrow">→</div></div>
+      <div class="svc-tile"><div class="icon">🎨</div><div class="txt">Decoration</div><div class="arrow">→</div></div>
+      <div class="cert-row">
+        <span>✓ Gas Safe</span>
+        <span>✓ Fully Insured</span>
+        <span>✓ All Work Guaranteed</span>
+      </div>
+    </div>
+  </div>
+  <div class="wave">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+      <path fill="#f8f8f8" d="M0,32L80,37.3C160,43,320,53,480,53.3C640,53,800,43,960,37.3C1120,32,1280,32,1360,32L1440,32L1440,80L0,80Z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ============== TRUST BAR ============== -->
+<section class="trust-bar">
+  <div class="container">
+    <div class="trust-row">
+      <div class="trust-item"><span class="check">✓</span> Gas Safe Registered</div>
+      <div class="trust-item"><span class="check">✓</span> Fully Insured £5M</div>
+      <div class="trust-item"><span class="check">✓</span> Fixed-Rate Pricing</div>
+      <div class="trust-item"><span class="check">✓</span> 24/7 Emergency</div>
+      <div class="trust-item"><span class="check">✓</span> All Works Guaranteed</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== ACCREDITATIONS ============== -->
+<section class="accred">
+  <div class="container">
+    <div class="accred-row">
+      <div class="accred-box"><div class="accred-square">SC</div><p>SafeContractor</p></div>
+      <div class="accred-box"><div class="accred-square">FMB</div><p>Fed. Master Builders</p></div>
+      <div class="accred-box"><div class="accred-square">SSIP</div><p>SSIP Approved</p></div>
+      <div class="accred-box"><div class="accred-square">NAP</div><p>NAPIT Electrical</p></div>
+      <div class="accred-box"><div class="accred-square">TM</div><p>TrustMark</p></div>
+      <div class="accred-box"><div class="accred-square">GS</div><p>Gas Safe Register</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SERVICES ============== -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-head">
+      <span class="label">What We Do</span>
+      <h2>FixRight Maintenance Services</h2>
+      <div class="divider"></div>
+      <p>A single trusted team for all your property needs — from one-off emergencies to complete refurbishments across London and the Home Counties.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card">
+        <div class="svc-icon">🔧</div>
+        <h3>Reactive Maintenance</h3>
+        <p>Fast response for leaks, breakdowns and emergency repairs. We're on site within 1-3 hours across central London.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🏗️</div>
+        <h3>Refurbishment</h3>
+        <p>Full kitchens, bathrooms and whole-home refurbishments delivered on time, on budget and finished to an exceptional standard.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">⚡</div>
+        <h3>Electrical Works</h3>
+        <p>NAPIT-registered electricians for rewires, consumer units, EICRs, EV chargers and all certified electrical installations.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🔥</div>
+        <h3>Plumbing & Gas</h3>
+        <p>Gas Safe engineers for boiler installations, servicing, power flushing, landlord certificates (CP12) and urgent plumbing.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🎨</div>
+        <h3>Decoration</h3>
+        <p>Professional painters and decorators for interior and exterior finishes, wallpapering and specialist surface preparation.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🏠</div>
+        <h3>Construction & Build</h3>
+        <p>Loft conversions, side returns and ground-up extensions managed end-to-end with full project transparency.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== HOW IT WORKS ============== -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="section-head">
+      <span class="label" style="color:var(--teal-light)">How It Works</span>
+      <h2>Simple, Transparent Process</h2>
+      <div class="divider"></div>
+      <p>Four steps from request to resolution — clear communication and accountability at every stage.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Request Raised</h3>
+        <p>You or your tenant submits a request by phone, email or our online form. We log every detail and confirm receipt.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Engineer Assigned</h3>
+        <p>The right tradesperson is dispatched and we confirm attendance directly with the site contact or tenant.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Work Completed</h3>
+        <p>Our engineers carry out the job safely with quality checks, before-and-after photos and tenant sign-off.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3>Report & Invoice</h3>
+        <p>You receive a full report with photos, notes and transparent itemised invoicing — no surprises, ever.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== REVIEWS ============== -->
+<section class="reviews" id="reviews">
+  <div class="container">
+    <div class="section-head">
+      <span class="label">Customer Reviews</span>
+      <h2>Rated 5 Stars on Google</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="review-banner">
+      <div class="score-box">
+        <div class="score-num">4.9</div>
+        <div class="stars">★★★★★</div>
+        <p>Based on 340+ reviews</p>
+        <p class="powered">Powered by Google</p>
+      </div>
+      <div class="banner-divider"></div>
+      <div class="banner-stats">
+        <div class="s"><strong>98%</strong><span>Recommend</span></div>
+        <div class="s"><strong>&lt;1hr</strong><span>Response</span></div>
+        <div class="s"><strong>2400+</strong><span>Jobs Done</span></div>
+      </div>
+    </div>
+    <div class="review-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"We used FixRight for some maintenance in our office — repainting of toilets and a meeting room — and couldn't be happier. Extremely professional from start to finish."</p>
+        <div class="reviewer">
+          <div class="avatar">FA</div>
+          <div class="reviewer-info"><strong>Francesca Avery</strong><span>Commercial Client</span></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Really quick and easy service. The team turned up on time, fixed everything same day and left the place spotless. Would recommend to any landlord."</p>
+        <div class="reviewer">
+          <div class="avatar">HB</div>
+          <div class="reviewer-info"><strong>Hamish Brown</strong><span>Landlord</span></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Had an absolute nightmare situation — lights, extractor, leaking pipe all at once. FixRight sorted everything quickly and for a fair price. Saved us."</p>
+        <div class="reviewer">
+          <div class="avatar">AH</div>
+          <div class="reviewer-info"><strong>Ayesha Hoque</strong><span>Homeowner</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== ABOUT ============== -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="founder-card">
+          <div class="avatar">JM</div>
+          <div>
+            <strong>James Morrison</strong>
+            <span>Founder & CEO</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-content">
+        <span class="label">About FixRight</span>
+        <h2>Trusted London Trades Since 2000</h2>
+        <div class="divider"></div>
+        <p>FixRight UK was founded on a simple principle: give clients a single, reliable team for every property need — from emergency call-outs to major refurbishments. With over 25 years of combined experience, our directly-employed engineers handle every job with care.</p>
+        <p>We work with homeowners, landlords, estate agents, block managers and commercial clients across London and the Home Counties.</p>
+        <ul class="about-list">
+          <li><span class="check">✓</span> Transparent, fixed-rate pricing</li>
+          <li><span class="check">✓</span> Fully insured up to £5 million</li>
+          <li><span class="check">✓</span> Free quotations, no obligation</li>
+          <li><span class="check">✓</span> 1-3 hour emergency response</li>
+          <li><span class="check">✓</span> Experienced, directly-employed team</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CTA BANNER ============== -->
+<section class="cta-banner">
+  <div class="container">
+    <h2>Ready for Reliable Maintenance?</h2>
+    <p>Get a free, no-obligation quote for your property today. Our team responds within one working hour.</p>
+    <div class="btns">
+      <a href="#contact" class="btn btn-white">Get Free Quote →</a>
+      <a href="tel:02012345678" class="btn btn-outline">📞 Call Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CONTACT ============== -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="section-head">
+      <span class="label">Get In Touch</span>
+      <h2>Let's Start Your Project</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>FixRight UK</h3>
+        <p class="sub">Property Maintenance & Construction</p>
+        <div class="contact-row">
+          <div class="contact-icon">📞</div>
+          <div><span class="label-sm">Phone</span><strong>020 1234 5678</strong></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">✉</div>
+          <div><span class="label-sm">Email</span><strong>hello@fixright.co.uk</strong></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">📍</div>
+          <div><span class="label-sm">Coverage</span><strong>London & Home Counties</strong></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">⚡</div>
+          <div><span class="label-sm">Emergency 24/7</span><strong>020 1234 5678</strong></div>
+        </div>
+      </div>
+      <form class="contact-form" id="contactForm">
+        <h3>Request a Free Quote</h3>
+        <p class="sub">Share a few details and we'll be in touch within the hour.</p>
+        <div class="form-row">
+          <div class="form-field">
+            <label>First Name</label>
+            <input type="text" required>
+          </div>
+          <div class="form-field">
+            <label>Last Name</label>
+            <input type="text" required>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" required>
+        </div>
+        <div class="form-field">
+          <label>Phone</label>
+          <input type="tel" required>
+        </div>
+        <div class="form-field">
+          <label>Service Required</label>
+          <select required>
+            <option value="">Select a service...</option>
+            <option>Reactive Maintenance</option>
+            <option>Refurbishment</option>
+            <option>Electrical Works</option>
+            <option>Plumbing & Gas</option>
+            <option>Decoration</option>
+            <option>Construction & Build</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Message</label>
+          <textarea placeholder="Tell us about your project..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Enquiry →</button>
+        <div class="form-success" id="formSuccess">
+          ✓ Thanks! We've received your enquiry and will be in touch shortly.
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FAQ ============== -->
+<section class="faq">
+  <div class="container">
+    <div class="section-head">
+      <span class="label">FAQ</span>
+      <h2>Frequently Asked Questions</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item"><button class="faq-q">What services does FixRight offer?<span class="faq-icon">+</span></button><div class="faq-a"><p>We offer reactive maintenance, refurbishment, electrical works, plumbing and gas, decoration, loft conversions and full construction across London and the Home Counties.</p></div></div>
+      <div class="faq-item"><button class="faq-q">How quickly can you attend reactive maintenance calls?<span class="faq-icon">+</span></button><div class="faq-a"><p>For standard reactive requests in central London we aim to be on-site within 1-3 hours. For true emergencies (gas, flooding, no power) we offer 24/7 response.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Do you carry out roof repairs?<span class="faq-icon">+</span></button><div class="faq-a"><p>Yes — our team handles slipped tiles, leaks, flashing repairs, gutter clearance and full re-roofs. All works guaranteed and fully insured.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Can you manage full property renovations?<span class="faq-icon">+</span></button><div class="faq-a"><p>Absolutely. From design and planning through to completion, we project-manage full renovations with a single point of contact and transparent milestone pricing.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Do you do loft conversions?<span class="faq-icon">+</span></button><div class="faq-a"><p>Yes, we handle loft conversions from initial feasibility through structural, building regs, and final fit-out. Most projects complete in 8-12 weeks.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Do you build home extensions?<span class="faq-icon">+</span></button><div class="faq-a"><p>Side returns, rear and wrap-around extensions are a core specialism. Our in-house team manages foundations, build, and finishes end-to-end.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Do you support estate agents and block managers?<span class="faq-icon">+</span></button><div class="faq-a"><p>Yes, we work with numerous London agencies and block managers providing priority response, tenant liaison, detailed reporting and consolidated invoicing.</p></div></div>
+      <div class="faq-item"><button class="faq-q">What accreditations do you hold?<span class="faq-icon">+</span></button><div class="faq-a"><p>We're Gas Safe registered, SafeContractor approved, TrustMark endorsed, NAPIT registered for electrical and members of the Federation of Master Builders.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">Fix<span style="color:var(--teal)">Right</span> UK</div>
+        <p>London's trusted team for property maintenance and construction. Fully insured, Gas Safe, guaranteed workmanship.</p>
+        <div class="footer-badges">
+          <span>Gas Safe</span>
+          <span>TrustMark</span>
+          <span>FMB Member</span>
+        </div>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Reactive Maintenance</a></li>
+          <li><a href="#services">Refurbishment</a></li>
+          <li><a href="#services">Electrical Works</a></li>
+          <li><a href="#services">Plumbing & Gas</a></li>
+          <li><a href="#services">Construction</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#reviews">Projects</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact">Get Quote</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul class="footer-contact">
+          <li><span class="icon">📞</span> 020 1234 5678</li>
+          <li><span class="icon">✉</span> hello@fixright.co.uk</li>
+          <li><span class="icon">📍</span> 12 Builder Street,<br>London, E1 4AB</li>
+          <li><span class="icon">⏰</span> Mon-Sat 8am-6pm<br>24/7 Emergency</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 FixRight UK Ltd. All rights reserved.</p>
+      <div class="socials">
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="#" aria-label="Facebook">fb</a>
+        <a href="#" aria-label="TikTok">tt</a>
+        <a href="#" aria-label="YouTube">yt</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ============== NAVBAR SCROLL ==============
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ============== MOBILE MENU ==============
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+// ============== FAQ ACCORDION ==============
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.querySelector('.faq-q').addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+// ============== CONTACT FORM ==============
+const form = document.getElementById('contactForm');
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('formSuccess').classList.add('show');
+  form.reset();
+  setTimeout(() => document.getElementById('formSuccess').classList.remove('show'), 6000);
+});
+
+// ============== STATS COUNT-UP ==============
+const counters = document.querySelectorAll('[data-count]');
+const runCounter = el => {
+  const target = parseInt(el.dataset.count);
+  const suffix = el.textContent.replace(/[0-9]/g,'');
+  let current = 0;
+  const step = Math.max(1, Math.ceil(target / 60));
+  const tick = () => {
+    current = Math.min(target, current + step);
+    el.textContent = current + suffix;
+    if (current < target) requestAnimationFrame(tick);
+  };
+  tick();
+};
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      runCounter(e.target);
+      io.unobserve(e.target);
+    }
+  });
+}, {threshold:.5});
+counters.forEach(c => io.observe(c));
+</script>
+</body>
+</html>
