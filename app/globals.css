@@ -261,15 +261,15 @@ p{margin:0}
 }
 @keyframes videoFadeIn{
   from{opacity:0}
-  to{opacity:.88}
+  to{opacity:1}
 }
 .hero__overlay{
   position:absolute;
   inset:0;
   background:
-    linear-gradient(180deg,rgba(4,14,26,.48),rgba(4,14,26,.84)),
-    radial-gradient(circle at 50% 28%,rgba(0,0,0,.08),rgba(0,0,0,.4)),
-    linear-gradient(90deg,rgba(6,17,31,.34),rgba(6,17,31,.2),rgba(6,17,31,.34));
+    linear-gradient(180deg,rgba(4,14,26,.28),rgba(4,14,26,.62)),
+    radial-gradient(circle at 50% 28%,rgba(0,0,0,.04),rgba(0,0,0,.22)),
+    linear-gradient(90deg,rgba(6,17,31,.18),rgba(6,17,31,.08),rgba(6,17,31,.18));
 }
 .hero__content{
   position:relative;
