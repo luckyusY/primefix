@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import BookingButton from "@/components/BookingButton";
 
 export default function ContactFloat() {
   const [open, setOpen] = useState(false);
@@ -33,6 +34,18 @@ export default function ContactFloat() {
         </svg>
         <span>Call Us</span>
       </a>
+
+      <BookingButton
+        className="cfloat__option cfloat__option--book"
+        aria-label="Book appointment"
+        tabIndex={open ? 0 : -1}
+        onClick={() => setOpen(false)}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1V3a1 1 0 0 1 1-1Zm12 8H5v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7ZM6 6a1 1 0 0 0-1 1v1h14V7a1 1 0 0 0-1-1H6Zm2 6h3v3H8v-3Z" />
+        </svg>
+        <span>Book Now</span>
+      </BookingButton>
 
       {/* Trigger */}
       <button

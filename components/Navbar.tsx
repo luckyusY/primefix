@@ -1,20 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import BrandLogo from "@/components/BrandLogo";
+import BookingButton from "@/components/BookingButton";
 
 const NAV_ITEMS = [
-  { label: "Home Repairs", href: "#services" },
-  { label: "Appliance Repairs", href: "#appliance-support" },
-  { label: "Process", href: "#process" },
-  { label: "Coverage", href: "#contact" },
-  { label: "FAQ", href: "#faq" },
-  { label: "About", href: "#about" },
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "About", href: "/about" },
+  { label: "Booking", href: "/booking" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -31,27 +33,20 @@ export default function Navbar() {
 
         <nav className="nav-links" aria-label="Primary">
           {NAV_ITEMS.map((item) => (
-            <a
+            <Link
               key={item.label}
               href={item.href}
-              className="nav-link"
+              className={`nav-link ${pathname === item.href ? "is-active" : ""}`}
               onClick={close}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
-        <a href="tel:+447507113805" className="nav-call" onClick={close}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8Z"/>
-          </svg>
-          +44 7507 113805
-        </a>
-
-        <a href="#contact" className="btn btn-teal nav-cta" onClick={close}>
-          Get Quote <span aria-hidden="true">&rarr;</span>
-        </a>
+        <BookingButton className="btn btn-teal nav-cta" onClick={close}>
+          Book Appointment <span aria-hidden="true">&rarr;</span>
+        </BookingButton>
 
         <button
           className={`hamburger ${open ? "open" : ""}`}
@@ -72,23 +67,19 @@ export default function Navbar() {
         aria-label="Mobile"
       >
         {NAV_ITEMS.map((item) => (
-          <a key={item.label} href={item.href} onClick={close}>
+          <Link key={item.label} href={item.href} onClick={close}>
             {item.label}
-          </a>
+          </Link>
         ))}
         <a href="tel:+447507113805" className="mobile-nav__call" onClick={close}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8Z"/>
+            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8Z" />
           </svg>
           +44 7507 113805
         </a>
-        <a
-          href="#contact"
-          className="btn btn-teal mobile-nav__cta"
-          onClick={close}
-        >
-          Get Quote <span aria-hidden="true">&rarr;</span>
-        </a>
+        <BookingButton className="btn btn-teal mobile-nav__cta" onClick={close}>
+          Book Appointment <span aria-hidden="true">&rarr;</span>
+        </BookingButton>
       </nav>
     </header>
   );

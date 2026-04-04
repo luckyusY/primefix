@@ -1,4 +1,5 @@
 import Animate from "@/components/Animate";
+import BookingButton from "@/components/BookingButton";
 
 export default function CtaBanner() {
   return (
@@ -17,7 +18,9 @@ export default function CtaBanner() {
 
         <Animate variant="fadeRight" delay={0.15}>
           <div className="cta-banner__actions">
-            <a href="#contact" className="btn btn-white">Get Free Quote</a>
+            <BookingButton className="btn btn-white">
+              Book Appointment
+            </BookingButton>
             <a href="tel:+447507113805" className="btn btn-outline">Call Now</a>
           </div>
         </Animate>

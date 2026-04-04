@@ -1,17 +1,12 @@
+import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
+import BookingButton from "@/components/BookingButton";
 
-const SERVICES = [
-  { label: "Home Repairs", href: "#services" },
-  { label: "Appliance Support", href: "#appliance-support" },
-];
-
-const QUICK_LINKS = [
-  { label: "Process", href: "#process" },
-  { label: "About Us", href: "#about" },
-  { label: "FAQ", href: "#faq", highlighted: true },
-  { label: "PrimeFix Blog", href: "#" },
-  { label: "Privacy Policy", href: "#" },
-  { label: "Sitemap", href: "#" },
+const PAGE_LINKS = [
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "About", href: "/about" },
+  { label: "Booking", href: "/booking", highlighted: true },
 ];
 
 const CONTACT_ITEMS = [
@@ -20,10 +15,7 @@ const CONTACT_ITEMS = [
   { label: "projects@primefixlondon.co.uk", href: "mailto:projects@primefixlondon.co.uk" },
   { label: "support@primefixlondon.co.uk", href: "mailto:support@primefixlondon.co.uk" },
   { label: "+44 7507 113805", href: "tel:+447507113805" },
-  {
-    label: "London & Greater London coverage",
-    href: "#contact",
-  },
+  { label: "London & Greater London coverage", href: "/booking" },
 ];
 
 const SOCIALS = [
@@ -100,30 +92,30 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4>Services</h4>
+            <h4>Pages</h4>
             <ul className="footer-links">
-              {SERVICES.map((item) => (
+              {PAGE_LINKS.map((item) => (
                 <li key={item.label}>
-                  <a href={item.href}>{item.label}</a>
+                  <Link
+                    href={item.href}
+                    className={item.highlighted ? "is-highlighted" : undefined}
+                  >
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4>Quick Links</h4>
-            <ul className="footer-links">
-              {QUICK_LINKS.map((item) => (
-                <li key={item.label}>
-                  <a
-                    href={item.href}
-                    className={item.highlighted ? "is-highlighted" : undefined}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <h4>Booking</h4>
+            <p className="footer-booking-copy">
+              Ready to get started? Book an appointment and let PrimeFix London
+              confirm the right visit for your home.
+            </p>
+            <BookingButton className="btn btn-white footer-booking">
+              Book Appointment
+            </BookingButton>
           </div>
 
           <div>
@@ -131,7 +123,11 @@ export default function Footer() {
             <ul className="footer-contact">
               {CONTACT_ITEMS.map((item) => (
                 <li key={item.label}>
-                  <a href={item.href}>{item.label}</a>
+                  {item.href.startsWith("/") ? (
+                    <Link href={item.href}>{item.label}</Link>
+                  ) : (
+                    <a href={item.href}>{item.label}</a>
+                  )}
                 </li>
               ))}
             </ul>

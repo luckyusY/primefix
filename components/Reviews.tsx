@@ -1,4 +1,5 @@
 import Animate, { StaggerContainer, StaggerItem } from "@/components/Animate";
+import BookingButton from "@/components/BookingButton";
 
 const REVIEWS = [
   {
@@ -34,7 +35,9 @@ export default function Reviews() {
                 Clear communication, reliable visits, and support that continues
                 after the work is done.
               </p>
-              <a href="#contact" className="btn btn-teal">Request Your Quote</a>
+              <BookingButton className="btn btn-teal">
+                Book Appointment
+              </BookingButton>
             </div>
           </Animate>
 

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 type BrandLogoProps = {
   className?: string;
@@ -14,7 +15,7 @@ export default function BrandLogo({
   const classes = ["brand-logo", className].filter(Boolean).join(" ");
 
   return (
-    <a href={href} className={classes} aria-label="PrimeFix London home">
+    <Link href={href} className={classes} aria-label="PrimeFix London home">
       <Image
         src="/media/primefix-london-logo.png"
         alt="PrimeFix London logo"
@@ -24,6 +25,6 @@ export default function BrandLogo({
         sizes="(max-width: 768px) 180px, 320px"
         className="brand-logo__image"
       />
-    </a>
+    </Link>
   );
 }

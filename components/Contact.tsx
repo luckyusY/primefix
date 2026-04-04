@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import ScaffoldIllustration from "@/components/ScaffoldIllustration";
+import BookingButton from "@/components/BookingButton";
 
 const SERVING_POINTS = [
   "Home repair and maintenance support",
@@ -89,9 +90,9 @@ export default function Contact() {
                 <li key={point}>{point}</li>
               ))}
             </ul>
-            <a href="#contact" className="btn btn-teal">
-              Request Your Quote
-            </a>
+            <BookingButton className="btn btn-teal">
+              Book Appointment
+            </BookingButton>
           </div>
         </div>
       </div>

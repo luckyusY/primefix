@@ -1,4 +1,5 @@
 import Image from "next/image";
+import BookingButton from "@/components/BookingButton";
 
 const PROJECTS = [
   {
@@ -56,9 +57,9 @@ export default function Projects() {
                 <p className="project-card__date">{project.date}</p>
                 <h3>{project.title}</h3>
                 <p>{project.description}</p>
-                <a href="#contact" className="project-card__link">
-                  Request support like this
-                </a>
+                <BookingButton className="project-card__link">
+                  Book a similar visit
+                </BookingButton>
               </div>
             </article>
           ))}

@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ContactFloat from "@/components/ContactFloat";
+import { BookingProvider } from "@/components/BookingProvider";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
@@ -30,7 +34,12 @@ export default function RootLayout({
       </head>
       <body>
         <SmoothScroll />
-        {children}
+        <BookingProvider>
+          <Navbar />
+          {children}
+          <Footer />
+          <ContactFloat />
+        </BookingProvider>
         <Script
           id="tawk-to"
           strategy="afterInteractive"

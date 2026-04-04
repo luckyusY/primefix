@@ -1,6 +1,7 @@
 import Image from "next/image";
 import ScaffoldIllustration from "@/components/ScaffoldIllustration";
 import Animate from "@/components/Animate";
+import BookingButton from "@/components/BookingButton";
 
 const SERVICE_BANDS = [
   {
@@ -74,7 +75,9 @@ export default function Services() {
                 <p className="service-band__note">
                   Clear updates, professional workmanship, and dependable after-service support.
                 </p>
-                <a href="#contact" className="service-band__cta">{service.cta}</a>
+                <BookingButton className="service-band__cta">
+                  {service.cta}
+                </BookingButton>
               </Animate>
 
               <Animate
