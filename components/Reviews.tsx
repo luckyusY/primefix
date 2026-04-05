@@ -1,12 +1,12 @@
 import Animate, { StaggerContainer, StaggerItem } from "@/components/Animate";
 import BookingButton from "@/components/BookingButton";
 
-type Review = { _id?: string; name: string; type: string; text: string };
+import type { Review } from "@/lib/types";
 
 const FALLBACK: Review[] = [
-  { name: "Maria D.", type: "Homeowner", text: "Responsive, organised, and easy to work with. PrimeFix London kept the visit clear from the first quote and handled the repair without fuss." },
-  { name: "James P.", type: "Landlord",  text: "We needed quick support for a fault at short notice. The technician arrived prepared, explained the issue well, and got everything moving again." },
-  { name: "Rina K.",  type: "Homeowner", text: "From the quote to the after-service follow-up, everything felt clear and professional. We would happily use PrimeFix London again." },
+  { id: "r1", name: "Maria D.", type: "Homeowner", text: "Responsive, organised, and easy to work with. PrimeFix London kept the visit clear from the first quote and handled the repair without fuss." },
+  { id: "r2", name: "James P.", type: "Landlord",  text: "We needed quick support for a fault at short notice. The technician arrived prepared, explained the issue well, and got everything moving again." },
+  { id: "r3", name: "Rina K.",  type: "Homeowner", text: "From the quote to the after-service follow-up, everything felt clear and professional. We would happily use PrimeFix London again." },
 ];
 
 export default function Reviews({ items }: { items?: Review[] }) {
@@ -33,7 +33,7 @@ export default function Reviews({ items }: { items?: Review[] }) {
 
           <StaggerContainer className="review-grid" stagger={0.12} delay={0.1}>
             {reviews.map((review) => (
-              <StaggerItem key={review._id ?? review.name} variant="fadeUp">
+              <StaggerItem key={review.id} variant="fadeUp">
                 <article className="review-card">
                   <p className="review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
                   <p className="review-text">&quot;{review.text}&quot;</p>
