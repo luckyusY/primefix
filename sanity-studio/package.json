@@ -1,0 +1,20 @@
+{
+  "name": "primefix-sanity-studio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev":    "sanity dev",
+    "build":  "sanity build",
+    "deploy": "sanity deploy",
+    "start":  "sanity start"
+  },
+  "dependencies": {
+    "react":     "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sanity":    "^3.25.0"
+  },
+  "devDependencies": {
+    "@sanity/vision": "^3.25.0",
+    "typescript": "^5.4.5"
+  }
+}

@@ -1,25 +1,17 @@
 import Animate, { StaggerContainer, StaggerItem } from "@/components/Animate";
 import BookingButton from "@/components/BookingButton";
 
-const REVIEWS = [
-  {
-    name: "Maria D.",
-    type: "Homeowner",
-    text: "Responsive, organised, and easy to work with. PrimeFix London kept the visit clear from the first quote and handled the repair without fuss.",
-  },
-  {
-    name: "James P.",
-    type: "Landlord",
-    text: "We needed quick support for a fault at short notice. The technician arrived prepared, explained the issue well, and got everything moving again.",
-  },
-  {
-    name: "Rina K.",
-    type: "Homeowner",
-    text: "From the quote to the after-service follow-up, everything felt clear and professional. We would happily use PrimeFix London again.",
-  },
+type Review = { _id?: string; name: string; type: string; text: string };
+
+const FALLBACK: Review[] = [
+  { name: "Maria D.", type: "Homeowner", text: "Responsive, organised, and easy to work with. PrimeFix London kept the visit clear from the first quote and handled the repair without fuss." },
+  { name: "James P.", type: "Landlord",  text: "We needed quick support for a fault at short notice. The technician arrived prepared, explained the issue well, and got everything moving again." },
+  { name: "Rina K.",  type: "Homeowner", text: "From the quote to the after-service follow-up, everything felt clear and professional. We would happily use PrimeFix London again." },
 ];
 
-export default function Reviews() {
+export default function Reviews({ items }: { items?: Review[] }) {
+  const reviews = items && items.length > 0 ? items : FALLBACK;
+
   return (
     <section className="reviews" id="reviews">
       <div className="container">
@@ -35,15 +27,13 @@ export default function Reviews() {
                 Clear communication, reliable visits, and support that continues
                 after the work is done.
               </p>
-              <BookingButton className="btn btn-teal">
-                Book Appointment
-              </BookingButton>
+              <BookingButton className="btn btn-teal">Book Appointment</BookingButton>
             </div>
           </Animate>
 
           <StaggerContainer className="review-grid" stagger={0.12} delay={0.1}>
-            {REVIEWS.map((review) => (
-              <StaggerItem key={review.name} variant="fadeUp">
+            {reviews.map((review) => (
+              <StaggerItem key={review._id ?? review.name} variant="fadeUp">
                 <article className="review-card">
                   <p className="review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
                   <p className="review-text">&quot;{review.text}&quot;</p>

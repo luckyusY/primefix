@@ -1,29 +1,22 @@
 import Animate, { StaggerContainer, StaggerItem } from "@/components/Animate";
 
-const STEPS = [
-  {
-    n: "01",
-    title: "Request Quote",
-    desc: "Tell us what needs attention, whether it is a home repair, appliance fault, drainage problem or another domestic issue.",
-  },
-  {
-    n: "02",
-    title: "Book Visit",
-    desc: "We confirm the right service, arrange a visit time, and keep communication simple so you know exactly what happens next.",
-  },
-  {
-    n: "03",
-    title: "Technician Repairs",
-    desc: "A technician carries out the repair, diagnoses the fault properly, and works toward a fast, practical fix on site.",
-  },
-  {
-    n: "04",
-    title: "Support After Service",
-    desc: "We stay available after the visit so clients have a clear point of contact if anything needs follow-up or further guidance.",
-  },
+type Step = { _id?: string; stepNumber?: string; n?: string; title: string; description?: string; desc?: string };
+
+const FALLBACK: Step[] = [
+  { n: "01", title: "Request Quote",        desc: "Tell us what needs attention, whether it is a home repair, appliance fault, drainage problem or another domestic issue." },
+  { n: "02", title: "Book Visit",           desc: "We confirm the right service, arrange a visit time, and keep communication simple so you know exactly what happens next." },
+  { n: "03", title: "Technician Repairs",   desc: "A technician carries out the repair, diagnoses the fault properly, and works toward a fast, practical fix on site." },
+  { n: "04", title: "Support After Service",desc: "We stay available after the visit so clients have a clear point of contact if anything needs follow-up or further guidance." },
 ];
 
-export default function HowItWorks() {
+export default function HowItWorks({ items }: { items?: Step[] }) {
+  const steps = (items && items.length > 0 ? items : FALLBACK).map((s) => ({
+    key:  s._id ?? s.stepNumber ?? s.n ?? s.title,
+    num:  s.stepNumber ?? s.n ?? "",
+    title: s.title,
+    desc: s.description ?? s.desc ?? "",
+  }));
+
   return (
     <section className="how" id="process">
       <div className="container">
@@ -40,10 +33,10 @@ export default function HowItWorks() {
         </Animate>
 
         <StaggerContainer className="steps" stagger={0.1} delay={0.1}>
-          {STEPS.map((step) => (
-            <StaggerItem key={step.n} variant="fadeUp">
+          {steps.map((step) => (
+            <StaggerItem key={step.key} variant="fadeUp">
               <div className="step">
-                <div className="step-num">{step.n}</div>
+                <div className="step-num">{step.num}</div>
                 <h3>{step.title}</h3>
                 <p>{step.desc}</p>
               </div>

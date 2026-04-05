@@ -1,34 +1,24 @@
 import Image from "next/image";
 import BookingButton from "@/components/BookingButton";
 
-const PROJECTS = [
-  {
-    title: "Emergency Kitchen Repair Visit",
-    date: "Typical Call-Out",
-    description:
-      "Support for leaks, faulty electrics, heating issues and everyday kitchen faults handled through one clear maintenance visit.",
-    image: "/media/home-exterior.jpg",
-    alt: "Open-license exterior image representing a domestic repair call-out",
-  },
-  {
-    title: "Appliance Fault Support",
-    date: "Domestic Appliance Guard",
-    description:
-      "Fridge, oven and dishwasher issues triaged quickly so households can get back to normal with less disruption.",
-    image: "/media/minimal-living.jpg",
-    alt: "Open-license living room image representing appliance support for a household",
-  },
-  {
-    title: "Specialist Home Services",
-    date: "Rapid Response",
-    description:
-      "Drainage, locksmith, window repair and pest control support coordinated through the same trusted service journey.",
-    image: "/media/modern-home.jpg",
-    alt: "Open-license interior image representing specialist domestic support",
-  },
+type Project = {
+  _id?: string;
+  title: string;
+  date: string;
+  description: string;
+  image: string;
+  alt?: string;
+};
+
+const FALLBACK: Project[] = [
+  { title: "Emergency Kitchen Repair Visit", date: "Typical Call-Out",         description: "Support for leaks, faulty electrics, heating issues and everyday kitchen faults handled through one clear maintenance visit.", image: "/media/home-exterior.jpg", alt: "Domestic repair call-out" },
+  { title: "Appliance Fault Support",        date: "Domestic Appliance Guard", description: "Fridge, oven and dishwasher issues triaged quickly so households can get back to normal with less disruption.", image: "/media/minimal-living.jpg", alt: "Appliance support for a household" },
+  { title: "Specialist Home Services",       date: "Rapid Response",           description: "Drainage, locksmith, window repair and pest control support coordinated through the same trusted service journey.", image: "/media/modern-home.jpg", alt: "Specialist domestic support" },
 ];
 
-export default function Projects() {
+export default function Projects({ items }: { items?: Project[] }) {
+  const projects = items && items.length > 0 ? items : FALLBACK;
+
   return (
     <section className="projects" id="projects">
       <div className="container">
@@ -43,12 +33,12 @@ export default function Projects() {
         </div>
 
         <div className="projects-grid">
-          {PROJECTS.map((project) => (
-            <article className="project-card" key={project.title}>
+          {projects.map((project) => (
+            <article className="project-card" key={project._id ?? project.title}>
               <div className="project-card__media">
                 <Image
                   src={project.image}
-                  alt={project.alt}
+                  alt={project.alt ?? project.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
@@ -57,9 +47,7 @@ export default function Projects() {
                 <p className="project-card__date">{project.date}</p>
                 <h3>{project.title}</h3>
                 <p>{project.description}</p>
-                <BookingButton className="project-card__link">
-                  Book a similar visit
-                </BookingButton>
+                <BookingButton className="project-card__link">Book a similar visit</BookingButton>
               </div>
             </article>
           ))}
