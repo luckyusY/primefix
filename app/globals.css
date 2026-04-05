@@ -18,6 +18,32 @@
   --radius:28px;
 }
 
+/* ── vanilla-cookieconsent brand theme ── */
+#cc-main{
+  --cc-font-family:"Poppins",-apple-system,BlinkMacSystemFont,sans-serif;
+  --cc-bg:rgba(16,45,72,.97);
+  --cc-primary-color:#ffffff;
+  --cc-secondary-color:rgba(255,255,255,.76);
+  --cc-separator-border-color:rgba(255,255,255,.1);
+  --cc-btn-primary-bg:#10b8f5;
+  --cc-btn-primary-text:#fff;
+  --cc-btn-primary-hover-bg:#0b93dc;
+  --cc-btn-secondary-bg:rgba(255,255,255,.1);
+  --cc-btn-secondary-text:#fff;
+  --cc-btn-secondary-hover-bg:rgba(255,255,255,.18);
+  --cc-btn-border-radius:999px;
+  --cc-modal-border-radius:28px;
+  --cc-toggle-on-bg:#10b8f5;
+  --cc-toggle-off-bg:rgba(255,255,255,.22);
+  --cc-toggle-knob-bg:#fff;
+  --cc-cookie-category-block-bg:rgba(255,255,255,.06);
+  --cc-cookie-category-block-border:rgba(255,255,255,.1);
+  --cc-cookie-category-block-hover-bg:rgba(255,255,255,.1);
+  --cc-cookie-category-expanded-block-bg:rgba(255,255,255,.04);
+  --cc-overlay-bg:rgba(4,12,24,.72);
+  --cc-z-index:1400;
+}
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
@@ -1271,52 +1297,52 @@ p{margin:0}
 .booking-form__success.show{
   display:block;
 }
-/* ── Booking modal ── */
-.booking-modal{
+/* ── Booking modal (Radix Dialog) ── */
+.booking-modal__backdrop{
   position:fixed;
   inset:0;
   z-index:1200;
-  display:grid;
-  place-items:center;
-  padding:20px;
-  /* hidden by default — no re-mount lag */
-  visibility:hidden;
-  pointer-events:none;
-}
-.booking-modal.is-open{
-  visibility:visible;
-  pointer-events:auto;
-}
-.booking-modal__backdrop{
-  position:absolute;
-  inset:0;
-  border:none;
   background:rgba(4,12,24,.72);
   backdrop-filter:blur(5px);
   -webkit-backdrop-filter:blur(5px);
-  opacity:0;
-  transition:opacity .22s ease;
 }
-.booking-modal.is-open .booking-modal__backdrop{opacity:1}
+.booking-modal__backdrop[data-state="open"]{
+  animation:backdropIn .22s ease forwards;
+}
+.booking-modal__backdrop[data-state="closed"]{
+  animation:backdropOut .22s ease forwards;
+}
+@keyframes backdropIn{from{opacity:0}to{opacity:1}}
+@keyframes backdropOut{from{opacity:1}to{opacity:0}}
+
 .booking-modal__dialog{
-  position:relative;
-  z-index:1;
-  width:min(100%,1060px);
-  /* fixed height so both panels can scroll independently */
-  height:min(90vh,860px);
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:1201;
+  width:min(calc(100vw - 32px),1060px);
+  height:min(90svh,860px);
   display:grid;
   grid-template-columns:.82fr 1.18fr;
   border-radius:36px;
   background:#fff;
   box-shadow:0 32px 100px rgba(0,0,0,.38);
   overflow:hidden;
-  opacity:0;
-  transform:scale(.95) translateY(20px);
-  transition:opacity .22s ease,transform .22s cubic-bezier(.34,1.2,.64,1);
 }
-.booking-modal.is-open .booking-modal__dialog{
-  opacity:1;
-  transform:scale(1) translateY(0);
+.booking-modal__dialog:focus{outline:none}
+.booking-modal__dialog[data-state="open"]{
+  animation:dialogIn .26s cubic-bezier(.34,1.2,.64,1) forwards;
+}
+.booking-modal__dialog[data-state="closed"]{
+  animation:dialogOut .2s ease forwards;
+}
+@keyframes dialogIn{
+  from{opacity:0;transform:translate(-50%,-46%) scale(.96)}
+  to  {opacity:1;transform:translate(-50%,-50%) scale(1)}
+}
+@keyframes dialogOut{
+  from{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  to  {opacity:0;transform:translate(-50%,-46%) scale(.96)}
 }
 /* ── Left info panel ── */
 .booking-modal__copy{
@@ -1454,70 +1480,9 @@ p{margin:0}
   margin-top:18px;
 }
 
-/* Cookie consent */
-.cookie-banner{
-  position:fixed;
-  left:24px;
-  right:24px;
-  bottom:24px;
-  z-index:940;
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:24px;
-  padding:22px 24px;
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:28px;
-  background:rgba(16,45,72,.96);
-  color:#fff;
-  box-shadow:0 24px 60px rgba(11,25,42,.32);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-}
-.cookie-banner__copy{
-  max-width:720px;
-}
-.cookie-banner__copy strong{
-  display:block;
-  margin-bottom:8px;
-  font-size:1rem;
-}
-.cookie-banner__copy p{
-  color:rgba(255,255,255,.8);
-  line-height:1.7;
-}
-.cookie-banner__actions{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-}
-.cookie-banner__btn{
-  min-width:160px;
-}
-.cookie-banner__btn--ghost{
-  border-color:rgba(255,255,255,.28);
-}
-.cookie-manage--REMOVED{
-  position:fixed;
-  right:24px;
-  bottom:96px;
-  z-index:930;
-  min-height:46px;
-  padding:0 18px;
-  border:1px solid rgba(23,58,93,.12);
-  border-radius:999px;
-  background:#fff;
-  color:var(--navy);
-  font-weight:700;
-  box-shadow:0 14px 34px rgba(23,58,93,.18);
-  transition:transform .18s ease,box-shadow .18s ease;
-}
-.cookie-manage:hover{
-  transform:translateY(-2px);
-  box-shadow:0 18px 38px rgba(23,58,93,.24);
-}
+/* Cookie consent — styles are provided by vanilla-cookieconsent; brand overrides are in :root above */
 
-/* FAQ */
+/* FAQ (Radix Accordion) */
 .faq{
   padding:96px 0;
   background:#fff;
@@ -1533,6 +1498,12 @@ p{margin:0}
   background:var(--surface);
   overflow:hidden;
 }
+.faq-header{
+  margin:0;
+  font-size:inherit;
+  color:inherit;
+  font-weight:inherit;
+}
 .faq-q{
   width:100%;
   display:flex;
@@ -1546,7 +1517,9 @@ p{margin:0}
   color:var(--navy);
   font-size:1.02rem;
   font-weight:700;
+  cursor:pointer;
 }
+.faq-q:hover{color:var(--teal-dark)}
 .faq-icon{
   display:grid;
   place-items:center;
@@ -1557,18 +1530,29 @@ p{margin:0}
   color:#fff;
   font-size:1.3rem;
   flex-shrink:0;
-  transition:transform .2s ease;
+  transition:transform .25s cubic-bezier(.34,1.2,.64,1);
 }
-.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-item[data-state="open"] .faq-icon{transform:rotate(45deg)}
+/* Radix Accordion animated content */
 .faq-a{
-  max-height:0;
   overflow:hidden;
-  padding:0 28px;
-  transition:max-height .3s ease,padding-bottom .3s ease;
 }
-.faq-item.open .faq-a{
-  max-height:240px;
-  padding-bottom:24px;
+.faq-a[data-state="open"]{
+  animation:faqOpen .3s ease forwards;
+}
+.faq-a[data-state="closed"]{
+  animation:faqClose .25s ease forwards;
+}
+@keyframes faqOpen{
+  from{height:0}
+  to  {height:var(--radix-accordion-content-height)}
+}
+@keyframes faqClose{
+  from{height:var(--radix-accordion-content-height)}
+  to  {height:0}
+}
+.faq-a__inner{
+  padding:0 28px 24px;
 }
 .faq-a p{color:var(--muted);line-height:1.8}
 
@@ -1854,13 +1838,28 @@ p{margin:0}
   .brand-logo--footer .brand-logo__image{width:240px}
   .footer-grid{grid-template-columns:1fr}
   .cta-banner{padding:64px 0}
-  .booking-modal{padding:0}
   .booking-modal__dialog{
-    width:100%;
+    width:100vw;
     height:100svh;
+    top:0;left:0;
+    transform:none;
     border-radius:0;
     grid-template-columns:1fr;
     grid-template-rows:auto 1fr;
+  }
+  .booking-modal__dialog[data-state="open"]{
+    animation:dialogInMobile .26s cubic-bezier(.34,1.2,.64,1) forwards;
+  }
+  .booking-modal__dialog[data-state="closed"]{
+    animation:dialogOutMobile .2s ease forwards;
+  }
+  @keyframes dialogInMobile{
+    from{opacity:0;transform:translateY(24px)}
+    to  {opacity:1;transform:translateY(0)}
+  }
+  @keyframes dialogOutMobile{
+    from{opacity:1;transform:translateY(0)}
+    to  {opacity:0;transform:translateY(24px)}
   }
   .booking-modal__copy{
     height:auto;
@@ -1881,27 +1880,8 @@ p{margin:0}
   .booking-modal__trust{display:none}
   .booking-modal__contact{flex-direction:row;flex-wrap:wrap;gap:10px}
   .booking-modal__close{top:12px;right:12px}
-  .cookie-banner{
-    left:16px;
-    right:16px;
-    bottom:16px;
-    flex-direction:column;
-    align-items:stretch;
-    padding:20px;
-  }
-  .cookie-banner__actions{
-    width:100%;
-    flex-direction:column;
-  }
-  .cookie-banner__btn{
-    width:100%;
-  }
-  .cookie-manage{
-    right:16px;
-    bottom:86px;
-  }
   .faq-q{padding:18px 20px;font-size:.96rem}
-  .faq-a{padding:0 20px}
+  .faq-a__inner{padding:0 20px 20px}
   .section-head{margin-bottom:36px}
   h2{font-size:clamp(1.9rem,6vw,3rem)}
 }
@@ -1922,4 +1902,47 @@ p{margin:0}
   .cta-banner{
     background-attachment:fixed;
   }
+}
+
+/* ── Touchscreen & mobile UX ── */
+/* Suppress blue tap flash on all interactive elements */
+a,button,input,select,textarea,[role="button"],[tabindex]{
+  -webkit-tap-highlight-color:transparent;
+  -webkit-touch-callout:none;
+}
+/* Prevent accidental double-tap zoom on buttons and links */
+button,a,.btn,.nav-link,.footer-bar__cookie,.contact-float__trigger,
+.faq-q,.booking-modal__close,.nav-call,.booking-modal__close{
+  touch-action:manipulation;
+}
+/* Ensure all interactive targets meet 44 × 44 px minimum */
+.btn{min-height:48px}
+.nav-link{min-height:44px;display:inline-flex;align-items:center}
+.footer-bar__cookie{min-height:40px}
+.faq-q{min-height:52px}
+.socials a{
+  min-width:44px;
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+/* Active / pressed states for touch feedback */
+.btn:active{transform:translateY(-1px) scale(.98);transition-duration:.08s}
+.nav-link:active{opacity:.7}
+.faq-q:active{opacity:.75}
+.contact-float__trigger:active{transform:scale(.94)}
+/* iOS input zoom prevention — font-size must be ≥ 16 px */
+input,select,textarea{
+  font-size:max(16px,1rem);
+}
+/* Smooth momentum scroll on scrollable containers */
+.booking-modal__form-wrap,
+.booking-modal__copy{
+  -webkit-overflow-scrolling:touch;
+}
+/* Prevent text selection on UI elements */
+.btn,.nav-cta,.faq-q,.contact-float__trigger,.footer-bar__cookie{
+  -webkit-user-select:none;
+  user-select:none;
 }

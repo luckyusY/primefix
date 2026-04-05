@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import * as Accordion from "@radix-ui/react-accordion";
 
 const QUESTIONS = [
   {
@@ -30,8 +30,6 @@ const QUESTIONS = [
 ];
 
 export default function Faq() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
   return (
     <section className="faq" id="faq">
       <div className="container">
@@ -41,27 +39,32 @@ export default function Faq() {
           <div className="divider"></div>
         </div>
 
-        <div className="faq-list">
+        <Accordion.Root
+          type="single"
+          defaultValue="item-0"
+          collapsible
+          className="faq-list"
+        >
           {QUESTIONS.map((item, index) => (
-            <div
-              className={`faq-item ${openIndex === index ? "open" : ""}`}
+            <Accordion.Item
               key={item.q}
+              value={`item-${index}`}
+              className="faq-item"
             >
-              <button
-                className="faq-q"
-                onClick={() =>
-                  setOpenIndex(openIndex === index ? null : index)
-                }
-              >
-                {item.q}
-                <span className="faq-icon">+</span>
-              </button>
-              <div className="faq-a">
-                <p>{item.a}</p>
-              </div>
-            </div>
+              <Accordion.Header className="faq-header">
+                <Accordion.Trigger className="faq-q">
+                  {item.q}
+                  <span className="faq-icon" aria-hidden="true">+</span>
+                </Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Content className="faq-a">
+                <div className="faq-a__inner">
+                  <p>{item.a}</p>
+                </div>
+              </Accordion.Content>
+            </Accordion.Item>
           ))}
-        </div>
+        </Accordion.Root>
       </div>
     </section>
   );
