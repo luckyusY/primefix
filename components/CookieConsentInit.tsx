@@ -65,7 +65,7 @@ export default function CookieConsentInit() {
         translations: {
           en: {
             consentModal: {
-              title: "Cookies on PrimeFix London",
+              title: "Cookies on PrimeFix Hub",
               description:
                 "We use essential cookies to keep the website working. Optional cookies enable live chat and help improve your booking experience.",
               acceptAllBtn: "Accept All",

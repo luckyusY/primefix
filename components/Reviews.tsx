@@ -4,9 +4,9 @@ import BookingButton from "@/components/BookingButton";
 import type { Review } from "@/lib/types";
 
 const FALLBACK: Review[] = [
-  { id: "r1", name: "Maria D.", type: "Homeowner", text: "Responsive, organised, and easy to work with. PrimeFix London kept the visit clear from the first quote and handled the repair without fuss." },
+  { id: "r1", name: "Maria D.", type: "Homeowner", text: "Responsive, organised, and easy to work with. PrimeFix Hub kept the visit clear from the first quote and handled the repair without fuss." },
   { id: "r2", name: "James P.", type: "Landlord",  text: "We needed quick support for a fault at short notice. The technician arrived prepared, explained the issue well, and got everything moving again." },
-  { id: "r3", name: "Rina K.",  type: "Homeowner", text: "From the quote to the after-service follow-up, everything felt clear and professional. We would happily use PrimeFix London again." },
+  { id: "r3", name: "Rina K.",  type: "Homeowner", text: "From the quote to the after-service follow-up, everything felt clear and professional. We would happily use PrimeFix Hub again." },
 ];
 
 export default function Reviews({ items }: { items?: Review[] }) {

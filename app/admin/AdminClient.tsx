@@ -54,7 +54,7 @@ function LoginScreen() {
     <div style={S.loginWrap}>
       <div style={S.loginCard}>
         <div style={S.loginLogo}>PF</div>
-        <h1 style={S.loginTitle}>PrimeFix Admin</h1>
+        <h1 style={S.loginTitle}>PrimeFix Hub Admin</h1>
         <p style={S.loginSub}>Sign in to manage your site content</p>
         <form onSubmit={submit} style={{ marginTop: 24 }}>
           <input
@@ -129,7 +129,7 @@ function Dashboard({ initialContent }: { initialContent: Content }) {
         <div style={S.topBarInner}>
           <span style={S.topBarBrand}>
             <span style={S.topBarLogo}>PF</span>
-            PrimeFix Admin
+            PrimeFix Hub Admin
           </span>
           <button onClick={logout} style={S.btnLogout}>Log out</button>
         </div>

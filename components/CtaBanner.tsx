@@ -11,7 +11,7 @@ export default function CtaBanner() {
             <h2>Book Domestic Repair Support With Confidence</h2>
             <p>
               From home maintenance and appliance repairs to drainage, locksmith,
-              window and pest control support, PrimeFix London is ready to help.
+              window and pest control support, PrimeFix Hub is ready to help.
             </p>
           </div>
         </Animate>

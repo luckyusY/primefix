@@ -81,7 +81,7 @@ export default function Contact() {
             <span className="label">Why Clients Choose Us</span>
             <h2>Domestic Appliance Guard For London Homes</h2>
             <p>
-              PrimeFix London provides a clearer route for households that need
+              PrimeFix Hub provides a clearer route for households that need
               reliable home repairs, appliance support, and specialist domestic
               services without the stress of coordinating multiple providers.
             </p>

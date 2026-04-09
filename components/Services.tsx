@@ -22,7 +22,7 @@ const SERVICE_BANDS = [
   {
     id: "appliance-support",
     title: "Appliance & Specialist Support",
-    body: "PrimeFix London also supports appliance and specialist call-outs so clients can move from first fault to finished repair with one clear service journey.",
+    body: "PrimeFix Hub also supports appliance and specialist call-outs so clients can move from first fault to finished repair with one clear service journey.",
     bullets: [
       "Fridge, oven and dishwasher repairs",
       "Pest control services",
@@ -47,7 +47,7 @@ export default function Services() {
             <h2>Domestic Appliance Guard Overview</h2>
             <div className="divider"></div>
             <p>
-              PrimeFix London combines day-to-day home repair, appliance support,
+              PrimeFix Hub combines day-to-day home repair, appliance support,
               and specialist call-outs into a single clear service offer.
             </p>
           </div>

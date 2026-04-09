@@ -11,7 +11,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="About"
         title="A simpler and more reliable way to handle home repair needs"
-        description="PrimeFix London is designed to help households move from first enquiry to confirmed visit and after-service support with less friction and clearer communication."
+        description="PrimeFix Hub is designed to help households move from first enquiry to confirmed visit and after-service support with less friction and clearer communication."
       >
         <BookingButton className="btn btn-teal">Book Appointment</BookingButton>
       </PageHero>

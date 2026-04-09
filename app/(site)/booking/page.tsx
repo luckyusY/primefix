@@ -15,7 +15,7 @@ export default function BookingPage() {
     <main>
       <PageHero
         eyebrow="Booking"
-        title="Book an appointment with PrimeFix London"
+        title="Book an appointment with PrimeFix Hub"
         description="Use the booking page to request the visit you need, or open the popup if you prefer a faster booking flow from anywhere on the site."
       >
         <BookingButton className="btn btn-teal">Open Booking Popup</BookingButton>
@@ -32,7 +32,7 @@ export default function BookingPage() {
             <div className="divider"></div>
             <p>
               This page is focused on appointment requests only. Share the key
-              details once and PrimeFix London will confirm the best next step
+              details once and PrimeFix Hub will confirm the best next step
               for your visit.
             </p>
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Admin — PrimeFix London",
+  title: "Admin - PrimeFix Hub",
 };
 
 // Completely isolated layout — no Navbar, Footer, or site chrome

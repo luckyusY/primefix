@@ -10,7 +10,7 @@ export default function ServicesPage() {
       <PageHero
         eyebrow="Services"
         title="Domestic appliance guard for London homes"
-        description="PrimeFix London covers home repair and maintenance, plumbing, electrical and heating repairs, appliance repairs, drainage, locksmith, window repairs, and pest control services."
+        description="PrimeFix Hub covers home repair and maintenance, plumbing, electrical and heating repairs, appliance repairs, drainage, locksmith, window repairs, and pest control services."
       >
         <BookingButton className="btn btn-teal">Book Appointment</BookingButton>
         <a href="tel:+447507113805" className="btn btn-outline page-hero__call">

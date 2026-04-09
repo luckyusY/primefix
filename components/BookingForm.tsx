@@ -24,7 +24,7 @@ const SERVICE_OPTIONS = [
 export default function BookingForm({
   className = "",
   title = "Book your appointment",
-  description = "Share a few details and PrimeFix London will confirm the best appointment slot for your repair or service visit.",
+  description = "Share a few details and PrimeFix Hub will confirm the best appointment slot for your repair or service visit.",
   submitLabel = "Confirm Booking Request",
   idPrefix = "booking",
   onSuccess,
@@ -122,7 +122,7 @@ export default function BookingForm({
         role="status"
         aria-live="polite"
       >
-        Thanks, your booking request has been received. PrimeFix London will
+        Thanks, your booking request has been received. PrimeFix Hub will
         be in touch shortly to confirm the appointment.
       </div>
     </form>

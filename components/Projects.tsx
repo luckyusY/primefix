@@ -20,7 +20,7 @@ export default function Projects({ items }: { items?: Project[] }) {
           <h2>Where Domestic Appliance Guard Helps Most</h2>
           <div className="divider"></div>
           <p>
-            A snapshot of the kinds of household issues PrimeFix London helps
+            A snapshot of the kinds of household issues PrimeFix Hub helps
             resolve every day across the capital.
           </p>
         </div>

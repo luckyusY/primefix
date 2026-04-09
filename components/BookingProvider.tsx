@@ -87,7 +87,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
                 </Dialog.Title>
                 <p>
                   Tell us what needs attention and pick a time that suits you.
-                  PrimeFix London will confirm the visit and keep you updated
+                  PrimeFix Hub will confirm the visit and keep you updated
                   every step of the way.
                 </p>
               </div>

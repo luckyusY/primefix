@@ -12,11 +12,11 @@ export default function About() {
     <section className="about" id="about">
       <div className="container about-grid">
         <div className="about-content">
-          <span className="label">Who Is PrimeFix London?</span>
+          <span className="label">Who Is PrimeFix Hub?</span>
           <h2>Domestic support without the runaround.</h2>
           <div className="divider"></div>
           <p>
-            PrimeFix London is built around fast domestic support, dependable
+            PrimeFix Hub is built around fast domestic support, dependable
             workmanship, and a simpler service experience for households that
             need issues resolved without chasing different trades.
           </p>
@@ -54,7 +54,7 @@ export default function About() {
               &quot;The goal is simple: make it easy to get the right technician,
               get the fault fixed, and keep support available afterwards.&quot;
             </p>
-            <footer>PrimeFix London Team</footer>
+            <footer>PrimeFix Hub Team</footer>
           </blockquote>
         </aside>
       </div>

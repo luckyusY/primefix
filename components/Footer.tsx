@@ -70,9 +70,9 @@ export default function Footer() {
         <div className="footer-grid">
           <div className="footer-brand">
             <BrandLogo className="brand-logo--footer" />
-            <p>PrimeFix London - Domestic Appliance Guard &amp; Home Repairs</p>
+            <p>PrimeFix Hub - Domestic Appliance Guard &amp; Home Repairs</p>
             <p>
-              PrimeFix London helps households with home repair and maintenance,
+              PrimeFix Hub helps households with home repair and maintenance,
               appliance support, and specialist domestic call-outs across
               London.
             </p>
@@ -110,7 +110,7 @@ export default function Footer() {
           <div>
             <h4>Booking</h4>
             <p className="footer-booking-copy">
-              Ready to get started? Book an appointment and let PrimeFix London
+              Ready to get started? Book an appointment and let PrimeFix Hub
               confirm the right visit for your home.
             </p>
             <BookingButton className="btn btn-white footer-booking">

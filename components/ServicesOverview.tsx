@@ -37,7 +37,7 @@ const PROCESS_STEPS = [
   {
     title: "Book visit",
     description:
-      "Choose a suitable appointment window and let PrimeFix London confirm the visit.",
+      "Choose a suitable appointment window and let PrimeFix Hub confirm the visit.",
   },
   {
     title: "Technician repairs",
@@ -61,7 +61,7 @@ export default function ServicesOverview() {
             <h2>Short overview, clear process, one reliable team</h2>
             <div className="divider"></div>
             <p>
-              PrimeFix London keeps the offer simple: one clear service page,
+              PrimeFix Hub keeps the offer simple: one clear service page,
               one clear booking route, and one dependable team for repairs,
               appliance support, and household call-outs.
             </p>
@@ -70,7 +70,7 @@ export default function ServicesOverview() {
           <div className="services-overview__booking">
             <strong>Need a visit?</strong>
             <p>
-              Book an appointment now and let PrimeFix London confirm the best
+              Book an appointment now and let PrimeFix Hub confirm the best
               next slot for your repair or support request.
             </p>
             <BookingButton className="btn btn-teal">

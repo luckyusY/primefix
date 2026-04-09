@@ -69,7 +69,7 @@ export default function Hero() {
         <motion.p className="hero__subcopy" variants={fadeUp}>
           From emergency repairs to expert maintenance -
           <br />
-          PrimeFix London is trusted by London households.
+          PrimeFix Hub is trusted by London households.
         </motion.p>
 
         <motion.div className="hero__actions" variants={fadeUp}>

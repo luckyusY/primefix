@@ -107,7 +107,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
       {ready && showBanner && (
         <div className="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
           <div className="cookie-banner__copy">
-            <strong>Cookies on PrimeFix London</strong>
+            <strong>Cookies on PrimeFix Hub</strong>
             <p>
               We use essential cookies to keep the website working. Optional
               cookies enable live chat and help us improve the booking experience.

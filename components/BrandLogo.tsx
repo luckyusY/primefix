@@ -15,14 +15,14 @@ export default function BrandLogo({
   const classes = ["brand-logo", className].filter(Boolean).join(" ");
 
   return (
-    <Link href={href} className={classes} aria-label="PrimeFix London home">
+    <Link href={href} className={classes} aria-label="PrimeFix Hub home">
       <Image
-        src="/media/primefix-london-logo.png"
-        alt="PrimeFix London logo"
-        width={924}
-        height={316}
+        src="/media/primefix-hub-logo.png"
+        alt="PrimeFix Hub logo"
+        width={905}
+        height={371}
         priority={priority}
-        sizes="(max-width: 768px) 180px, 320px"
+        sizes="(max-width: 480px) 118px, (max-width: 768px) 220px, 280px"
         className="brand-logo__image"
       />
     </Link>
