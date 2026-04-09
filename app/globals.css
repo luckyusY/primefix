@@ -137,7 +137,8 @@ p{margin:0}
   background:transparent;
 }
 .brand-logo--nav .brand-logo__image{
-  width:154px;
+  width:auto;
+  height:40px;
   filter:drop-shadow(0 10px 18px rgba(255,255,255,.12));
 }
 .brand-logo--footer{
@@ -147,7 +148,8 @@ p{margin:0}
   background:transparent;
 }
 .brand-logo--footer .brand-logo__image{
-  width:280px;
+  width:auto;
+  height:64px;
   max-width:100%;
   filter:drop-shadow(0 12px 22px rgba(255,255,255,.12));
 }
@@ -1799,7 +1801,7 @@ p{margin:0}
 }
 
 @media (max-width:900px){
-  .brand-logo--nav .brand-logo__image{width:146px}
+  .brand-logo--nav .brand-logo__image{height:38px}
   .hero{padding:120px 0 100px}
   .page-hero{padding:124px 0 68px}
   .services-overview__grid{
@@ -1853,10 +1855,10 @@ p{margin:0}
   .contact-lead{padding:28px 18px;gap:28px}
   .service-band__photo{width:82%;border-width:8px}
   .scaffold-illustration{width:96%}
-  .brand-logo--nav{padding:6px 10px}
-  .brand-logo--nav .brand-logo__image{width:132px}
-  .brand-logo--footer{padding:14px 16px}
-  .brand-logo--footer .brand-logo__image{width:220px}
+  .brand-logo--nav{padding:0}
+  .brand-logo--nav .brand-logo__image{height:34px}
+  .brand-logo--footer{padding:0}
+  .brand-logo--footer .brand-logo__image{height:56px}
   .footer-grid{grid-template-columns:1fr}
   .cta-banner{padding:64px 0}
   .booking-modal__dialog{
@@ -1914,7 +1916,7 @@ p{margin:0}
   .accred-square{width:56px;height:56px;font-size:.88rem}
   .hero__stats{grid-template-columns:1fr}
   .review-score__value{font-size:3.2rem}
-  .brand-logo--nav .brand-logo__image{width:118px}
+  .brand-logo--nav .brand-logo__image{height:32px}
   .projects-grid{grid-template-columns:1fr}
   .footer-grid{grid-template-columns:1fr}
 }
