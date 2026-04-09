@@ -125,8 +125,6 @@ p{margin:0}
   width:100%;
   height:auto;
 }
-.brand-logo--nav,
-.brand-logo--footer,
 .booking-modal__logo{
   border-radius:24px;
   background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(244,248,252,.96));
@@ -135,19 +133,23 @@ p{margin:0}
 }
 .brand-logo--nav{
   padding:6px 12px;
+  border-radius:24px;
+  background:rgba(23,58,93,.96);
 }
 .brand-logo--nav .brand-logo__image{
   width:154px;
-  filter:drop-shadow(0 10px 18px rgba(16,45,72,.08));
+  filter:drop-shadow(0 10px 18px rgba(255,255,255,.12));
 }
 .brand-logo--footer{
   padding:16px 18px;
   margin-bottom:24px;
+  border-radius:24px;
+  background:var(--navy);
 }
 .brand-logo--footer .brand-logo__image{
   width:280px;
   max-width:100%;
-  filter:drop-shadow(0 12px 22px rgba(16,45,72,.08));
+  filter:drop-shadow(0 12px 22px rgba(255,255,255,.12));
 }
 /* Navigation */
 .navbar{
