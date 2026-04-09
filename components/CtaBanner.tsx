@@ -8,10 +8,10 @@ export default function CtaBanner() {
         <Animate variant="fadeLeft">
           <div>
             <span className="label label--light">Ready To Start?</span>
-            <h2>Book Domestic Repair Support With Confidence</h2>
+            <h2>Book Property Maintenance With Confidence</h2>
             <p>
-              From home maintenance and appliance repairs to drainage, locksmith,
-              window and pest control support, PrimeFix Hub is ready to help.
+              From everyday repairs to specialist call-outs, PrimeFix London is
+              ready to help across London.
             </p>
           </div>
         </Animate>

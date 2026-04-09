@@ -63,13 +63,13 @@ export default function Hero() {
         animate="visible"
       >
         <motion.h1 variants={fadeUp}>
-          Domestic Appliance Guard &amp; Home Repairs
+          Property Maintenance &amp; Repairs
         </motion.h1>
 
         <motion.p className="hero__subcopy" variants={fadeUp}>
-          From emergency repairs to expert maintenance -
+          From emergency repairs to planned maintenance -
           <br />
-          PrimeFix Hub is trusted by London households.
+          PrimeFix London is trusted by London households.
         </motion.p>
 
         <motion.div className="hero__actions" variants={fadeUp}>

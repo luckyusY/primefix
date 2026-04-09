@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "PrimeFix Hub - Domestic Appliance Guard & Home Repairs",
+  title: "PrimeFix London - Property Maintenance & Repairs",
   description:
-    "PrimeFix Hub delivers domestic appliance guard support, home repairs, plumbing, electrical, heating, appliance, drainage, locksmith, window and pest control services across London.",
+    "PrimeFix London provides property maintenance and repair services across London, including general repairs, plumbing, electrical, heating, and specialist call-outs.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
