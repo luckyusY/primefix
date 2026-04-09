@@ -1056,6 +1056,113 @@ p{margin:0}
   cursor:pointer;
 }
 
+/* Recent projects — per-house sliding galleries */
+.house-projects{
+  display:flex;
+  flex-direction:column;
+  gap:48px;
+}
+.house-project{
+  border-radius:30px;
+  background:#fff;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow-sm);
+  overflow:hidden;
+}
+.house-project__intro{
+  padding:24px 24px 0;
+}
+.house-project__intro h3{
+  margin-bottom:10px;
+  color:var(--navy);
+  font-size:1.45rem;
+}
+.house-project__intro p{
+  color:var(--muted);
+  line-height:1.75;
+  font-size:1rem;
+}
+.house-project__viewport{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  margin-top:18px;
+  border-top:1px solid var(--line);
+  touch-action:pan-x;
+  cursor:grab;
+}
+.house-project__viewport:active{cursor:grabbing}
+.house-project__track{
+  display:flex;
+  will-change:transform;
+}
+.house-project__slide{
+  flex-shrink:0;
+  position:relative;
+}
+.house-project__slide-inner{
+  position:relative;
+  aspect-ratio:16/10;
+  margin:0 0 0 0;
+}
+.house-project__img{
+  object-fit:cover;
+}
+.house-project__controls{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  padding:16px 18px 20px;
+  background:linear-gradient(180deg,rgba(244,248,252,.96),#fff);
+  border-top:1px solid var(--line);
+}
+.house-project__btn{
+  display:grid;
+  place-items:center;
+  width:46px;
+  height:46px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--navy);
+  font:inherit;
+  cursor:pointer;
+  transition:background .18s ease,border-color .18s ease,color .18s ease,transform .18s ease;
+}
+.house-project__btn:hover{
+  background:var(--surface);
+  border-color:rgba(16,184,245,.35);
+  color:var(--teal-dark);
+}
+.house-project__btn:active{transform:scale(.96)}
+.house-project__dots{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.house-project__dot{
+  width:8px;
+  height:8px;
+  border-radius:999px;
+  border:none;
+  padding:0;
+  background:rgba(23,58,93,.22);
+  cursor:pointer;
+  transition:transform .18s ease,background .18s ease;
+}
+.house-project__dot.is-active{
+  background:var(--teal);
+  transform:scale(1.25);
+}
+.projects-cta{
+  margin-top:40px;
+  display:flex;
+  justify-content:center;
+}
+
 /* About */
 .about{
   padding:96px 0;
