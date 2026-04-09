@@ -17,10 +17,10 @@ export default function BrandLogo({
   return (
     <Link href={href} className={classes} aria-label="PrimeFix London home">
       <Image
-        src="/media/primefix-london-logo-transparent.png"
+        src="/media/primefix-london-logo-cropped.png"
         alt="PrimeFix London logo"
-        width={1024}
-        height={1024}
+        width={895}
+        height={315}
         priority={priority}
         sizes="(max-width: 480px) 118px, (max-width: 768px) 220px, 280px"
         className="brand-logo__image"
