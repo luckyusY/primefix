@@ -132,19 +132,19 @@ p{margin:0}
   box-shadow:0 18px 36px rgba(0,0,0,.18);
 }
 .brand-logo--nav{
-  padding:6px 12px;
-  border-radius:24px;
-  background:rgba(23,58,93,.96);
+  padding:0;
+  border-radius:0;
+  background:transparent;
 }
 .brand-logo--nav .brand-logo__image{
   width:154px;
   filter:drop-shadow(0 10px 18px rgba(255,255,255,.12));
 }
 .brand-logo--footer{
-  padding:16px 18px;
+  padding:0;
   margin-bottom:24px;
-  border-radius:24px;
-  background:var(--navy);
+  border-radius:0;
+  background:transparent;
 }
 .brand-logo--footer .brand-logo__image{
   width:280px;
