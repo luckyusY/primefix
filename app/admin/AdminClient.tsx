@@ -70,6 +70,29 @@ const formatAssetName = (asset: AdminMediaAsset) => {
   return fallback || "Uploaded image";
 };
 
+const isBlankProjectImage = (image: Project["images"][number]) =>
+  !image.src.trim() && !image.alt.trim();
+
+const mergeProjectImages = (
+  currentImages: Project["images"],
+  incomingImages: Project["images"],
+) => {
+  const baseImages = currentImages.filter((image) => !isBlankProjectImage(image));
+  const seen = new Set(
+    baseImages.map((image) => image.src.trim()).filter(Boolean),
+  );
+
+  const appendedImages = incomingImages.filter((image) => {
+    const src = image.src.trim();
+    if (!src || seen.has(src)) return false;
+    seen.add(src);
+    return true;
+  });
+
+  const nextImages = [...baseImages, ...appendedImages];
+  return nextImages.length > 0 ? nextImages : [{ src: "", alt: "" }];
+};
+
 type UploadActivity = {
   id: string;
   name: string;
@@ -1442,6 +1465,7 @@ function ProjectsTab({
                       id={uploadId}
                       type="file"
                       accept="image/*"
+                      multiple
                       style={S.fileInput}
                       onChange={(event) =>
                         void handleFileChange(project.id, imageIndex, event)
@@ -1564,7 +1588,12 @@ function ProjectsManagerTab({
 }: TabProps) {
   const projects = content.projects;
   const [pickerSlot, setPickerSlot] = useState<string | null>(null);
+  const [projectPickerId, setProjectPickerId] = useState<string | null>(null);
+  const [selectedProjectAssetIds, setSelectedProjectAssetIds] = useState<string[]>(
+    [],
+  );
   const [uploadingSlot, setUploadingSlot] = useState<string | null>(null);
+  const [uploadingProjectId, setUploadingProjectId] = useState<string | null>(null);
   const {
     createFolder,
     creatingFolder,
@@ -1661,14 +1690,39 @@ function ProjectsManagerTab({
     [setContent, showToast],
   );
 
-  const uploadImage = useCallback(
-    async (projectId: string, imageIndex: number, file: File) => {
+  const appendAssetsToProject = useCallback(
+    (projectId: string, assets: AdminMediaAsset[]) => {
+      if (assets.length === 0) return;
+
+      setContent((current) => ({
+        ...current,
+        projects: current.projects.map((project) =>
+          project.id === projectId
+            ? {
+                ...project,
+                images: mergeProjectImages(
+                  project.images,
+                  assets.map((asset) => ({
+                    src: asset.url,
+                    alt: `${project.title || "Project"} - ${formatAssetName(asset)}`,
+                  })),
+                ),
+              }
+            : project,
+        ),
+      }));
+    },
+    [setContent],
+  );
+
+  const uploadImagesToSlot = useCallback(
+    async (projectId: string, imageIndex: number, files: File[]) => {
       const slotKey = getImageSlotKey(projectId, imageIndex);
       setUploadingSlot(slotKey);
 
       try {
-        const [uploadedAsset] = await uploadFiles([file]);
-        if (!uploadedAsset) {
+        const uploadedAssets = await uploadFiles(files);
+        if (uploadedAssets.length === 0) {
           throw new Error("Upload completed without a usable image response.");
         }
 
@@ -1678,16 +1732,22 @@ function ProjectsManagerTab({
             project.id === projectId
               ? {
                   ...project,
-                  images: project.images.map((image, index) =>
-                    index === imageIndex
-                      ? {
-                          ...image,
-                          src: uploadedAsset.url,
-                          alt:
-                            image.alt.trim() ||
-                            `${project.title || "Project"} - ${formatAssetName(uploadedAsset)}`,
-                        }
-                      : image,
+                  images: mergeProjectImages(
+                    project.images.map((image, index) =>
+                      index === imageIndex
+                        ? {
+                            ...image,
+                            src: uploadedAssets[0]?.url ?? image.src,
+                            alt:
+                              image.alt.trim() ||
+                              `${project.title || "Project"} - ${formatAssetName(uploadedAssets[0]!)}`,
+                          }
+                        : image,
+                    ),
+                    uploadedAssets.slice(1).map((asset) => ({
+                      src: asset.url,
+                      alt: `${project.title || "Project"} - ${formatAssetName(asset)}`,
+                    })),
                   ),
                 }
               : project,
@@ -1695,6 +1755,12 @@ function ProjectsManagerTab({
         }));
 
         setPickerSlot(null);
+        showToast(
+          uploadedAssets.length === 1
+            ? "Image uploaded to this project."
+            : `${uploadedAssets.length} images added to this project gallery.`,
+          true,
+        );
       } catch (error) {
         const message =
           error instanceof Error ? error.message : "Unable to upload image.";
@@ -1706,19 +1772,101 @@ function ProjectsManagerTab({
     [setContent, showToast, uploadFiles],
   );
 
+  const uploadProjectImages = useCallback(
+    async (projectId: string, files: File[]) => {
+      setUploadingProjectId(projectId);
+
+      try {
+        const uploadedAssets = await uploadFiles(files);
+        if (uploadedAssets.length === 0) {
+          throw new Error("Upload completed without a usable image response.");
+        }
+
+        appendAssetsToProject(projectId, uploadedAssets);
+        setProjectPickerId(null);
+        setSelectedProjectAssetIds([]);
+        showToast(
+          `${uploadedAssets.length} image${
+            uploadedAssets.length === 1 ? "" : "s"
+          } added to this project gallery.`,
+          true,
+        );
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "Unable to upload image.";
+        showToast(message, false);
+      } finally {
+        setUploadingProjectId(null);
+      }
+    },
+    [appendAssetsToProject, showToast, uploadFiles],
+  );
+
   const handleFileChange = useCallback(
     async (
       projectId: string,
       imageIndex: number,
       event: ChangeEvent<HTMLInputElement>,
     ) => {
-      const file = event.target.files?.[0];
+      const files = Array.from(event.target.files ?? []);
       event.target.value = "";
-      if (!file) return;
+      if (files.length === 0) return;
 
-      await uploadImage(projectId, imageIndex, file);
+      await uploadImagesToSlot(projectId, imageIndex, files);
     },
-    [uploadImage],
+    [uploadImagesToSlot],
+  );
+
+  const handleProjectBatchUpload = useCallback(
+    async (projectId: string, event: ChangeEvent<HTMLInputElement>) => {
+      const files = Array.from(event.target.files ?? []);
+      event.target.value = "";
+      if (files.length === 0) return;
+
+      await uploadProjectImages(projectId, files);
+    },
+    [uploadProjectImages],
+  );
+
+  const toggleProjectGalleryPicker = useCallback((projectId: string) => {
+    setPickerSlot(null);
+    setProjectPickerId((current) => {
+      const nextProjectId = current === projectId ? null : projectId;
+      setSelectedProjectAssetIds([]);
+      return nextProjectId;
+    });
+  }, []);
+
+  const toggleProjectGalleryAsset = useCallback((assetId: string) => {
+    setSelectedProjectAssetIds((current) =>
+      current.includes(assetId)
+        ? current.filter((id) => id !== assetId)
+        : [...current, assetId],
+    );
+  }, []);
+
+  const addSelectedGalleryImages = useCallback(
+    (projectId: string) => {
+      const selectedAssets = mediaAssets.filter((asset) =>
+        selectedProjectAssetIds.includes(asset.assetId),
+      );
+
+      if (selectedAssets.length === 0) {
+        showToast("Select one or more gallery images first.", false);
+        return;
+      }
+
+      appendAssetsToProject(projectId, selectedAssets);
+      setProjectPickerId(null);
+      setSelectedProjectAssetIds([]);
+      showToast(
+        `${selectedAssets.length} image${
+          selectedAssets.length === 1 ? "" : "s"
+        } added from the gallery.`,
+        true,
+      );
+    },
+    [appendAssetsToProject, mediaAssets, selectedProjectAssetIds, showToast],
   );
 
   const addImage = useCallback(
@@ -1927,18 +2075,140 @@ function ProjectsManagerTab({
               <div>
                 <p style={S.projectMediaTitle}>Gallery Images</p>
                 <p style={S.projectMediaHint}>
-                  Upload directly into <code>{galleryFolder}</code> or choose
-                  from the current gallery.
+                  Upload several images into <code>{galleryFolder}</code> at
+                  once, or append multiple images from the current gallery.
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={() => addImage(project.id)}
-                style={S.btnSecondaryInline}
-              >
-                + Add Image
-              </button>
+              <div style={S.projectMediaHeadActions}>
+                <input
+                  id={`project-gallery-upload-${project.id}`}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  style={S.fileInput}
+                  onChange={(event) =>
+                    void handleProjectBatchUpload(project.id, event)
+                  }
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const input = document.getElementById(
+                      `project-gallery-upload-${project.id}`,
+                    );
+                    if (input instanceof HTMLInputElement) input.click();
+                  }}
+                  style={S.btnPrimaryInline}
+                >
+                  {uploadingProjectId === project.id
+                    ? "Uploading..."
+                    : "Upload Many"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => toggleProjectGalleryPicker(project.id)}
+                  style={S.btnSecondaryInline}
+                >
+                  {projectPickerId === project.id
+                    ? "Hide Gallery"
+                    : "Add From Gallery"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => addImage(project.id)}
+                  style={S.btnSecondaryInline}
+                >
+                  + Add Empty Slot
+                </button>
+              </div>
             </div>
+
+            {projectPickerId === project.id ? (
+              <div style={{ ...S.galleryPicker, marginBottom: 14 }}>
+                <div style={S.galleryPickerHead}>
+                  <div>
+                    <p style={S.projectMediaTitle}>Add Multiple Gallery Images</p>
+                    <p style={S.projectMediaHint}>
+                      Pick as many images as you want from{" "}
+                      <code>{galleryFolder}</code>, then add them to this
+                      project.
+                    </p>
+                  </div>
+                  <div style={S.projectMediaHeadActions}>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedProjectAssetIds([])}
+                      style={S.btnSecondaryInline}
+                    >
+                      Clear Selection
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => addSelectedGalleryImages(project.id)}
+                      style={S.btnPrimaryInline}
+                    >
+                      Add Selected ({selectedProjectAssetIds.length})
+                    </button>
+                  </div>
+                </div>
+
+                {galleryLoading ? (
+                  <p style={S.galleryMessage}>Loading images...</p>
+                ) : mediaAssets.length === 0 ? (
+                  <p style={S.galleryMessage}>
+                    No images found in this folder yet. Upload new ones to start
+                    building the gallery.
+                  </p>
+                ) : (
+                  <div style={S.galleryGrid}>
+                    {mediaAssets.map((asset) => {
+                      const active = selectedProjectAssetIds.includes(asset.assetId);
+
+                      return (
+                        <button
+                          key={asset.assetId}
+                          type="button"
+                          onClick={() => toggleProjectGalleryAsset(asset.assetId)}
+                          style={{
+                            ...S.galleryTile,
+                            ...(active ? S.galleryTileActive : {}),
+                          }}
+                        >
+                          <div style={S.galleryTileImageWrap}>
+                            <img
+                              src={asset.thumbnailUrl}
+                              alt={formatAssetName(asset)}
+                              style={S.galleryTileImage}
+                              loading="lazy"
+                            />
+                          </div>
+                          <span style={S.galleryTileTitle}>
+                            {formatAssetName(asset)}
+                          </span>
+                          <span style={S.galleryTileMeta}>
+                            {active ? "Selected | " : ""}
+                            {asset.width}x{asset.height} | {formatBytes(asset.bytes)}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {nextCursor ? (
+                  <div style={S.galleryFooter}>
+                    <button
+                      type="button"
+                      onClick={() => void loadMore()}
+                      disabled={galleryLoadingMore}
+                      style={S.btnSecondaryInline}
+                    >
+                      {galleryLoadingMore ? "Loading..." : "Load More"}
+                    </button>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
 
             {project.images.map((image, imageIndex) => {
               const slotKey = getImageSlotKey(project.id, imageIndex);
@@ -1978,6 +2248,7 @@ function ProjectsManagerTab({
                       id={uploadId}
                       type="file"
                       accept="image/*"
+                      multiple
                       style={S.fileInput}
                       onChange={(event) =>
                         void handleFileChange(project.id, imageIndex, event)
@@ -2696,6 +2967,12 @@ const S: Record<string, CSSProperties> = {
     gap: 12,
     marginBottom: 12,
     flexWrap: "wrap",
+  },
+  projectMediaHeadActions: {
+    display: "flex",
+    gap: 10,
+    flexWrap: "wrap",
+    alignItems: "center",
   },
   projectMediaTitle: {
     margin: 0,
