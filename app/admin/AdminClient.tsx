@@ -5,6 +5,7 @@ import type {
   ChangeEvent,
   CSSProperties,
   Dispatch,
+  DragEvent,
   FormEvent,
   ReactNode,
   SetStateAction,
@@ -1285,10 +1286,9 @@ function ProjectsTab({
           }
 
           const nextImages = [...project.images];
-          [nextImages[imageIndex], nextImages[targetIndex]] = [
-            nextImages[targetIndex],
-            nextImages[imageIndex],
-          ];
+          const [movedImage] = nextImages.splice(imageIndex, 1);
+          if (!movedImage) return project;
+          nextImages.splice(targetIndex, 0, movedImage);
 
           return {
             ...project,
@@ -1628,6 +1628,8 @@ function ProjectsManagerTab({
   );
   const [uploadingSlot, setUploadingSlot] = useState<string | null>(null);
   const [uploadingProjectId, setUploadingProjectId] = useState<string | null>(null);
+  const [draggingImageKey, setDraggingImageKey] = useState<string | null>(null);
+  const [dragOverImageKey, setDragOverImageKey] = useState<string | null>(null);
   const {
     createFolder,
     creatingFolder,
@@ -1974,6 +1976,98 @@ function ProjectsManagerTab({
     [setContent],
   );
 
+  const clearImageDrag = useCallback(() => {
+    setDraggingImageKey(null);
+    setDragOverImageKey(null);
+  }, []);
+
+  const handleImageDragStart = useCallback(
+    (
+      event: DragEvent<HTMLDivElement>,
+      projectId: string,
+      imageIndex: number,
+    ) => {
+      const slotKey = getImageSlotKey(projectId, imageIndex);
+      event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.setData("text/plain", slotKey);
+      setPickerSlot(null);
+      setDraggingImageKey(slotKey);
+      setDragOverImageKey(slotKey);
+    },
+    [],
+  );
+
+  const handleImageDragOver = useCallback(
+    (
+      event: DragEvent<HTMLDivElement>,
+      projectId: string,
+      imageIndex: number,
+    ) => {
+      const slotKey = getImageSlotKey(projectId, imageIndex);
+      if (!draggingImageKey) return;
+      if (!draggingImageKey.startsWith(`${projectId}:`)) return;
+
+      event.preventDefault();
+      event.dataTransfer.dropEffect = "move";
+
+      if (dragOverImageKey !== slotKey) {
+        setDragOverImageKey(slotKey);
+      }
+    },
+    [dragOverImageKey, draggingImageKey],
+  );
+
+  const handleImageDrop = useCallback(
+    (
+      event: DragEvent<HTMLDivElement>,
+      projectId: string,
+      imageIndex: number,
+    ) => {
+      event.preventDefault();
+
+      if (!draggingImageKey || !draggingImageKey.startsWith(`${projectId}:`)) {
+        clearImageDrag();
+        return;
+      }
+
+      const [, sourceIndexValue] = draggingImageKey.split(":");
+      const sourceIndex = Number(sourceIndexValue);
+
+      if (!Number.isInteger(sourceIndex) || sourceIndex === imageIndex) {
+        clearImageDrag();
+        return;
+      }
+
+      setPickerSlot(null);
+      setContent((current) => ({
+        ...current,
+        projects: current.projects.map((project) => {
+          if (project.id !== projectId) return project;
+          if (
+            sourceIndex < 0 ||
+            sourceIndex >= project.images.length ||
+            imageIndex < 0 ||
+            imageIndex >= project.images.length
+          ) {
+            return project;
+          }
+
+          const nextImages = [...project.images];
+          const [movedImage] = nextImages.splice(sourceIndex, 1);
+          if (!movedImage) return project;
+          nextImages.splice(imageIndex, 0, movedImage);
+
+          return {
+            ...project,
+            images: nextImages,
+          };
+        }),
+      }));
+      clearImageDrag();
+    },
+    [clearImageDrag, draggingImageKey, setContent],
+  );
+
   const add = () =>
     setContent((current) => ({
       ...current,
@@ -2286,17 +2380,35 @@ function ProjectsManagerTab({
                 const isUploading = uploadingSlot === slotKey;
                 const isFirstImage = imageIndex === 0;
                 const isLastImage = imageIndex === project.images.length - 1;
+                const isDragging = draggingImageKey === slotKey;
+                const isDragTarget = dragOverImageKey === slotKey && !isDragging;
 
                 return (
                   <div
                     key={`${project.id}-${imageIndex}`}
-                    style={S.projectMediaCard}
+                    draggable={project.images.length > 1}
+                    onDragStart={(event) =>
+                      handleImageDragStart(event, project.id, imageIndex)
+                    }
+                    onDragOver={(event) =>
+                      handleImageDragOver(event, project.id, imageIndex)
+                    }
+                    onDrop={(event) =>
+                      handleImageDrop(event, project.id, imageIndex)
+                    }
+                    onDragEnd={clearImageDrag}
+                    style={{
+                      ...S.projectMediaCard,
+                      ...(isDragging ? S.projectMediaCardDragging : {}),
+                      ...(isDragTarget ? S.projectMediaCardDragOver : {}),
+                    }}
                   >
                     <div style={S.projectMediaCardHead}>
                       <span style={S.projectMediaCardTitle}>
                         Image {imageIndex + 1}
                       </span>
                       <div style={S.projectMediaCardTools}>
+                        <span style={S.projectMediaDragHandle}>Drag</span>
                         <button
                           type="button"
                           onClick={() => moveImage(project.id, imageIndex, -1)}
@@ -3096,6 +3208,14 @@ const S: Record<string, CSSProperties> = {
     background: "#0f172a",
     minWidth: 0,
   },
+  projectMediaCardDragging: {
+    opacity: 0.55,
+    transform: "scale(0.98)",
+  },
+  projectMediaCardDragOver: {
+    border: "1px solid #14b8a6",
+    boxShadow: "0 0 0 1px rgba(20, 184, 166, 0.28)",
+  },
   projectMediaActions: {
     display: "flex",
     gap: 10,
@@ -3115,6 +3235,18 @@ const S: Record<string, CSSProperties> = {
     gap: 8,
     flexWrap: "wrap",
     justifyContent: "flex-end",
+  },
+  projectMediaDragHandle: {
+    display: "inline-flex",
+    alignItems: "center",
+    borderRadius: 999,
+    border: "1px dashed #475569",
+    color: "#94a3b8",
+    padding: "6px 10px",
+    fontSize: 12,
+    fontWeight: 700,
+    cursor: "grab",
+    userSelect: "none",
   },
   projectMediaCardTitle: {
     color: "#cbd5e1",

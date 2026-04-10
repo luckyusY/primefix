@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { getAdminToken } from "@/lib/auth";
 import { getContent, setSection } from "@/lib/content";
@@ -26,6 +27,8 @@ export async function PUT(req: NextRequest) {
 
   try {
     await setSection(key, value as never);
+    revalidatePath("/");
+    revalidatePath("/admin");
     return NextResponse.json({ ok: true });
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : "Unknown error";
