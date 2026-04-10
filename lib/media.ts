@@ -1,4 +1,5 @@
 export const DEFAULT_PROJECT_MEDIA_FOLDER = "primefix/projects";
+export const MEDIA_LIBRARY_PAGE_SIZE = 24;
 
 export function normalizeMediaFolder(folder?: string) {
   const cleaned = (folder ?? DEFAULT_PROJECT_MEDIA_FOLDER)
@@ -31,4 +32,9 @@ export type AdminMediaListResponse = {
 export type AdminMediaUploadResponse = {
   asset: AdminMediaAsset;
   folder: string;
+};
+
+export type AdminMediaDeleteResponse = {
+  deleted: boolean;
+  publicId: string;
 };

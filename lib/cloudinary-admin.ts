@@ -110,12 +110,13 @@ export async function listCloudinaryImages({
   requireCloudinaryConfig();
 
   const activeFolder = normalizeMediaFolder(folder);
+  const safeMaxResults = Math.min(Math.max(maxResults, 1), 60);
   const url = new URL(
     `https://api.cloudinary.com/v1_1/${cloudinary.cloudName}/resources/image/upload`,
   );
 
   url.searchParams.set("prefix", activeFolder);
-  url.searchParams.set("max_results", String(maxResults));
+  url.searchParams.set("max_results", String(safeMaxResults));
   url.searchParams.set("direction", "desc");
   if (nextCursor) {
     url.searchParams.set("next_cursor", nextCursor);
@@ -185,4 +186,49 @@ export async function uploadCloudinaryImage(
   }
 
   return mapCloudinaryResource(data);
+}
+
+export async function deleteCloudinaryImage(publicId: string) {
+  requireCloudinaryConfig();
+
+  const normalizedPublicId = publicId.trim();
+  if (!normalizedPublicId) {
+    throw new Error("A Cloudinary public ID is required.");
+  }
+
+  const timestamp = Math.floor(Date.now() / 1000);
+  const params = {
+    invalidate: "true",
+    public_id: normalizedPublicId,
+    timestamp,
+  };
+  const signature = signCloudinaryParams(params);
+
+  const body = new FormData();
+  body.set("public_id", normalizedPublicId);
+  body.set("invalidate", "true");
+  body.set("api_key", cloudinary.apiKey);
+  body.set("timestamp", String(timestamp));
+  body.set("signature", signature);
+
+  const response = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudinary.cloudName}/image/destroy`,
+    {
+      method: "POST",
+      body,
+    },
+  );
+  const data = (await response.json()) as {
+    result?: string;
+    error?: { message?: string };
+  };
+
+  if (!response.ok) {
+    throw new Error(parseCloudinaryError(data, "Unable to delete image."));
+  }
+
+  return {
+    deleted: data.result === "ok",
+    publicId: normalizedPublicId,
+  };
 }

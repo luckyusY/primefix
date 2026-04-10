@@ -4,6 +4,10 @@ import { useCallback, useState } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion, type PanInfo } from "framer-motion";
 
+import {
+  getProjectCarouselImageSrc,
+  shouldBypassNextImageOptimization,
+} from "@/lib/media-images";
 import type { ProjectImage } from "@/lib/types";
 
 type HouseProjectCarouselProps = {
@@ -106,6 +110,8 @@ export default function HouseProjectCarousel({
                   const distance = Math.abs(i - index);
                   const circularDistance = Math.min(distance, n - distance);
                   const shouldPreload = circularDistance <= 1;
+                  const displaySrc = getProjectCarouselImageSrc(img.src);
+                  const unoptimized = shouldBypassNextImageOptimization(displaySrc);
 
                   return (
                     <div
@@ -115,12 +121,12 @@ export default function HouseProjectCarousel({
                     >
                       <div className="house-project__slide-inner">
                         <Image
-                          src={img.src}
+                          src={displaySrc}
                           alt={img.alt}
                           fill
-                          unoptimized
+                          unoptimized={unoptimized}
                           loading={shouldPreload ? "eager" : "lazy"}
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1140px"
+                          sizes="(max-width: 768px) 94vw, (max-width: 1200px) 60vw, 720px"
                           className="house-project__img"
                         />
                       </div>
