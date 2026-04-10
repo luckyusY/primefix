@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type {
   ChangeEvent,
   CSSProperties,
@@ -54,6 +54,8 @@ const parseTags = (value: string) =>
 const getImageSlotKey = (projectId: string, imageIndex: number) =>
   `${projectId}:${imageIndex}`;
 
+const makeUploadToken = () => Math.random().toString(36).slice(2, 10);
+
 const formatBytes = (bytes: number) => {
   if (!bytes) return "Unknown size";
   if (bytes < 1024) return `${bytes} B`;
@@ -66,6 +68,13 @@ const formatAssetName = (asset: AdminMediaAsset) => {
 
   const fallback = asset.publicId.split("/").pop() ?? asset.publicId;
   return fallback || "Uploaded image";
+};
+
+type UploadActivity = {
+  id: string;
+  name: string;
+  status: "queued" | "uploading" | "done" | "error";
+  message?: string;
 };
 
 function Toast({ msg, ok }: { msg: string; ok: boolean }) {
@@ -372,6 +381,65 @@ function ImagePreview({
   );
 }
 
+function UploadActivityList({
+  items,
+}: {
+  items: UploadActivity[];
+}) {
+  if (items.length === 0) return null;
+
+  return (
+    <div style={S.uploadActivityPanel}>
+      <div style={S.uploadActivityHead}>
+        <p style={S.projectMediaTitle}>Upload Activity</p>
+        <span style={S.uploadActivityCount}>
+          {items.filter((item) => item.status === "done").length}/{items.length} done
+        </span>
+      </div>
+
+      <div style={S.uploadActivityList}>
+        {items.map((item) => (
+          <div key={item.id} style={S.uploadActivityItem}>
+            <span style={S.uploadActivityName}>{item.name}</span>
+            <span
+              style={{
+                ...S.uploadActivityBadge,
+                ...(item.status === "uploading"
+                  ? S.uploadActivityBadgeUploading
+                  : item.status === "done"
+                    ? S.uploadActivityBadgeDone
+                    : item.status === "error"
+                      ? S.uploadActivityBadgeError
+                      : {}),
+              }}
+            >
+              {item.status === "queued"
+                ? "Queued"
+                : item.status === "uploading"
+                  ? "Uploading"
+                  : item.status === "done"
+                    ? "Done"
+                    : "Failed"}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {items.some((item) => item.message) ? (
+        <div style={S.uploadActivityMessages}>
+          {items
+            .filter((item) => item.message)
+            .map((item) => (
+              <p key={`${item.id}-message`} style={S.uploadActivityMessage}>
+                {item.name}: {item.message}
+              </p>
+            ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function useMediaLibrary(showToast: (msg: string, ok: boolean) => void) {
   const [folderInput, setFolderInput] = useState(DEFAULT_PROJECT_MEDIA_FOLDER);
   const [galleryFolder, setGalleryFolder] = useState(
@@ -387,6 +455,7 @@ function useMediaLibrary(showToast: (msg: string, ok: boolean) => void) {
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [mediaBusyId, setMediaBusyId] = useState<string | null>(null);
   const [creatingFolder, setCreatingFolder] = useState(false);
+  const [uploadActivity, setUploadActivity] = useState<UploadActivity[]>([]);
 
   const rememberFolders = useCallback((folders: string[]) => {
     setKnownFolders((current) => {
@@ -527,9 +596,28 @@ function useMediaLibrary(showToast: (msg: string, ok: boolean) => void) {
       const files = Array.from(incomingFiles);
       if (files.length === 0) return [] as AdminMediaAsset[];
 
+      const activityItems = files.map((file) => ({
+        id: makeUploadToken(),
+        name: file.name,
+        status: "queued",
+      })) satisfies UploadActivity[];
+      setUploadActivity(activityItems);
+
       const uploadedAssets: AdminMediaAsset[] = [];
 
-      for (const file of files) {
+      for (const [index, file] of files.entries()) {
+        const activityId = activityItems[index]?.id;
+
+        if (activityId) {
+          setUploadActivity((current) =>
+            current.map((item) =>
+              item.id === activityId
+                ? { ...item, status: "uploading", message: undefined }
+                : item,
+            ),
+          );
+        }
+
         const form = new FormData();
         form.set("file", file);
         form.set("folder", galleryFolder);
@@ -543,14 +631,49 @@ function useMediaLibrary(showToast: (msg: string, ok: boolean) => void) {
         };
 
         if (!res.ok) {
+          if (activityId) {
+            setUploadActivity((current) =>
+              current.map((item) =>
+                item.id === activityId
+                  ? {
+                      ...item,
+                      status: "error",
+                      message: data.error ?? "Unable to upload image.",
+                    }
+                  : item,
+              ),
+            );
+          }
           throw new Error(data.error ?? "Unable to upload image.");
         }
 
         if (!data.asset) {
+          if (activityId) {
+            setUploadActivity((current) =>
+              current.map((item) =>
+                item.id === activityId
+                  ? {
+                      ...item,
+                      status: "error",
+                      message: "Upload completed without a usable image response.",
+                    }
+                  : item,
+              ),
+            );
+          }
           throw new Error("Upload completed without a usable image response.");
         }
 
         uploadedAssets.push(data.asset);
+        if (activityId) {
+          setUploadActivity((current) =>
+            current.map((item) =>
+              item.id === activityId
+                ? { ...item, status: "done", message: undefined }
+                : item,
+            ),
+          );
+        }
       }
 
       ingestAssets(uploadedAssets);
@@ -653,6 +776,7 @@ function useMediaLibrary(showToast: (msg: string, ok: boolean) => void) {
     refreshGallery,
     selectFolder,
     setFolderInput,
+    uploadActivity,
     uploadFiles,
   };
 }
@@ -1314,9 +1438,6 @@ function ProjectsTab({
                   />
 
                   <div style={S.projectMediaActions}>
-                    <label htmlFor={uploadId} style={S.btnPrimaryInline}>
-                      {isUploading ? "Uploading..." : "Upload New"}
-                    </label>
                     <input
                       id={uploadId}
                       type="file"
@@ -1460,6 +1581,7 @@ function ProjectsManagerTab({
     refreshGallery,
     selectFolder,
     setFolderInput,
+    uploadActivity,
     uploadFiles,
   } = useMediaLibrary(showToast);
 
@@ -1861,6 +1983,16 @@ function ProjectsManagerTab({
                         void handleFileChange(project.id, imageIndex, event)
                       }
                     />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const input = document.getElementById(uploadId);
+                        if (input instanceof HTMLInputElement) input.click();
+                      }}
+                      style={S.btnPrimaryInline}
+                    >
+                      {isUploading ? "Uploading..." : "Choose File"}
+                    </button>
 
                     <button
                       type="button"
@@ -1979,6 +2111,8 @@ function ProjectsManagerTab({
           </div>
         </Card>
       ))}
+
+      <UploadActivityList items={uploadActivity} />
     </Section>
   );
 }
@@ -2002,9 +2136,11 @@ function MediaTab({ showToast }: Pick<TabProps, "showToast">) {
     refreshGallery,
     selectFolder,
     setFolderInput,
+    uploadActivity,
     uploadFiles,
   } = useMediaLibrary(showToast);
   const [uploadingMedia, setUploadingMedia] = useState(false);
+  const mediaUploadInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleUpload = useCallback(
     async (event: ChangeEvent<HTMLInputElement>) => {
@@ -2048,10 +2184,15 @@ function MediaTab({ showToast }: Pick<TabProps, "showToast">) {
             Manage Cloudinary images without opening a project card.
           </p>
         </div>
-        <label htmlFor="media-library-upload" style={S.btnPrimaryInline}>
+        <button
+          type="button"
+          onClick={() => mediaUploadInputRef.current?.click()}
+          style={S.btnPrimaryInline}
+        >
           {uploadingMedia ? "Uploading..." : "Upload Images"}
-        </label>
+        </button>
         <input
+          ref={mediaUploadInputRef}
           id="media-library-upload"
           type="file"
           accept="image/*"
@@ -2133,6 +2274,8 @@ function MediaTab({ showToast }: Pick<TabProps, "showToast">) {
 
         {galleryError ? <p style={S.libraryError}>{galleryError}</p> : null}
       </div>
+
+      <UploadActivityList items={uploadActivity} />
 
       {galleryLoading && mediaAssets.length === 0 ? (
         <p style={S.galleryMessage}>Loading media...</p>
@@ -2409,6 +2552,83 @@ const S: Record<string, CSSProperties> = {
     color: "#fca5a5",
     margin: "12px 0 0",
     fontSize: 13,
+  },
+  uploadActivityPanel: {
+    background: "#111c31",
+    border: "1px solid #334155",
+    borderRadius: 12,
+    padding: 16,
+  },
+  uploadActivityHead: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+    marginBottom: 10,
+    flexWrap: "wrap",
+  },
+  uploadActivityCount: {
+    color: "#94a3b8",
+    fontSize: 12,
+    fontWeight: 600,
+  },
+  uploadActivityList: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 8,
+  },
+  uploadActivityItem: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+    padding: "10px 12px",
+    borderRadius: 10,
+    background: "#0f172a",
+    border: "1px solid #1e293b",
+  },
+  uploadActivityName: {
+    color: "#e2e8f0",
+    fontSize: 13,
+    lineHeight: 1.4,
+    wordBreak: "break-word",
+  },
+  uploadActivityBadge: {
+    borderRadius: 999,
+    border: "1px solid #334155",
+    padding: "4px 8px",
+    fontSize: 11,
+    fontWeight: 700,
+    color: "#94a3b8",
+    background: "#111c31",
+    whiteSpace: "nowrap",
+  },
+  uploadActivityBadgeUploading: {
+    color: "#facc15",
+    border: "1px solid rgba(250, 204, 21, 0.35)",
+    background: "rgba(250, 204, 21, 0.08)",
+  },
+  uploadActivityBadgeDone: {
+    color: "#5eead4",
+    border: "1px solid rgba(45, 212, 191, 0.35)",
+    background: "rgba(13, 148, 136, 0.12)",
+  },
+  uploadActivityBadgeError: {
+    color: "#fca5a5",
+    border: "1px solid rgba(248, 113, 113, 0.35)",
+    background: "rgba(127, 29, 29, 0.14)",
+  },
+  uploadActivityMessages: {
+    marginTop: 10,
+    display: "flex",
+    flexDirection: "column",
+    gap: 6,
+  },
+  uploadActivityMessage: {
+    margin: 0,
+    color: "#fca5a5",
+    fontSize: 12,
+    lineHeight: 1.5,
   },
 
   card: {
@@ -2723,7 +2943,17 @@ const S: Record<string, CSSProperties> = {
     cursor: "pointer",
   },
   fileInput: {
-    display: "none",
+    position: "absolute",
+    width: 1,
+    height: 1,
+    padding: 0,
+    margin: -1,
+    overflow: "hidden",
+    clip: "rect(0, 0, 0, 0)",
+    whiteSpace: "nowrap",
+    border: 0,
+    opacity: 0,
+    pointerEvents: "none",
   },
   btnDelete: {
     background: "transparent",
