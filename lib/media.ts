@@ -38,3 +38,12 @@ export type AdminMediaDeleteResponse = {
   deleted: boolean;
   publicId: string;
 };
+
+export type AdminMediaFolder = {
+  name: string;
+  path: string;
+};
+
+export type AdminMediaCreateFolderResponse = {
+  folder: AdminMediaFolder;
+};

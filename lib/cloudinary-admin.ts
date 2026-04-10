@@ -5,6 +5,7 @@ import { cloudinary, getCloudinaryImageUrl, hasCloudinaryConfig } from "./cloudi
 import {
   DEFAULT_PROJECT_MEDIA_FOLDER,
   normalizeMediaFolder,
+  type AdminMediaFolder,
   type AdminMediaAsset,
   type AdminMediaListResponse,
 } from "./media";
@@ -82,6 +83,29 @@ function getCloudinaryAdminHeaders() {
   };
 }
 
+async function fetchCloudinaryAdminJson<T>(
+  url: URL | string,
+  init?: RequestInit,
+): Promise<T> {
+  const response = await fetch(url, {
+    ...init,
+    headers: {
+      ...getCloudinaryAdminHeaders(),
+      ...(init?.headers ?? {}),
+    },
+    cache: "no-store",
+  });
+  const data = (await response.json()) as T & {
+    error?: { message?: string };
+  };
+
+  if (!response.ok) {
+    throw new Error(parseCloudinaryError(data, "Cloudinary request failed."));
+  }
+
+  return data;
+}
+
 function parseCloudinaryError(errorBody: unknown, fallback: string) {
   if (
     errorBody &&
@@ -111,29 +135,37 @@ export async function listCloudinaryImages({
 
   const activeFolder = normalizeMediaFolder(folder);
   const safeMaxResults = Math.min(Math.max(maxResults, 1), 60);
-  const url = new URL(
-    `https://api.cloudinary.com/v1_1/${cloudinary.cloudName}/resources/image/upload`,
-  );
-
-  url.searchParams.set("prefix", activeFolder);
-  url.searchParams.set("max_results", String(safeMaxResults));
-  url.searchParams.set("direction", "desc");
-  if (nextCursor) {
-    url.searchParams.set("next_cursor", nextCursor);
-  }
-
-  const response = await fetch(url, {
-    headers: getCloudinaryAdminHeaders(),
-    cache: "no-store",
-  });
-  const data = (await response.json()) as {
+  let data: {
     next_cursor?: string;
     resources?: CloudinaryResource[];
-    error?: { message?: string };
   };
 
-  if (!response.ok) {
-    throw new Error(parseCloudinaryError(data, "Unable to load media library."));
+  try {
+    const byAssetFolderUrl = new URL(
+      `https://api.cloudinary.com/v1_1/${cloudinary.cloudName}/resources/by_asset_folder`,
+    );
+
+    byAssetFolderUrl.searchParams.set("asset_folder", activeFolder);
+    byAssetFolderUrl.searchParams.set("max_results", String(safeMaxResults));
+    byAssetFolderUrl.searchParams.set("direction", "desc");
+    if (nextCursor) {
+      byAssetFolderUrl.searchParams.set("next_cursor", nextCursor);
+    }
+
+    data = await fetchCloudinaryAdminJson(byAssetFolderUrl);
+  } catch {
+    const byPrefixUrl = new URL(
+      `https://api.cloudinary.com/v1_1/${cloudinary.cloudName}/resources/image/upload`,
+    );
+
+    byPrefixUrl.searchParams.set("prefix", activeFolder);
+    byPrefixUrl.searchParams.set("max_results", String(safeMaxResults));
+    byPrefixUrl.searchParams.set("direction", "desc");
+    if (nextCursor) {
+      byPrefixUrl.searchParams.set("next_cursor", nextCursor);
+    }
+
+    data = await fetchCloudinaryAdminJson(byPrefixUrl);
   }
 
   return {
@@ -154,6 +186,7 @@ export async function uploadCloudinaryImage(
   const activeFolder = normalizeMediaFolder(folder);
   const timestamp = Math.floor(Date.now() / 1000);
   const params = {
+    asset_folder: activeFolder,
     folder: activeFolder,
     timestamp,
     unique_filename: "true",
@@ -163,6 +196,7 @@ export async function uploadCloudinaryImage(
 
   const body = new FormData();
   body.set("file", file);
+  body.set("asset_folder", activeFolder);
   body.set("folder", activeFolder);
   body.set("api_key", cloudinary.apiKey);
   body.set("timestamp", String(timestamp));
@@ -186,6 +220,30 @@ export async function uploadCloudinaryImage(
   }
 
   return mapCloudinaryResource(data);
+}
+
+export async function createCloudinaryFolder(folder: string) {
+  requireCloudinaryConfig();
+
+  const activeFolder = normalizeMediaFolder(folder);
+  const encodedPath = activeFolder
+    .split("/")
+    .map(encodeURIComponent)
+    .join("/");
+
+  const data = await fetchCloudinaryAdminJson<{
+    name?: string;
+    path?: string;
+  }>(`https://api.cloudinary.com/v1_1/${cloudinary.cloudName}/folders/${encodedPath}`, {
+    method: "POST",
+  });
+
+  return {
+    folder: {
+      name: data.name ?? activeFolder.split("/").pop() ?? activeFolder,
+      path: data.path ?? activeFolder,
+    } satisfies AdminMediaFolder,
+  };
 }
 
 export async function deleteCloudinaryImage(publicId: string) {

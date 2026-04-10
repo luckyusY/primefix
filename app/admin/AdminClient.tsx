@@ -18,6 +18,7 @@ import type {
   Step,
 } from "@/lib/types";
 import type {
+  AdminMediaCreateFolderResponse,
   AdminMediaDeleteResponse,
   AdminMediaAsset,
   AdminMediaListResponse,
@@ -376,12 +377,31 @@ function useMediaLibrary(showToast: (msg: string, ok: boolean) => void) {
   const [galleryFolder, setGalleryFolder] = useState(
     DEFAULT_PROJECT_MEDIA_FOLDER,
   );
+  const [knownFolders, setKnownFolders] = useState<string[]>([
+    DEFAULT_PROJECT_MEDIA_FOLDER,
+  ]);
   const [mediaAssets, setMediaAssets] = useState<AdminMediaAsset[]>([]);
   const [galleryLoading, setGalleryLoading] = useState(false);
   const [galleryLoadingMore, setGalleryLoadingMore] = useState(false);
   const [galleryError, setGalleryError] = useState("");
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [mediaBusyId, setMediaBusyId] = useState<string | null>(null);
+  const [creatingFolder, setCreatingFolder] = useState(false);
+
+  const rememberFolders = useCallback((folders: string[]) => {
+    setKnownFolders((current) => {
+      const next = [...current];
+
+      folders.forEach((folder) => {
+        const normalized = normalizeMediaFolder(folder);
+        if (!next.includes(normalized)) {
+          next.push(normalized);
+        }
+      });
+
+      return next.sort((left, right) => left.localeCompare(right));
+    });
+  }, []);
 
   const loadGalleryPage = useCallback(
     async ({
@@ -429,6 +449,7 @@ function useMediaLibrary(showToast: (msg: string, ok: boolean) => void) {
           return [...current, ...appended];
         });
         setNextCursor(data.nextCursor ?? null);
+        rememberFolders([folder, ...assets.map((asset) => asset.folder)]);
       } catch (error) {
         const message =
           error instanceof Error ? error.message : "Unable to load media library.";
@@ -438,7 +459,7 @@ function useMediaLibrary(showToast: (msg: string, ok: boolean) => void) {
         else setGalleryLoading(false);
       }
     },
-    [],
+    [rememberFolders],
   );
 
   useEffect(() => {
@@ -463,7 +484,18 @@ function useMediaLibrary(showToast: (msg: string, ok: boolean) => void) {
     const nextFolder = normalizeMediaFolder(folderInput);
     setFolderInput(nextFolder);
     setGalleryFolder(nextFolder);
-  }, [folderInput]);
+    rememberFolders([nextFolder]);
+  }, [folderInput, rememberFolders]);
+
+  const selectFolder = useCallback(
+    (folder: string) => {
+      const nextFolder = normalizeMediaFolder(folder);
+      setFolderInput(nextFolder);
+      setGalleryFolder(nextFolder);
+      rememberFolders([nextFolder]);
+    },
+    [rememberFolders],
+  );
 
   const ingestAssets = useCallback((assets: AdminMediaAsset[]) => {
     if (assets.length === 0) return;
@@ -522,6 +554,7 @@ function useMediaLibrary(showToast: (msg: string, ok: boolean) => void) {
       }
 
       ingestAssets(uploadedAssets);
+      rememberFolders([galleryFolder]);
       showToast(
         uploadedAssets.length === 1
           ? `Uploaded to ${galleryFolder}.`
@@ -531,8 +564,43 @@ function useMediaLibrary(showToast: (msg: string, ok: boolean) => void) {
 
       return uploadedAssets;
     },
-    [galleryFolder, ingestAssets, showToast],
+    [galleryFolder, ingestAssets, rememberFolders, showToast],
   );
+
+  const createFolder = useCallback(async () => {
+    const nextFolder = normalizeMediaFolder(folderInput);
+    setCreatingFolder(true);
+
+    try {
+      const res = await fetch("/api/admin/media/folders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ folder: nextFolder }),
+      });
+      const data = (await res.json()) as Partial<AdminMediaCreateFolderResponse> & {
+        error?: string;
+      };
+
+      if (!res.ok) {
+        throw new Error(data.error ?? "Unable to create folder.");
+      }
+
+      const createdPath = data.folder?.path ?? nextFolder;
+      rememberFolders([createdPath]);
+      setFolderInput(createdPath);
+      setGalleryFolder(createdPath);
+      setMediaAssets([]);
+      setNextCursor(null);
+      setGalleryError("");
+      showToast(`Folder ${createdPath} is ready for uploads.`, true);
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Unable to create folder.";
+      showToast(message, false);
+    } finally {
+      setCreatingFolder(false);
+    }
+  }, [folderInput, rememberFolders, showToast]);
 
   const deleteAsset = useCallback(
     async (asset: AdminMediaAsset) => {
@@ -568,18 +636,22 @@ function useMediaLibrary(showToast: (msg: string, ok: boolean) => void) {
   );
 
   return {
+    createFolder,
+    creatingFolder,
     deleteAsset,
     folderInput,
     galleryError,
     galleryFolder,
     galleryLoading,
     galleryLoadingMore,
+    knownFolders,
     loadFolder,
     loadMore,
     mediaAssets,
     mediaBusyId,
     nextCursor,
     refreshGallery,
+    selectFolder,
     setFolderInput,
     uploadFiles,
   };
@@ -1373,16 +1445,20 @@ function ProjectsManagerTab({
   const [pickerSlot, setPickerSlot] = useState<string | null>(null);
   const [uploadingSlot, setUploadingSlot] = useState<string | null>(null);
   const {
+    createFolder,
+    creatingFolder,
     folderInput,
     galleryError,
     galleryFolder,
     galleryLoading,
     galleryLoadingMore,
+    knownFolders,
     loadFolder,
     loadMore,
     mediaAssets,
     nextCursor,
     refreshGallery,
+    selectFolder,
     setFolderInput,
     uploadFiles,
   } = useMediaLibrary(showToast);
@@ -1604,6 +1680,14 @@ function ProjectsManagerTab({
           <div style={S.libraryButtons}>
             <button
               type="button"
+              onClick={() => void createFolder()}
+              disabled={creatingFolder}
+              style={S.btnSecondaryInline}
+            >
+              {creatingFolder ? "Creating..." : "Create Folder"}
+            </button>
+            <button
+              type="button"
               onClick={loadFolder}
               style={S.btnSecondaryInline}
             >
@@ -1625,6 +1709,22 @@ function ProjectsManagerTab({
           </span>
           <code style={S.libraryFolderPill}>{galleryFolder}</code>
           {nextCursor ? <span style={S.libraryMeta}>More images available</span> : null}
+        </div>
+
+        <div style={S.folderChipRow}>
+          {knownFolders.map((folder) => (
+            <button
+              key={folder}
+              type="button"
+              onClick={() => selectFolder(folder)}
+              style={{
+                ...S.folderChip,
+                ...(folder === galleryFolder ? S.folderChipActive : {}),
+              }}
+            >
+              {folder}
+            </button>
+          ))}
         </div>
 
         {galleryError ? <p style={S.libraryError}>{galleryError}</p> : null}
@@ -1885,18 +1985,22 @@ function ProjectsManagerTab({
 
 function MediaTab({ showToast }: Pick<TabProps, "showToast">) {
   const {
+    createFolder,
+    creatingFolder,
     deleteAsset,
     folderInput,
     galleryError,
     galleryFolder,
     galleryLoading,
     galleryLoadingMore,
+    knownFolders,
     loadFolder,
     loadMore,
     mediaAssets,
     mediaBusyId,
     nextCursor,
     refreshGallery,
+    selectFolder,
     setFolderInput,
     uploadFiles,
   } = useMediaLibrary(showToast);
@@ -1980,6 +2084,14 @@ function MediaTab({ showToast }: Pick<TabProps, "showToast">) {
           <div style={S.libraryButtons}>
             <button
               type="button"
+              onClick={() => void createFolder()}
+              disabled={creatingFolder}
+              style={S.btnSecondaryInline}
+            >
+              {creatingFolder ? "Creating..." : "Create Folder"}
+            </button>
+            <button
+              type="button"
               onClick={loadFolder}
               style={S.btnSecondaryInline}
             >
@@ -2001,6 +2113,22 @@ function MediaTab({ showToast }: Pick<TabProps, "showToast">) {
           </span>
           <code style={S.libraryFolderPill}>{galleryFolder}</code>
           {nextCursor ? <span style={S.libraryMeta}>More images available</span> : null}
+        </div>
+
+        <div style={S.folderChipRow}>
+          {knownFolders.map((folder) => (
+            <button
+              key={folder}
+              type="button"
+              onClick={() => selectFolder(folder)}
+              style={{
+                ...S.folderChip,
+                ...(folder === galleryFolder ? S.folderChipActive : {}),
+              }}
+            >
+              {folder}
+            </button>
+          ))}
         </div>
 
         {galleryError ? <p style={S.libraryError}>{galleryError}</p> : null}
@@ -2232,6 +2360,26 @@ const S: Record<string, CSSProperties> = {
     display: "flex",
     gap: 10,
     flexWrap: "wrap",
+  },
+  folderChipRow: {
+    display: "flex",
+    gap: 8,
+    flexWrap: "wrap",
+    marginTop: 14,
+  },
+  folderChip: {
+    background: "rgba(15, 23, 42, 0.9)",
+    color: "#94a3b8",
+    border: "1px solid #334155",
+    borderRadius: 999,
+    padding: "7px 11px",
+    fontSize: 12,
+    cursor: "pointer",
+  },
+  folderChipActive: {
+    color: "#5eead4",
+    border: "1px solid rgba(45, 212, 191, 0.45)",
+    background: "rgba(13, 148, 136, 0.14)",
   },
   libraryStatusRow: {
     display: "flex",
