@@ -58,9 +58,16 @@ const HOUSE4 = [
   "/work/house4/photo_2026-04-03_23-57-00.jpg",
 ];
 
+function encodePath(path: string): string {
+  return path
+    .split("/")
+    .map((segment, index) => (index === 0 ? segment : encodeURIComponent(segment)))
+    .join("/");
+}
+
 function toImages(paths: string[], houseLabel: string): HouseProjectImage[] {
   return paths.map((src, i) => ({
-    src: encodeURI(src),
+    src: encodePath(src),
     alt: `${houseLabel} - photo ${i + 1}`,
   }));
 }

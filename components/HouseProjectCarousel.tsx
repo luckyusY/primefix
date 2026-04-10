@@ -99,7 +99,9 @@ export default function HouseProjectCarousel({
                 style={{ width: `${n * 100}%` }}
               >
                 {images.map((img, i) => {
-                  const isVisible = i >= index - 1 && i <= index + 1;
+                  const distance = Math.abs(i - index);
+                  const circularDistance = Math.min(distance, n - distance);
+                  const shouldPreload = circularDistance <= 1;
 
                   return (
                     <div
@@ -108,16 +110,15 @@ export default function HouseProjectCarousel({
                       style={{ width: `${100 / n}%` }}
                     >
                       <div className="house-project__slide-inner">
-                        {isVisible && (
-                          <Image
-                            src={img.src}
-                            alt={img.alt}
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1140px"
-                            className="house-project__img"
-                            priority={i === 0}
-                          />
-                        )}
+                        <Image
+                          src={img.src}
+                          alt={img.alt}
+                          fill
+                          unoptimized
+                          loading={shouldPreload ? "eager" : "lazy"}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1140px"
+                          className="house-project__img"
+                        />
                       </div>
                     </div>
                   );
