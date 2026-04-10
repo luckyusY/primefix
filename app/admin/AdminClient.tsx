@@ -2144,9 +2144,9 @@ function MediaTab({ showToast }: Pick<TabProps, "showToast">) {
 
   const handleUpload = useCallback(
     async (event: ChangeEvent<HTMLInputElement>) => {
-      const files = event.target.files;
+      const files = Array.from(event.target.files ?? []);
       event.target.value = "";
-      if (!files || files.length === 0) return;
+      if (files.length === 0) return;
 
       setUploadingMedia(true);
 
