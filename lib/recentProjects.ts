@@ -45,12 +45,38 @@ const HOUSE4 = [
 ];
 
 export function encodeProjectImagePath(path: string): string {
-  if (/^https?:\/\//i.test(path)) return encodeURI(path);
+  const encodeSegment = (segment: string) => {
+    const decoded = (() => {
+      try {
+        return decodeURIComponent(segment);
+      } catch {
+        return segment;
+      }
+    })();
+
+    return encodeURIComponent(decoded).replace(
+      /[!'()*]/g,
+      (char) => `%${char.charCodeAt(0).toString(16).toUpperCase()}`,
+    );
+  };
+
+  if (/^https?:\/\//i.test(path)) {
+    try {
+      const url = new URL(path);
+      url.pathname = url.pathname
+        .split("/")
+        .map((segment, index) => (index === 0 ? segment : encodeSegment(segment)))
+        .join("/");
+      return url.toString();
+    } catch {
+      return encodeURI(path);
+    }
+  }
   if (!path.startsWith("/")) return path;
 
   return path
     .split("/")
-    .map((segment, index) => (index === 0 ? segment : encodeURIComponent(segment)))
+    .map((segment, index) => (index === 0 ? segment : encodeSegment(segment)))
     .join("/");
 }
 
