@@ -7,14 +7,24 @@ import { motion, useReducedMotion, type PanInfo } from "framer-motion";
 import type { HouseProjectImage } from "@/lib/recentProjects";
 
 type HouseProjectCarouselProps = {
+  number: number;
+  kicker: string;
   title: string;
   description: string;
+  scope: string;
+  outcome: string;
+  tags: string[];
   images: HouseProjectImage[];
 };
 
 export default function HouseProjectCarousel({
+  number,
+  kicker,
   title,
   description,
+  scope,
+  outcome,
+  tags,
   images,
 }: HouseProjectCarouselProps) {
   const [index, setIndex] = useState(0);
@@ -40,89 +50,135 @@ export default function HouseProjectCarousel({
 
   return (
     <article className="house-project">
-      <div className="house-project__intro">
-        <h3>{title}</h3>
-        <p>{description}</p>
-      </div>
+      <div className="house-project__panel">
+        <div className="house-project__intro">
+          <div className="house-project__kicker-row">
+            <span className="house-project__number">{String(number).padStart(2, "0")}</span>
+            <span className="house-project__kicker">{kicker}</span>
+          </div>
 
-      <motion.div
-        className="house-project__viewport"
-        aria-roledescription="carousel"
-        onPanEnd={onPanEnd}
-      >
-        <motion.div
-          className="house-project__track"
-          animate={{ x: `-${index * 100}%` }}
-          transition={transition}
-          style={{ width: `${n * 100}%` }}
-        >
-          {images.map((img, i) => (
-            <div
-              key={`${img.src}-${i}`}
-              className="house-project__slide"
-              style={{ width: `${100 / n}%` }}
-            >
-              <div className="house-project__slide-inner">
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 920px"
-                  className="house-project__img"
-                  priority={i === 0}
-                />
-              </div>
+          <h3>{title}</h3>
+          <p>{description}</p>
+
+          <div className="house-project__meta">
+            <div className="house-project__meta-card">
+              <span>Scope</span>
+              <strong>{scope}</strong>
             </div>
-          ))}
-        </motion.div>
-      </motion.div>
+            <div className="house-project__meta-card">
+              <span>Outcome</span>
+              <strong>{outcome}</strong>
+            </div>
+          </div>
 
-      <div className="house-project__controls">
-        <button
-          type="button"
-          className="house-project__btn"
-          onClick={prev}
-          aria-label="Previous photo"
-        >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="M15 18l-6-6 6-6"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-        <div className="house-project__dots" role="tablist" aria-label="Slide selection">
-          {images.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              role="tab"
-              aria-selected={i === index}
-              aria-label={`Photo ${i + 1} of ${n}`}
-              className={`house-project__dot ${i === index ? "is-active" : ""}`}
-              onClick={() => setIndex(i)}
-            />
-          ))}
+          <ul className="house-project__tags" aria-label="Project highlights">
+            {tags.map((tag) => (
+              <li key={tag}>{tag}</li>
+            ))}
+          </ul>
         </div>
-        <button
-          type="button"
-          className="house-project__btn"
-          onClick={next}
-          aria-label="Next photo"
-        >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="M9 18l6-6-6-6"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
+
+        <div className="house-project__gallery">
+          <div className="house-project__frame">
+            <div className="house-project__overlay">
+              <span>Swipe gallery</span>
+              <span>
+                {String(index + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
+              </span>
+            </div>
+
+            <motion.div
+              className="house-project__viewport"
+              aria-roledescription="carousel"
+              onPanEnd={onPanEnd}
+            >
+              <motion.div
+                className="house-project__track"
+                animate={{ x: `-${index * 100}%` }}
+                transition={transition}
+                style={{ width: `${n * 100}%` }}
+              >
+                {images.map((img, i) => {
+                  const isVisible = i >= index - 1 && i <= index + 1;
+
+                  return (
+                    <div
+                      key={`${img.src}-${i}`}
+                      className="house-project__slide"
+                      style={{ width: `${100 / n}%` }}
+                    >
+                      <div className="house-project__slide-inner">
+                        {isVisible && (
+                          <Image
+                            src={img.src}
+                            alt={img.alt}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1140px"
+                            className="house-project__img"
+                            priority={i === 0}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </motion.div>
+            </motion.div>
+          </div>
+
+          <div className="house-project__controls">
+            <button
+              type="button"
+              className="house-project__btn"
+              onClick={prev}
+              aria-label="Previous photo"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M15 18l-6-6 6-6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+
+            <div className="house-project__progress">
+              <div className="house-project__dots" role="tablist" aria-label="Slide selection">
+                {images.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    role="tab"
+                    aria-selected={i === index}
+                    aria-label={`Photo ${i + 1} of ${n}`}
+                    className={`house-project__dot ${i === index ? "is-active" : ""}`}
+                    onClick={() => setIndex(i)}
+                  />
+                ))}
+              </div>
+              <span className="house-project__count">{n} photos</span>
+            </div>
+
+            <button
+              type="button"
+              className="house-project__btn"
+              onClick={next}
+              aria-label="Next photo"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M9 18l6-6-6-6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </article>
   );

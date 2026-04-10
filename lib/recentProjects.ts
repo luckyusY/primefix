@@ -5,8 +5,12 @@ export type HouseProjectImage = {
 
 export type HouseProject = {
   id: string;
+  kicker: string;
   title: string;
   description: string;
+  scope: string;
+  outcome: string;
+  tags: string[];
   images: HouseProjectImage[];
 };
 
@@ -57,37 +61,53 @@ const HOUSE4 = [
 function toImages(paths: string[], houseLabel: string): HouseProjectImage[] {
   return paths.map((src, i) => ({
     src: encodeURI(src),
-    alt: `${houseLabel} — photo ${i + 1}`,
+    alt: `${houseLabel} - photo ${i + 1}`,
   }));
 }
 
 export const RECENT_HOUSES: HouseProject[] = [
   {
     id: "house1",
-    title: "Project 1",
+    kicker: "Strip-Out",
+    title: "Kitchen reset with first-fix access",
     description:
-      "Kitchen and interior finishes across multiple rooms—repair work, tidy prep, and a polished handover.",
+      "This gallery shows the heavy-lift stage done properly: surfaces taken back, pipework exposed, and the room prepared cleanly so the rebuild can follow without guesswork.",
+    scope: "Strip-out and prep",
+    outcome: "Ready for rebuild",
+    tags: ["Pipework access", "Wall prep", "Clean sequencing"],
     images: toImages(HOUSE1, "House project 1"),
   },
   {
     id: "house2",
-    title: "Project 2",
+    kicker: "Interior Finish",
+    title: "Lighting and ceiling work with a cleaner final look",
     description:
-      "Interior fixes and touch-ups—walls, fittings, and small improvements that bring the space back together.",
+      "Fresh ceiling work, recessed lighting, and decorative detailing brought this room back with a brighter feel and a much more complete finish.",
+    scope: "Ceiling and lighting",
+    outcome: "Finished living space",
+    tags: ["Downlights", "Decorative finish", "Living room refresh"],
     images: toImages(HOUSE2, "House project 2"),
   },
   {
     id: "house3",
-    title: "Project 3",
+    kicker: "Hallway Refresh",
+    title: "A brighter entrance with crisp, simple detailing",
     description:
-      "Bathroom and utility repairs with clear communication and fast follow-through on site.",
+      "A straightforward hallway refresh that makes the home feel lighter on arrival, with clean paintwork, warm flooring, and a neater visual flow from the front door inward.",
+    scope: "Hallway improvement",
+    outcome: "Sharper first impression",
+    tags: ["Clean walls", "Warm flooring", "Staged finish"],
     images: toImages(HOUSE3, "House project 3"),
   },
   {
     id: "house4",
-    title: "Project 4",
+    kicker: "Bathroom Upgrade",
+    title: "Bathroom flooring and panelling with a sharper finish",
     description:
-      "Before-and-after improvements across the property—practical upgrades with a tidy finish.",
+      "Large-format marble-look surfaces and tighter finishing details gave this bathroom a more modern, durable, and easy-to-maintain feel.",
+    scope: "Bathroom finish",
+    outcome: "Completed upgrade",
+    tags: ["Tile finish", "Panelling", "Clean edges"],
     images: toImages(HOUSE4, "House project 4"),
   },
 ];
