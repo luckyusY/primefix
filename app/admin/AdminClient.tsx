@@ -1266,6 +1266,40 @@ function ProjectsTab({
     [setContent],
   );
 
+  const moveImage = useCallback(
+    (projectId: string, imageIndex: number, direction: -1 | 1) => {
+      setPickerSlot(null);
+      setContent((current) => ({
+        ...current,
+        projects: current.projects.map((project) => {
+          if (project.id !== projectId) return project;
+
+          const targetIndex = imageIndex + direction;
+          if (
+            targetIndex < 0 ||
+            targetIndex >= project.images.length ||
+            imageIndex < 0 ||
+            imageIndex >= project.images.length
+          ) {
+            return project;
+          }
+
+          const nextImages = [...project.images];
+          [nextImages[imageIndex], nextImages[targetIndex]] = [
+            nextImages[targetIndex],
+            nextImages[imageIndex],
+          ];
+
+          return {
+            ...project,
+            images: nextImages,
+          };
+        }),
+      }));
+    },
+    [setContent],
+  );
+
   const loadFolder = useCallback(() => {
     const nextFolder = normalizeMediaFolder(folderInput);
     setFolderInput(nextFolder);
@@ -1906,6 +1940,40 @@ function ProjectsManagerTab({
     [setContent],
   );
 
+  const moveImage = useCallback(
+    (projectId: string, imageIndex: number, direction: -1 | 1) => {
+      setPickerSlot(null);
+      setContent((current) => ({
+        ...current,
+        projects: current.projects.map((project) => {
+          if (project.id !== projectId) return project;
+
+          const targetIndex = imageIndex + direction;
+          if (
+            targetIndex < 0 ||
+            targetIndex >= project.images.length ||
+            imageIndex < 0 ||
+            imageIndex >= project.images.length
+          ) {
+            return project;
+          }
+
+          const nextImages = [...project.images];
+          [nextImages[imageIndex], nextImages[targetIndex]] = [
+            nextImages[targetIndex],
+            nextImages[imageIndex],
+          ];
+
+          return {
+            ...project,
+            images: nextImages,
+          };
+        }),
+      }));
+    },
+    [setContent],
+  );
+
   const add = () =>
     setContent((current) => ({
       ...current,
@@ -2210,175 +2278,205 @@ function ProjectsManagerTab({
               </div>
             ) : null}
 
-            {project.images.map((image, imageIndex) => {
-              const slotKey = getImageSlotKey(project.id, imageIndex);
-              const uploadId = `project-upload-${project.id}-${imageIndex}`;
-              const pickerOpen = pickerSlot === slotKey;
-              const isUploading = uploadingSlot === slotKey;
+            <div style={S.projectMediaGrid}>
+              {project.images.map((image, imageIndex) => {
+                const slotKey = getImageSlotKey(project.id, imageIndex);
+                const uploadId = `project-upload-${project.id}-${imageIndex}`;
+                const pickerOpen = pickerSlot === slotKey;
+                const isUploading = uploadingSlot === slotKey;
+                const isFirstImage = imageIndex === 0;
+                const isLastImage = imageIndex === project.images.length - 1;
 
-              return (
-                <div
-                  key={`${project.id}-${imageIndex}`}
-                  style={S.projectMediaCard}
-                >
-                  <div style={S.projectMediaCardHead}>
-                    <span style={S.projectMediaCardTitle}>
-                      Image {imageIndex + 1}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => deleteImage(project.id, imageIndex)}
-                      style={S.btnDeleteInline}
-                    >
-                      Remove
-                    </button>
-                  </div>
-
-                  <ImagePreview
-                    src={image.src}
-                    alt={image.alt}
-                    label={`${project.title || "Project"} image ${imageIndex + 1}`}
-                  />
-
-                  <div style={S.projectMediaActions}>
-                    <label htmlFor={uploadId} style={S.btnPrimaryInline}>
-                      {isUploading ? "Uploading..." : "Upload New"}
-                    </label>
-                    <input
-                      id={uploadId}
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      style={S.fileInput}
-                      onChange={(event) =>
-                        void handleFileChange(project.id, imageIndex, event)
-                      }
-                    />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const input = document.getElementById(uploadId);
-                        if (input instanceof HTMLInputElement) input.click();
-                      }}
-                      style={S.btnPrimaryInline}
-                    >
-                      {isUploading ? "Uploading..." : "Choose File"}
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setPickerSlot((current) =>
-                          current === slotKey ? null : slotKey,
-                        )
-                      }
-                      style={S.btnSecondaryInline}
-                    >
-                      {pickerOpen ? "Hide Gallery" : "Choose From Gallery"}
-                    </button>
-                  </div>
-
-                  <Field label="Image path or URL">
-                    <input
-                      style={S.input}
-                      value={image.src}
-                      onChange={(e) =>
-                        updateImage(project.id, imageIndex, "src", e.target.value)
-                      }
-                      placeholder="https://res.cloudinary.com/... or /work/..."
-                    />
-                  </Field>
-
-                  <Field label="Alt text">
-                    <input
-                      style={S.input}
-                      value={image.alt}
-                      onChange={(e) =>
-                        updateImage(project.id, imageIndex, "alt", e.target.value)
-                      }
-                      placeholder="Describe the image for accessibility"
-                    />
-                  </Field>
-
-                  {pickerOpen ? (
-                    <div style={S.galleryPicker}>
-                      <div style={S.galleryPickerHead}>
-                        <div>
-                          <p style={S.projectMediaTitle}>Choose From Gallery</p>
-                          <p style={S.projectMediaHint}>
-                            Showing images from <code>{galleryFolder}</code>.
-                          </p>
-                        </div>
+                return (
+                  <div
+                    key={`${project.id}-${imageIndex}`}
+                    style={S.projectMediaCard}
+                  >
+                    <div style={S.projectMediaCardHead}>
+                      <span style={S.projectMediaCardTitle}>
+                        Image {imageIndex + 1}
+                      </span>
+                      <div style={S.projectMediaCardTools}>
                         <button
                           type="button"
-                          onClick={() => void refreshGallery()}
-                          style={S.btnSecondaryInline}
+                          onClick={() => moveImage(project.id, imageIndex, -1)}
+                          disabled={isFirstImage}
+                          style={{
+                            ...S.btnOrderInline,
+                            ...(isFirstImage ? S.btnInlineDisabled : {}),
+                          }}
+                          title="Move earlier"
                         >
-                          Refresh
+                          Earlier
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => moveImage(project.id, imageIndex, 1)}
+                          disabled={isLastImage}
+                          style={{
+                            ...S.btnOrderInline,
+                            ...(isLastImage ? S.btnInlineDisabled : {}),
+                          }}
+                          title="Move later"
+                        >
+                          Later
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => deleteImage(project.id, imageIndex)}
+                          style={S.btnDeleteInline}
+                        >
+                          Remove
                         </button>
                       </div>
+                    </div>
 
-                      {galleryLoading ? (
-                        <p style={S.galleryMessage}>Loading images...</p>
-                      ) : mediaAssets.length === 0 ? (
-                        <p style={S.galleryMessage}>
-                          No images found in this folder yet. Upload a new one
-                          to start the gallery.
-                        </p>
-                      ) : (
-                        <div style={S.galleryGrid}>
-                          {mediaAssets.map((asset) => {
-                            const active = asset.url === image.src;
+                    <ImagePreview
+                      src={image.src}
+                      alt={image.alt}
+                      label={`${project.title || "Project"} image ${imageIndex + 1}`}
+                    />
 
-                            return (
-                              <button
-                                key={asset.assetId}
-                                type="button"
-                                onClick={() =>
-                                  assignGalleryImage(project.id, imageIndex, asset)
-                                }
-                                style={{
-                                  ...S.galleryTile,
-                                  ...(active ? S.galleryTileActive : {}),
-                                }}
-                              >
-                                <div style={S.galleryTileImageWrap}>
-                                  <img
-                                    src={asset.thumbnailUrl}
-                                    alt={formatAssetName(asset)}
-                                    style={S.galleryTileImage}
-                                    loading="lazy"
-                                  />
-                                </div>
-                                <span style={S.galleryTileTitle}>
-                                  {formatAssetName(asset)}
-                                </span>
-                                <span style={S.galleryTileMeta}>
-                                  {asset.width}x{asset.height} | {formatBytes(asset.bytes)}
-                                </span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      )}
+                    <div style={S.projectMediaActions}>
+                      <label htmlFor={uploadId} style={S.btnPrimaryInline}>
+                        {isUploading ? "Uploading..." : "Upload New"}
+                      </label>
+                      <input
+                        id={uploadId}
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        style={S.fileInput}
+                        onChange={(event) =>
+                          void handleFileChange(project.id, imageIndex, event)
+                        }
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const input = document.getElementById(uploadId);
+                          if (input instanceof HTMLInputElement) input.click();
+                        }}
+                        style={S.btnPrimaryInline}
+                      >
+                        {isUploading ? "Uploading..." : "Choose File"}
+                      </button>
 
-                      {nextCursor ? (
-                        <div style={S.galleryFooter}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setPickerSlot((current) =>
+                            current === slotKey ? null : slotKey,
+                          )
+                        }
+                        style={S.btnSecondaryInline}
+                      >
+                        {pickerOpen ? "Hide Gallery" : "Choose From Gallery"}
+                      </button>
+                    </div>
+
+                    <Field label="Image path or URL">
+                      <input
+                        style={S.input}
+                        value={image.src}
+                        onChange={(e) =>
+                          updateImage(project.id, imageIndex, "src", e.target.value)
+                        }
+                        placeholder="https://res.cloudinary.com/... or /work/..."
+                      />
+                    </Field>
+
+                    <Field label="Alt text">
+                      <input
+                        style={S.input}
+                        value={image.alt}
+                        onChange={(e) =>
+                          updateImage(project.id, imageIndex, "alt", e.target.value)
+                        }
+                        placeholder="Describe the image for accessibility"
+                      />
+                    </Field>
+
+                    {pickerOpen ? (
+                      <div style={S.galleryPicker}>
+                        <div style={S.galleryPickerHead}>
+                          <div>
+                            <p style={S.projectMediaTitle}>Choose From Gallery</p>
+                            <p style={S.projectMediaHint}>
+                              Showing images from <code>{galleryFolder}</code>.
+                            </p>
+                          </div>
                           <button
                             type="button"
-                            onClick={() => void loadMore()}
-                            disabled={galleryLoadingMore}
+                            onClick={() => void refreshGallery()}
                             style={S.btnSecondaryInline}
                           >
-                            {galleryLoadingMore ? "Loading..." : "Load More"}
+                            Refresh
                           </button>
                         </div>
-                      ) : null}
-                    </div>
-                  ) : null}
-                </div>
-              );
-            })}
+
+                        {galleryLoading ? (
+                          <p style={S.galleryMessage}>Loading images...</p>
+                        ) : mediaAssets.length === 0 ? (
+                          <p style={S.galleryMessage}>
+                            No images found in this folder yet. Upload a new one
+                            to start the gallery.
+                          </p>
+                        ) : (
+                          <div style={S.galleryGrid}>
+                            {mediaAssets.map((asset) => {
+                              const active = asset.url === image.src;
+
+                              return (
+                                <button
+                                  key={asset.assetId}
+                                  type="button"
+                                  onClick={() =>
+                                    assignGalleryImage(project.id, imageIndex, asset)
+                                  }
+                                  style={{
+                                    ...S.galleryTile,
+                                    ...(active ? S.galleryTileActive : {}),
+                                  }}
+                                >
+                                  <div style={S.galleryTileImageWrap}>
+                                    <img
+                                      src={asset.thumbnailUrl}
+                                      alt={formatAssetName(asset)}
+                                      style={S.galleryTileImage}
+                                      loading="lazy"
+                                    />
+                                  </div>
+                                  <span style={S.galleryTileTitle}>
+                                    {formatAssetName(asset)}
+                                  </span>
+                                  <span style={S.galleryTileMeta}>
+                                    {asset.width}x{asset.height} | {formatBytes(asset.bytes)}
+                                  </span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+
+                        {nextCursor ? (
+                          <div style={S.galleryFooter}>
+                            <button
+                              type="button"
+                              onClick={() => void loadMore()}
+                              disabled={galleryLoadingMore}
+                              style={S.btnSecondaryInline}
+                            >
+                              {galleryLoadingMore ? "Loading..." : "Load More"}
+                            </button>
+                          </div>
+                        ) : null}
+                      </div>
+                    ) : null}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </Card>
       ))}
@@ -2960,6 +3058,11 @@ const S: Record<string, CSSProperties> = {
     borderTop: "1px solid #334155",
     paddingTop: 16,
   },
+  projectMediaGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+    gap: 12,
+  },
   projectMediaHead: {
     display: "flex",
     alignItems: "flex-start",
@@ -2991,7 +3094,7 @@ const S: Record<string, CSSProperties> = {
     borderRadius: 10,
     padding: 14,
     background: "#0f172a",
-    marginBottom: 12,
+    minWidth: 0,
   },
   projectMediaActions: {
     display: "flex",
@@ -3006,6 +3109,12 @@ const S: Record<string, CSSProperties> = {
     gap: 10,
     marginBottom: 10,
     flexWrap: "wrap",
+  },
+  projectMediaCardTools: {
+    display: "flex",
+    gap: 8,
+    flexWrap: "wrap",
+    justifyContent: "flex-end",
   },
   projectMediaCardTitle: {
     color: "#cbd5e1",
@@ -3222,6 +3331,20 @@ const S: Record<string, CSSProperties> = {
     fontSize: 12,
     fontWeight: 700,
     cursor: "pointer",
+  },
+  btnOrderInline: {
+    background: "rgba(15, 23, 42, 0.85)",
+    color: "#cbd5e1",
+    border: "1px solid #334155",
+    borderRadius: 8,
+    padding: "6px 10px",
+    fontSize: 12,
+    fontWeight: 700,
+    cursor: "pointer",
+  },
+  btnInlineDisabled: {
+    opacity: 0.45,
+    cursor: "not-allowed",
   },
   fileInput: {
     position: "absolute",
