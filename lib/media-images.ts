@@ -107,8 +107,8 @@ export function shouldBypassNextImageOptimization(src: string) {
 
 export function getAdminPreviewSrc(src: string) {
   return getOptimizedMediaSrc(src, {
-    width: 960,
-    height: 600,
+    width: 480,
+    height: 360,
     crop: "fill",
     gravity: "auto",
     quality: "auto",
