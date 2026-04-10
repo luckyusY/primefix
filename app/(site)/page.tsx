@@ -12,7 +12,7 @@ import { getContent } from "@/lib/content";
 export const revalidate = 60;
 
 export default async function Home() {
-  const { reviews, faqs, steps } = await getContent();
+  const { reviews, faqs, steps, projects } = await getContent();
 
   return (
     <main>
@@ -21,7 +21,7 @@ export default async function Home() {
       <Reviews items={reviews} />
       <Services />
       <HowItWorks items={steps} />
-      <Projects />
+      <Projects items={projects} />
       <About />
       <CtaBanner />
       <Faq items={faqs} />

@@ -18,13 +18,20 @@ export type Step = {
   desc:  string;
 };
 
+export type ProjectImage = {
+  src: string;
+  alt: string;
+};
+
 export type Project = {
   id:          string;
+  kicker:      string;
   title:       string;
-  date:        string;
   description: string;
-  image:       string;
-  alt:         string;
+  scope:       string;
+  outcome:     string;
+  tags:        string[];
+  images:      ProjectImage[];
 };
 
 export type Content = {

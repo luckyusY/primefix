@@ -1,12 +1,12 @@
 import Animate, { StaggerContainer, StaggerItem } from "@/components/Animate";
 import BookingButton from "@/components/BookingButton";
 import HouseProjectCarousel from "@/components/HouseProjectCarousel";
-import { RECENT_HOUSES } from "@/lib/recentProjects";
+import type { Project } from "@/lib/types";
 
-export default function Projects() {
-  const totalPhotos = RECENT_HOUSES.reduce((sum, house) => sum + house.images.length, 0);
+export default function Projects({ items }: { items: Project[] }) {
+  const totalPhotos = items.reduce((sum, house) => sum + house.images.length, 0);
   const stats = [
-    { value: String(RECENT_HOUSES.length).padStart(2, "0"), label: "Recent home galleries" },
+    { value: String(items.length).padStart(2, "0"), label: "Recent home galleries" },
     { value: String(totalPhotos).padStart(2, "0"), label: "Real site photos" },
     { value: "A-Z", label: "From strip-out to polished finish" },
     { value: "360", label: "Multiple angles on every job" },
@@ -46,7 +46,7 @@ export default function Projects() {
         </Animate>
 
         <StaggerContainer className="house-projects" stagger={0.1} delay={0.06}>
-          {RECENT_HOUSES.map((house, index) => (
+          {items.map((house, index) => (
             <StaggerItem key={house.id}>
               <HouseProjectCarousel
                 number={index + 1}

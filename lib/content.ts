@@ -1,5 +1,6 @@
 import { DEFAULTS } from "./defaults";
 import type { Content, ContentKey } from "./types";
+import { normalizeProjects } from "./recentProjects";
 
 // Lazy-load KV to avoid crashing when env vars are absent
 async function getKV() {
@@ -23,7 +24,7 @@ export async function getContent(): Promise<Content> {
       reviews:  reviews  ?? DEFAULTS.reviews,
       faqs:     faqs     ?? DEFAULTS.faqs,
       steps:    steps    ?? DEFAULTS.steps,
-      projects: projects ?? DEFAULTS.projects,
+      projects: normalizeProjects(projects ?? DEFAULTS.projects),
     };
   } catch {
     return DEFAULTS;

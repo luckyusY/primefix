@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion, type PanInfo } from "framer-motion";
 
-import type { HouseProjectImage } from "@/lib/recentProjects";
+import type { ProjectImage } from "@/lib/types";
 
 type HouseProjectCarouselProps = {
   number: number;
@@ -14,7 +14,7 @@ type HouseProjectCarouselProps = {
   scope: string;
   outcome: string;
   tags: string[];
-  images: HouseProjectImage[];
+  images: ProjectImage[];
 };
 
 export default function HouseProjectCarousel({
@@ -29,7 +29,11 @@ export default function HouseProjectCarousel({
 }: HouseProjectCarouselProps) {
   const [index, setIndex] = useState(0);
   const reduceMotion = useReducedMotion();
-  const n = Math.max(1, images.length);
+  const galleryImages =
+    images.length > 0
+      ? images
+      : [{ src: "/media/home-exterior.jpg", alt: `${title} project photo` }];
+  const n = galleryImages.length;
 
   const next = useCallback(() => setIndex((i) => (i + 1) % n), [n]);
   const prev = useCallback(() => setIndex((i) => (i - 1 + n) % n), [n]);
@@ -98,7 +102,7 @@ export default function HouseProjectCarousel({
                 transition={transition}
                 style={{ width: `${n * 100}%` }}
               >
-                {images.map((img, i) => {
+                {galleryImages.map((img, i) => {
                   const distance = Math.abs(i - index);
                   const circularDistance = Math.min(distance, n - distance);
                   const shouldPreload = circularDistance <= 1;
@@ -147,7 +151,7 @@ export default function HouseProjectCarousel({
 
             <div className="house-project__progress">
               <div className="house-project__dots" role="tablist" aria-label="Slide selection">
-                {images.map((_, i) => (
+                {galleryImages.map((_, i) => (
                   <button
                     key={i}
                     type="button"

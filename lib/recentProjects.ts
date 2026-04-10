@@ -1,18 +1,4 @@
-export type HouseProjectImage = {
-  src: string;
-  alt: string;
-};
-
-export type HouseProject = {
-  id: string;
-  kicker: string;
-  title: string;
-  description: string;
-  scope: string;
-  outcome: string;
-  tags: string[];
-  images: HouseProjectImage[];
-};
+import type { Project, ProjectImage } from "./types";
 
 /** Paths encode spaces in filenames via encodeURI when rendering in <Image> */
 const HOUSE1 = [
@@ -58,21 +44,24 @@ const HOUSE4 = [
   "/work/house4/photo_2026-04-03_23-57-00.jpg",
 ];
 
-function encodePath(path: string): string {
+export function encodeProjectImagePath(path: string): string {
+  if (/^https?:\/\//i.test(path)) return encodeURI(path);
+  if (!path.startsWith("/")) return path;
+
   return path
     .split("/")
     .map((segment, index) => (index === 0 ? segment : encodeURIComponent(segment)))
     .join("/");
 }
 
-function toImages(paths: string[], houseLabel: string): HouseProjectImage[] {
+function toImages(paths: string[], houseLabel: string): ProjectImage[] {
   return paths.map((src, i) => ({
-    src: encodePath(src),
+    src: encodeProjectImagePath(src),
     alt: `${houseLabel} - photo ${i + 1}`,
   }));
 }
 
-export const RECENT_HOUSES: HouseProject[] = [
+export const DEFAULT_PROJECTS: Project[] = [
   {
     id: "house1",
     kicker: "Strip-Out",
@@ -118,3 +107,117 @@ export const RECENT_HOUSES: HouseProject[] = [
     images: toImages(HOUSE4, "House project 4"),
   },
 ];
+
+function normalizeProjectImage(
+  image: unknown,
+  fallbackAlt: string,
+  imageIndex: number,
+): ProjectImage | null {
+  if (!image || typeof image !== "object") return null;
+
+  const record = image as Record<string, unknown>;
+  if (typeof record.src !== "string" || !record.src.trim()) return null;
+
+  return {
+    src: encodeProjectImagePath(record.src.trim()),
+    alt:
+      typeof record.alt === "string" && record.alt.trim()
+        ? record.alt.trim()
+        : `${fallbackAlt} - photo ${imageIndex + 1}`,
+  };
+}
+
+function normalizeLegacyImage(project: Record<string, unknown>, fallbackAlt: string) {
+  if (typeof project.image !== "string" || !project.image.trim()) return [];
+
+  return [
+    {
+      src: encodeProjectImagePath(project.image.trim()),
+      alt:
+        typeof project.alt === "string" && project.alt.trim()
+          ? project.alt.trim()
+          : `${fallbackAlt} - photo 1`,
+    },
+  ];
+}
+
+function normalizeProject(project: unknown, index: number): Project {
+  const fallback = DEFAULT_PROJECTS[index] ?? DEFAULT_PROJECTS[0];
+
+  if (!project || typeof project !== "object") {
+    return {
+      ...fallback,
+      tags: [...fallback.tags],
+      images: fallback.images.map((image) => ({ ...image })),
+    };
+  }
+
+  const record = project as Record<string, unknown>;
+  const title =
+    typeof record.title === "string" && record.title.trim()
+      ? record.title.trim()
+      : fallback.title;
+
+  const fallbackAlt = title || fallback.title;
+  const normalizedImages = Array.isArray(record.images)
+    ? record.images
+        .map((image, imageIndex) =>
+          normalizeProjectImage(image, fallbackAlt, imageIndex),
+        )
+        .filter((image): image is ProjectImage => Boolean(image))
+    : normalizeLegacyImage(record, fallbackAlt);
+
+  const parsedTags = Array.isArray(record.tags)
+    ? record.tags.filter((tag): tag is string => typeof tag === "string" && tag.trim().length > 0)
+    : typeof record.tags === "string"
+      ? record.tags
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter(Boolean)
+      : [];
+
+  return {
+    id:
+      typeof record.id === "string" && record.id.trim()
+        ? record.id.trim()
+        : fallback.id,
+    kicker:
+      typeof record.kicker === "string" && record.kicker.trim()
+        ? record.kicker.trim()
+        : typeof record.date === "string" && record.date.trim()
+          ? record.date.trim()
+          : fallback.kicker,
+    title,
+    description:
+      typeof record.description === "string" && record.description.trim()
+        ? record.description.trim()
+        : fallback.description,
+    scope:
+      typeof record.scope === "string" && record.scope.trim()
+        ? record.scope.trim()
+        : typeof record.date === "string" && record.date.trim()
+          ? record.date.trim()
+          : fallback.scope,
+    outcome:
+      typeof record.outcome === "string" && record.outcome.trim()
+        ? record.outcome.trim()
+        : fallback.outcome,
+    tags: parsedTags.length > 0 ? parsedTags : [...fallback.tags],
+    images:
+      normalizedImages.length > 0
+        ? normalizedImages
+        : fallback.images.map((image) => ({ ...image })),
+  };
+}
+
+export function normalizeProjects(projects: unknown): Project[] {
+  if (!Array.isArray(projects) || projects.length === 0) {
+    return DEFAULT_PROJECTS.map((project) => ({
+      ...project,
+      tags: [...project.tags],
+      images: project.images.map((image) => ({ ...image })),
+    }));
+  }
+
+  return projects.map((project, index) => normalizeProject(project, index));
+}

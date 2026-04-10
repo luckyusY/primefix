@@ -1,4 +1,5 @@
 import type { Content } from "./types";
+import { DEFAULT_PROJECTS } from "./recentProjects";
 
 export const DEFAULTS: Content = {
   reviews: [
@@ -23,9 +24,5 @@ export const DEFAULTS: Content = {
     { id: "s4", n: "04", title: "Support After Service", desc: "We stay available after the visit so clients have a clear point of contact if anything needs follow-up or further guidance." },
   ],
 
-  projects: [
-    { id: "p1", title: "Emergency Kitchen Repair Visit", date: "Typical Call-Out",         description: "Support for leaks, faulty electrics, heating issues and everyday kitchen faults handled through one clear maintenance visit.", image: "/media/home-exterior.jpg", alt: "Domestic repair call-out" },
-    { id: "p2", title: "Appliance Fault Support",        date: "Domestic Appliance Guard", description: "Fridge, oven and dishwasher issues triaged quickly so households can get back to normal with less disruption.",                  image: "/media/minimal-living.jpg", alt: "Appliance support for a household" },
-    { id: "p3", title: "Specialist Home Services",       date: "Rapid Response",           description: "Drainage, locksmith, window repair and pest control support coordinated through the same trusted service journey.",               image: "/media/modern-home.jpg",    alt: "Specialist domestic support" },
-  ],
+  projects: DEFAULT_PROJECTS,
 };
