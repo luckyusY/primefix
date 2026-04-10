@@ -1,10 +1,19 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import path from "node:path";
 import { DEFAULTS } from "./defaults";
 import type { Content, ContentKey } from "./types";
 import { normalizeProjects } from "./recentProjects";
 
-const CONTENT_FILE_PATH = path.join(process.cwd(), "data", "content.json");
+const LOCAL_CONTENT_FILE_PATH = path.join(process.cwd(), "data", "content.json");
+const TEMP_CONTENT_FILE_PATH = path.join(tmpdir(), "primefix", "content.json");
+const CONTENT_FILE_PATH =
+  process.env.CONTENT_FILE_PATH?.trim() ||
+  (process.env.VERCEL ||
+  process.env.AWS_LAMBDA_FUNCTION_NAME ||
+  process.env.LAMBDA_TASK_ROOT
+    ? TEMP_CONTENT_FILE_PATH
+    : LOCAL_CONTENT_FILE_PATH);
 
 // Lazy-load KV to avoid crashing when env vars are absent
 async function getKV() {
@@ -22,35 +31,58 @@ function normalizeContent(value: Partial<Content> | null | undefined): Content {
   };
 }
 
-async function readFileContent(): Promise<Content | null> {
-  try {
-    const raw = await readFile(CONTENT_FILE_PATH, "utf8");
-    return normalizeContent(JSON.parse(raw) as Partial<Content>);
-  } catch (error) {
-    if (
-      typeof error === "object" &&
-      error !== null &&
-      "code" in error &&
-      error.code === "ENOENT"
-    ) {
-      return null;
-    }
+function getErrorCode(error: unknown) {
+  if (typeof error === "object" && error !== null && "code" in error) {
+    return String(error.code);
+  }
 
+  return "";
+}
+
+async function readContentFile(filePath: string): Promise<Content | null> {
+  try {
+    const raw = await readFile(filePath, "utf8");
+    return normalizeContent(JSON.parse(raw) as Partial<Content>);
+  } catch {
     return null;
   }
 }
 
+async function readFileContent(): Promise<Content | null> {
+  const candidatePaths = Array.from(
+    new Set([CONTENT_FILE_PATH, LOCAL_CONTENT_FILE_PATH, TEMP_CONTENT_FILE_PATH]),
+  );
+
+  for (const filePath of candidatePaths) {
+    const content = await readContentFile(filePath);
+    if (content) {
+      return content;
+    }
+  }
+
+  return null;
+}
+
+async function writeJsonFile(filePath: string, content: Content): Promise<void> {
+  await mkdir(path.dirname(filePath), { recursive: true });
+  await writeFile(filePath, `${JSON.stringify(content, null, 2)}\n`, "utf8");
+}
+
 async function writeFileContent(content: Content): Promise<void> {
   try {
-    await mkdir(path.dirname(CONTENT_FILE_PATH), { recursive: true });
-    await writeFile(CONTENT_FILE_PATH, `${JSON.stringify(content, null, 2)}\n`, "utf8");
+    await writeJsonFile(CONTENT_FILE_PATH, content);
   } catch (error) {
-    if (
-      typeof error === "object" &&
-      error !== null &&
-      "code" in error &&
-      error.code === "EROFS"
-    ) {
+    const code = getErrorCode(error);
+    const canTryTempFallback =
+      CONTENT_FILE_PATH !== TEMP_CONTENT_FILE_PATH &&
+      ["ENOENT", "EACCES", "EROFS"].includes(code);
+
+    if (canTryTempFallback) {
+      await writeJsonFile(TEMP_CONTENT_FILE_PATH, content);
+      return;
+    }
+
+    if (["EACCES", "EROFS"].includes(code)) {
       throw new Error(
         "No writable content store is configured. Add KV credentials for deployed environments.",
       );
