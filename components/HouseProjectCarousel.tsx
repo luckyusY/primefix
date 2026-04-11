@@ -107,9 +107,6 @@ export default function HouseProjectCarousel({
                 style={{ width: `${n * 100}%` }}
               >
                 {galleryImages.map((img, i) => {
-                  const distance = Math.abs(i - index);
-                  const circularDistance = Math.min(distance, n - distance);
-                  const shouldPreload = circularDistance <= 1;
                   const displaySrc = getProjectCarouselImageSrc(img.src);
                   const unoptimized = shouldBypassNextImageOptimization(displaySrc);
 
@@ -125,7 +122,7 @@ export default function HouseProjectCarousel({
                           alt={img.alt}
                           fill
                           unoptimized={unoptimized}
-                          loading={shouldPreload ? "eager" : "lazy"}
+                          loading="eager"
                           sizes="(max-width: 768px) 94vw, (max-width: 1200px) 60vw, 720px"
                           className="house-project__img"
                         />

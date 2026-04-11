@@ -2256,7 +2256,8 @@ p{margin:0}
   gap:16px;
   flex-wrap:wrap;
   padding:16px 24px;
-  background:var(--teal);
+  background:var(--navy-deep);
+  border-top:1px solid rgba(255,255,255,.1);
 }
 .footer-bar p{
   margin:0;
