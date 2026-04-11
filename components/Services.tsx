@@ -16,8 +16,8 @@ const SERVICE_BANDS = [
       "Flexible booking for planned or urgent jobs",
     ],
     cta: "Book Home Repair Support",
-    image: "/media/builder.jpg",
-    alt: "Open-license image of a surveyor reviewing plans outside a residential property",
+    image: "/media/minimal-living.jpg",
+    alt: "PrimeFix London home repair and maintenance work",
   },
   {
     id: "appliance-support",
@@ -31,8 +31,8 @@ const SERVICE_BANDS = [
       "After-service guidance once the repair is complete",
     ],
     cta: "Request Appliance Support",
-    image: "/media/modern-home.jpg",
-    alt: "Open-license image of a modern kitchen representing appliance and specialist support",
+    image: "/media/living-room.jpg",
+    alt: "PrimeFix London appliance and specialist support",
     reversed: true,
   },
 ];
