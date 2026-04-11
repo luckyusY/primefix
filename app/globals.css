@@ -2233,10 +2233,9 @@ p{margin:0}
 .footer-links .is-highlighted{color:var(--teal)}
 .socials{
   display:flex;
-  flex-wrap:wrap;
-  gap:10px;
+  flex-wrap:nowrap;
+  gap:8px;
   margin-top:30px;
-  max-width:156px;
 }
 .socials a{
   display:grid;
@@ -2246,7 +2245,9 @@ p{margin:0}
   border-radius:999px;
   background:#fff;
   color:var(--navy);
+  transition:background .18s ease,color .18s ease,transform .18s ease;
 }
+.socials a:hover{background:var(--teal);color:#fff;transform:translateY(-2px)}
 .socials svg{width:20px;height:20px;fill:currentColor}
 .footer-bar{
   display:flex;
@@ -2474,10 +2475,14 @@ p{margin:0}
   .service-band__photo{width:82%;border-width:8px}
   .scaffold-illustration{width:96%}
   .brand-logo--nav{padding:0}
-  .brand-logo--nav .brand-logo__image{height:34px}
+  .brand-logo--nav .brand-logo__image{height:42px}
   .brand-logo--footer{padding:0}
-  .brand-logo--footer .brand-logo__image{height:56px}
-  .footer-grid{grid-template-columns:1fr}
+  .brand-logo--footer .brand-logo__image{height:72px}
+  .footer-grid{grid-template-columns:1fr;gap:36px}
+  .footer{padding-top:52px}
+  .footer-main{padding-bottom:44px}
+  .footer-grid>div:not(.footer-brand){padding-top:28px;border-top:1px solid rgba(255,255,255,.1)}
+  .footer h4{margin-bottom:18px}
   .cta-banner{padding:64px 0}
   .booking-modal__dialog{
     width:100vw;
@@ -2534,8 +2539,10 @@ p{margin:0}
   .accred-square{width:56px;height:56px;font-size:.88rem}
   .hero__stats{grid-template-columns:1fr}
   .review-score__value{font-size:3.2rem}
-  .brand-logo--nav .brand-logo__image{height:32px}
+  .brand-logo--nav .brand-logo__image{height:40px}
   .projects-grid{grid-template-columns:1fr}
+  .footer-bar{padding:14px 16px}
+  .footer-bar p{font-size:13px}
   .footer-grid{grid-template-columns:1fr}
 }
 
