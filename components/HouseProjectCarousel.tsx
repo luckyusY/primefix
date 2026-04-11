@@ -24,10 +24,6 @@ export default function HouseProjectCarousel({
   number,
   kicker,
   title,
-  description,
-  scope,
-  outcome,
-  tags,
   images,
 }: HouseProjectCarouselProps) {
   const [index, setIndex] = useState(0);
@@ -53,116 +49,86 @@ export default function HouseProjectCarousel({
   };
 
   return (
-    <article className="house-project">
-      <div className="house-project__panel">
-        <div className="house-project__intro">
-          <div className="house-project__kicker-row">
-            <span className="house-project__number">
-              {String(number).padStart(2, "0")}
-            </span>
-            <span className="house-project__kicker">{kicker}</span>
-          </div>
-
-          <h3>{title}</h3>
-          <p>{description}</p>
-
-          <div className="house-project__meta">
-            <div className="house-project__meta-card">
-              <span>Scope</span>
-              <strong>{scope}</strong>
+    <article className="pj-card">
+      {/* Image stage — fills the card */}
+      <div
+        className="pj-card__stage"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
+        {galleryImages.map((img, i) => {
+          const displaySrc = getProjectCarouselImageSrc(img.src);
+          const unoptimized = shouldBypassNextImageOptimization(displaySrc);
+          return (
+            <div
+              key={`${img.src}-${i}`}
+              className={`pj-card__slide${i === index ? " is-active" : ""}`}
+              aria-hidden={i !== index}
+            >
+              <Image
+                src={displaySrc}
+                alt={img.alt}
+                fill
+                unoptimized={unoptimized}
+                sizes="(max-width: 768px) 96vw, (max-width: 1200px) 50vw, 640px"
+                className="pj-card__img"
+              />
             </div>
-            <div className="house-project__meta-card">
-              <span>Outcome</span>
-              <strong>{outcome}</strong>
-            </div>
-          </div>
+          );
+        })}
 
-          <ul className="house-project__tags" aria-label="Project highlights">
-            {tags.map((tag) => (
-              <li key={tag}>{tag}</li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="house-project__gallery">
-          <div
-            className="house-project__frame"
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
-          >
-            <div className="house-project__overlay">
-              <span>Swipe gallery</span>
-              <span>
-                {String(index + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
-              </span>
-            </div>
-
-            {/* All images rendered — opacity toggle, no transform */}
-            <div className="house-project__stage">
-              {galleryImages.map((img, i) => {
-                const displaySrc = getProjectCarouselImageSrc(img.src);
-                const unoptimized = shouldBypassNextImageOptimization(displaySrc);
-                return (
-                  <div
-                    key={`${img.src}-${i}`}
-                    className={`house-project__slide${i === index ? " is-active" : ""}`}
-                    aria-hidden={i !== index}
-                  >
-                    <Image
-                      src={displaySrc}
-                      alt={img.alt}
-                      fill
-                      unoptimized={unoptimized}
-                      sizes="(max-width: 768px) 94vw, (max-width: 1200px) 60vw, 720px"
-                      className="house-project__img"
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="house-project__controls">
+        {/* Prev / Next arrows */}
+        {n > 1 && (
+          <>
             <button
               type="button"
-              className="house-project__btn"
+              className="pj-card__arrow pj-card__arrow--prev"
               onClick={prev}
               aria-label="Previous photo"
             >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-
-            <div className="house-project__progress">
-              <div className="house-project__dots" role="tablist" aria-label="Slide selection">
-                {galleryImages.map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    role="tab"
-                    aria-selected={i === index}
-                    aria-label={`Photo ${i + 1} of ${n}`}
-                    className={`house-project__dot${i === index ? " is-active" : ""}`}
-                    onClick={() => setIndex(i)}
-                  />
-                ))}
-              </div>
-              <span className="house-project__count">{n} photos</span>
-            </div>
-
             <button
               type="button"
-              className="house-project__btn"
+              className="pj-card__arrow pj-card__arrow--next"
               onClick={next}
               aria-label="Next photo"
             >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
+          </>
+        )}
+
+        {/* Dot indicators */}
+        {n > 1 && (
+          <div className="pj-card__dots" role="tablist" aria-label="Photos">
+            {galleryImages.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                role="tab"
+                aria-selected={i === index}
+                aria-label={`Photo ${i + 1} of ${n}`}
+                className={`pj-card__dot${i === index ? " is-active" : ""}`}
+                onClick={() => setIndex(i)}
+              />
+            ))}
           </div>
+        )}
+      </div>
+
+      {/* Caption strip */}
+      <div className="pj-card__caption">
+        <span className="pj-card__num">{String(number).padStart(2, "0")}</span>
+        <div className="pj-card__info">
+          <strong>{title}</strong>
+          <span>{kicker}</span>
         </div>
+        <span className="pj-card__count">{n} photos</span>
       </div>
     </article>
   );
