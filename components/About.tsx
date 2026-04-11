@@ -38,8 +38,8 @@ export default function About() {
         <aside className="about-aside">
           <div className="about-aside__media">
             <Image
-              src="/media/builder.jpg"
-              alt="Open-license image of a surveyor reviewing a residential project"
+              src="/media/kitchen-finish.jpg"
+              alt="Completed kitchen finish by PrimeFix London"
               fill
               sizes="(max-width: 900px) 100vw, 40vw"
             />
