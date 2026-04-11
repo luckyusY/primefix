@@ -1450,29 +1450,23 @@ p{margin:0}
   backdrop-filter:blur(10px);
   -webkit-backdrop-filter:blur(10px);
 }
-.house-project__viewport{
-  position:relative;
-  width:100%;
-  overflow:hidden;
-  margin-top:0;
-  border-top:none;
-  touch-action:pan-x;
-  cursor:grab;
-}
-.house-project__viewport:active{cursor:grabbing}
-.house-project__track{
-  display:flex;
-  will-change:transform;
-}
-.house-project__slide{
-  flex-shrink:0;
-  position:relative;
-}
-.house-project__slide-inner{
+/* Opacity-crossfade gallery — all images always in DOM */
+.house-project__stage{
   position:relative;
   aspect-ratio:16/9;
   background:linear-gradient(180deg,#dfe9f2,#f5f8fb);
-  margin:0;
+  overflow:hidden;
+}
+.house-project__slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity .35s ease;
+  pointer-events:none;
+}
+.house-project__slide.is-active{
+  opacity:1;
+  pointer-events:auto;
 }
 .house-project__img{
   object-fit:cover;

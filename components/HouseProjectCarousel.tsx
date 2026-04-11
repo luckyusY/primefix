@@ -1,8 +1,7 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion, type PanInfo } from "framer-motion";
 
 import {
   getProjectCarouselImageSrc,
@@ -32,7 +31,8 @@ export default function HouseProjectCarousel({
   images,
 }: HouseProjectCarouselProps) {
   const [index, setIndex] = useState(0);
-  const reduceMotion = useReducedMotion();
+  const touchStartX = useRef<number | null>(null);
+
   const galleryImages =
     images.length > 0
       ? images
@@ -42,26 +42,24 @@ export default function HouseProjectCarousel({
   const next = useCallback(() => setIndex((i) => (i + 1) % n), [n]);
   const prev = useCallback(() => setIndex((i) => (i - 1 + n) % n), [n]);
 
-  const onPanEnd = useCallback(
-    (_: PointerEvent, info: PanInfo) => {
-      if (reduceMotion) return;
-      const threshold = 48;
-      if (info.offset.x < -threshold || info.velocity.x < -180) next();
-      else if (info.offset.x > threshold || info.velocity.x > 180) prev();
-    },
-    [next, prev, reduceMotion],
-  );
-
-  const transition = reduceMotion
-    ? { duration: 0 }
-    : { type: "spring" as const, stiffness: 280, damping: 32 };
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 48) diff > 0 ? next() : prev();
+    touchStartX.current = null;
+  };
 
   return (
     <article className="house-project">
       <div className="house-project__panel">
         <div className="house-project__intro">
           <div className="house-project__kicker-row">
-            <span className="house-project__number">{String(number).padStart(2, "0")}</span>
+            <span className="house-project__number">
+              {String(number).padStart(2, "0")}
+            </span>
             <span className="house-project__kicker">{kicker}</span>
           </div>
 
@@ -87,7 +85,11 @@ export default function HouseProjectCarousel({
         </div>
 
         <div className="house-project__gallery">
-          <div className="house-project__frame">
+          <div
+            className="house-project__frame"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          >
             <div className="house-project__overlay">
               <span>Swipe gallery</span>
               <span>
@@ -95,43 +97,29 @@ export default function HouseProjectCarousel({
               </span>
             </div>
 
-            <motion.div
-              className="house-project__viewport"
-              aria-roledescription="carousel"
-              onPanEnd={onPanEnd}
-            >
-              <motion.div
-                className="house-project__track"
-                animate={{ x: `-${index * 100}%` }}
-                transition={transition}
-                style={{ width: `${n * 100}%` }}
-              >
-                {galleryImages.map((img, i) => {
-                  const displaySrc = getProjectCarouselImageSrc(img.src);
-                  const unoptimized = shouldBypassNextImageOptimization(displaySrc);
-
-                  return (
-                    <div
-                      key={`${img.src}-${i}`}
-                      className="house-project__slide"
-                      style={{ width: `${100 / n}%` }}
-                    >
-                      <div className="house-project__slide-inner">
-                        <Image
-                          src={displaySrc}
-                          alt={img.alt}
-                          fill
-                          unoptimized={unoptimized}
-                          loading="eager"
-                          sizes="(max-width: 768px) 94vw, (max-width: 1200px) 60vw, 720px"
-                          className="house-project__img"
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </motion.div>
-            </motion.div>
+            {/* All images rendered — opacity toggle, no transform */}
+            <div className="house-project__stage">
+              {galleryImages.map((img, i) => {
+                const displaySrc = getProjectCarouselImageSrc(img.src);
+                const unoptimized = shouldBypassNextImageOptimization(displaySrc);
+                return (
+                  <div
+                    key={`${img.src}-${i}`}
+                    className={`house-project__slide${i === index ? " is-active" : ""}`}
+                    aria-hidden={i !== index}
+                  >
+                    <Image
+                      src={displaySrc}
+                      alt={img.alt}
+                      fill
+                      unoptimized={unoptimized}
+                      sizes="(max-width: 768px) 94vw, (max-width: 1200px) 60vw, 720px"
+                      className="house-project__img"
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           <div className="house-project__controls">
@@ -142,13 +130,7 @@ export default function HouseProjectCarousel({
               aria-label="Previous photo"
             >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M15 18l-6-6 6-6"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
 
@@ -161,7 +143,7 @@ export default function HouseProjectCarousel({
                     role="tab"
                     aria-selected={i === index}
                     aria-label={`Photo ${i + 1} of ${n}`}
-                    className={`house-project__dot ${i === index ? "is-active" : ""}`}
+                    className={`house-project__dot${i === index ? " is-active" : ""}`}
                     onClick={() => setIndex(i)}
                   />
                 ))}
@@ -176,13 +158,7 @@ export default function HouseProjectCarousel({
               aria-label="Next photo"
             >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M9 18l6-6-6-6"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+                <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>
