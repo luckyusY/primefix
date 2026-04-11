@@ -1047,6 +1047,8 @@ p{margin:0}
   background:#fff;
   border:1px solid rgba(16,45,72,.07);
   box-shadow:0 20px 48px rgba(16,45,72,.08);
+  min-width:0;
+  width:100%;
 }
 
 /* Image stage */
@@ -1191,7 +1193,7 @@ p{margin:0}
 }
 
 @media (max-width:768px){
-  .pj-grid{grid-template-columns:1fr;gap:18px}
+  .pj-grid{grid-template-columns:minmax(0,1fr);gap:18px}
   .projects__head{margin-bottom:36px}
   .projects{padding:72px 0 88px}
 }
