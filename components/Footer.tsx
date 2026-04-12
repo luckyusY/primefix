@@ -11,9 +11,6 @@ const PAGE_LINKS = [
 
 const CONTACT_ITEMS = [
   { label: "hello@primefixlondon.co.uk", href: "mailto:hello@primefixlondon.co.uk" },
-  { label: "quotes@primefixlondon.co.uk", href: "mailto:quotes@primefixlondon.co.uk" },
-  { label: "projects@primefixlondon.co.uk", href: "mailto:projects@primefixlondon.co.uk" },
-  { label: "support@primefixlondon.co.uk", href: "mailto:support@primefixlondon.co.uk" },
   { label: "+44 7507 113805", href: "tel:+447507113805" },
   { label: "London & Greater London coverage", href: "/booking" },
 ];
