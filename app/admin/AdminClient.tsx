@@ -214,6 +214,10 @@ function Dashboard({ initialContent }: { initialContent: Content }) {
     setSaving(null);
 
     if (res.ok) {
+      const data = (await res.json()) as { content?: Content };
+      if (data.content) {
+        setContent(data.content);
+      }
       showToast("Saved successfully!", true);
       return;
     }

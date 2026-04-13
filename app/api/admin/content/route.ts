@@ -29,7 +29,8 @@ export async function PUT(req: NextRequest) {
     await setSection(key, value as never);
     revalidatePath("/");
     revalidatePath("/admin");
-    return NextResponse.json({ ok: true });
+    const content = await getContent();
+    return NextResponse.json({ ok: true, content });
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : "Unknown error";
     return NextResponse.json({ error: msg }, { status: 500 });

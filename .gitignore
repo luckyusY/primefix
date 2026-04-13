@@ -9,4 +9,6 @@ build/
 next-env.d.ts
 .DS_Store
 *.log
+.admin-cookie.txt
+data/content.json
 sanity-studio/.env
