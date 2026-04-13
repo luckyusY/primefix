@@ -5,34 +5,34 @@ import BookingButton from "@/components/BookingButton";
 
 const SERVICE_BANDS = [
   {
-    id: "services",
-    title: "Home Repair & Maintenance",
-    body: "Domestic Appliance Guard gives households one dependable place to handle ongoing home maintenance and urgent repair issues without juggling multiple suppliers.",
+    id: "handyman-paint-flooring",
+    title: "Handyman, Paint & Flooring",
+    body: "PrimeFix Hub provides skilled tradespeople for day-to-day repairs, full decoration projects, and flooring installations across London properties.",
     bullets: [
-      "Home repair and maintenance services",
-      "Plumbing, electrical and heating repairs",
-      "Drainage, locksmith and window repairs",
-      "Fault diagnosis and practical fixes",
+      "Handyman call-outs for repairs and minor works",
+      "Interior and exterior painting and decorating",
+      "Laminate, vinyl, hardwood and tile flooring",
       "Flexible booking for planned or urgent jobs",
+      "Tidy workmanship and clear communication throughout",
     ],
-    cta: "Book Home Repair Support",
+    cta: "Book a Visit",
     image: "/media/minimal-living.jpg",
-    alt: "PrimeFix London home repair and maintenance work",
+    alt: "PrimeFix London handyman, painting and flooring work",
   },
   {
-    id: "appliance-support",
-    title: "Appliance & Specialist Support",
-    body: "PrimeFix Hub also supports appliance and specialist call-outs so clients can move from first fault to finished repair with one clear service journey.",
+    id: "electrical-maintenance-renovations",
+    title: "Electrical, Maintenance & Renovations",
+    body: "From electrical faults to full renovations, PrimeFix Hub manages complex and ongoing property work so clients have one dependable point of contact.",
     bullets: [
-      "Fridge, oven and dishwasher repairs",
-      "Pest control services",
-      "Reliable technician visits and updates",
-      "Support for homeowners, landlords and tenants",
-      "After-service guidance once the repair is complete",
+      "Electrical fault-finding, rewiring and upgrades",
+      "Ongoing maintenance management for landlords and homeowners",
+      "Full and partial property renovations",
+      "End-to-end project scoping and coordination",
+      "After-service support once work is complete",
     ],
-    cta: "Request Appliance Support",
+    cta: "Request a Quote",
     image: "/media/living-room.jpg",
-    alt: "PrimeFix London appliance and specialist support",
+    alt: "PrimeFix London electrical, maintenance and renovation services",
     reversed: true,
   },
 ];
@@ -44,11 +44,12 @@ export default function Services() {
         <Animate variant="fadeUp">
           <div className="section-head section-head--left">
             <span className="label">What We Do</span>
-            <h2>Domestic Appliance Guard Overview</h2>
+            <h2>Our Services in Detail</h2>
             <div className="divider"></div>
             <p>
-              PrimeFix Hub combines day-to-day home repair, appliance support,
-              and specialist call-outs into a single clear service offer.
+              PrimeFix Hub brings together handyman work, painting, flooring,
+              electrical, maintenance management, and full property renovations
+              under one reliable team.
             </p>
           </div>
         </Animate>

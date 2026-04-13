@@ -2,29 +2,34 @@ import BookingButton from "@/components/BookingButton";
 
 const SERVICE_POINTS = [
   {
-    title: "Home repair & maintenance services",
+    title: "Handyman Service",
     description:
-      "One reliable team for everyday upkeep, urgent faults, and practical repair visits across London homes.",
+      "One reliable team for everyday fixes, minor repairs, and general household call-outs across London properties.",
   },
   {
-    title: "Plumbing, electrical & heating repairs",
+    title: "Paint & Decoration",
     description:
-      "Core household systems handled with clear diagnosis, tidy workmanship, and dependable follow-through.",
+      "Interior and exterior painting, feature walls, and decorating work completed to a clean, consistent finish.",
   },
   {
-    title: "Appliance repairs",
+    title: "Flooring",
     description:
-      "Fridge, oven, and dishwasher support designed to get busy kitchens back to normal quickly.",
+      "Supply and installation of a range of floor types, from laminate and vinyl to hardwood and tile.",
   },
   {
-    title: "Drainage, locksmith, window repairs",
+    title: "Electrical",
     description:
-      "Property access, drainage, and window issues managed through one simple service journey.",
+      "Fault-finding, rewiring, consumer unit upgrades, and general electrical work carried out safely and professionally.",
   },
   {
-    title: "Pest control services",
+    title: "Maintenance Manager",
     description:
-      "Fast support to protect comfort, cleanliness, and peace of mind when unexpected issues appear.",
+      "Ongoing property maintenance managed end-to-end so landlords and homeowners stay ahead of issues.",
+  },
+  {
+    title: "Property Renovations",
+    description:
+      "Full or partial renovation projects handled with clear scoping, dependable tradespeople, and tidy finishing.",
   },
 ];
 
@@ -57,13 +62,13 @@ export default function ServicesOverview() {
       <div className="container">
         <div className="services-overview__hero">
           <div className="services-overview__copy">
-            <span className="label">Domestic Appliance Guard</span>
-            <h2>Short overview, clear process, one reliable team</h2>
+            <span className="label">What We Offer</span>
+            <h2>Six services, one reliable team</h2>
             <div className="divider"></div>
             <p>
-              PrimeFix Hub keeps the offer simple: one clear service page,
-              one clear booking route, and one dependable team for repairs,
-              appliance support, and household call-outs.
+              PrimeFix Hub covers handyman work, paint and decoration, flooring,
+              electrical, maintenance management, and property renovations —
+              all through one clear booking route.
             </p>
           </div>
 
