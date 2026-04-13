@@ -1,7 +1,7 @@
 import Hero from "@/components/Hero";
 import Accreditations from "@/components/Accreditations";
 import Reviews from "@/components/Reviews";
-import Services from "@/components/Services";
+import ServicesOverview from "@/components/ServicesOverview";
 import HowItWorks from "@/components/HowItWorks";
 import Projects from "@/components/Projects";
 import About from "@/components/About";
@@ -19,7 +19,7 @@ export default async function Home() {
       <Hero />
       <Accreditations />
       <Reviews items={reviews} />
-      <Services />
+      <ServicesOverview compact />
       <HowItWorks items={steps} />
       <Projects items={projects} />
       <About />

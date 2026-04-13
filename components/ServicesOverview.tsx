@@ -1,3 +1,4 @@
+import Link from "next/link";
 import BookingButton from "@/components/BookingButton";
 
 const SERVICE_POINTS = [
@@ -56,7 +57,7 @@ const PROCESS_STEPS = [
   },
 ];
 
-export default function ServicesOverview() {
+export default function ServicesOverview({ compact = false }: { compact?: boolean }) {
   return (
     <section className="services-overview">
       <div className="container">
@@ -72,16 +73,29 @@ export default function ServicesOverview() {
             </p>
           </div>
 
-          <div className="services-overview__booking">
-            <strong>Need a visit?</strong>
-            <p>
-              Book an appointment now and let PrimeFix Hub confirm the best
-              next slot for your repair or support request.
-            </p>
-            <BookingButton className="btn btn-teal">
-              Book Appointment
-            </BookingButton>
-          </div>
+          {compact ? (
+            <div className="services-overview__booking">
+              <strong>Want the full picture?</strong>
+              <p>
+                See detailed breakdowns, scope, and examples for every service
+                we offer across London properties.
+              </p>
+              <Link href="/services" className="btn btn-teal">
+                View All Services
+              </Link>
+            </div>
+          ) : (
+            <div className="services-overview__booking">
+              <strong>Need a visit?</strong>
+              <p>
+                Book an appointment now and let PrimeFix Hub confirm the best
+                next slot for your repair or support request.
+              </p>
+              <BookingButton className="btn btn-teal">
+                Book Appointment
+              </BookingButton>
+            </div>
+          )}
         </div>
 
         <div className="services-overview__grid">
@@ -96,20 +110,22 @@ export default function ServicesOverview() {
           ))}
         </div>
 
-        <div className="services-process">
-          <div className="services-process__label">Process</div>
-          <div className="services-process__track">
-            {PROCESS_STEPS.map((step, index) => (
-              <div className="services-process__step" key={step.title}>
-                <span className="services-process__number">
-                  {(index + 1).toString().padStart(2, "0")}
-                </span>
-                <strong>{step.title}</strong>
-                <p>{step.description}</p>
-              </div>
-            ))}
+        {!compact && (
+          <div className="services-process">
+            <div className="services-process__label">Process</div>
+            <div className="services-process__track">
+              {PROCESS_STEPS.map((step, index) => (
+                <div className="services-process__step" key={step.title}>
+                  <span className="services-process__number">
+                    {(index + 1).toString().padStart(2, "0")}
+                  </span>
+                  <strong>{step.title}</strong>
+                  <p>{step.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );
